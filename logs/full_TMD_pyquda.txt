@@ -17,146 +17,146 @@ WARNING: Cache file not found.  All kernels will be re-tuned (if tuning is enabl
 WARNING: Using device memory pool allocator
 WARNING: Using pinned memory pool allocator
 cublasCreated successfully
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 2.735515e-09, true = 2.735515e-09 (requested = 1.000000e-08)
+BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 2.875971e-09, true = 2.875971e-09 (requested = 1.000000e-08)
 --lat_tag l64c64a076
 --sm_tag 1HYP_GSRC_W90_k3_T5
 --config_num 0
 DEBUG plaquette U_hyp: [0.5919862407536087, 0.5911411986845838, 0.5928312828226336]
-START: 0_x7y3z5t7_1HYP_GSRC_W90_k3_T5_PX0PY0PZ0dt0
-TIME Pyquda: Generatring boosted src 0.05768179893493652
-PyQUDA INFO: Time = 0.817 secs, Performance = 47.428 GFLOPS
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 3.089066e-09, true = 3.089066e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 117.345 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 7.994884e-09, true = 7.994884e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 117.011 GFLOPS
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 5.123089e-09, true = 5.123089e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.004 secs, Performance = 113.058 GFLOPS
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 1.874273e-09, true = 1.874273e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 114.931 GFLOPS
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 5.269360e-09, true = 5.269360e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.004 secs, Performance = 114.173 GFLOPS
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 7.547562e-09, true = 7.547562e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 121.516 GFLOPS
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 6.623609e-09, true = 6.623609e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 119.294 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 9.652740e-09, true = 9.652740e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 117.727 GFLOPS
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 3.930687e-09, true = 3.930687e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 119.649 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 7.715089e-09, true = 7.715089e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 117.691 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 4.884739e-09, true = 4.884739e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 117.763 GFLOPS
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 3.380382e-09, true = 3.380382e-09 (requested = 1.000000e-08)
-TIME Pyquda: Forward propagator inversion 2.7671377658843994
-TIME Pyquda: Contraction 2pt (includes sink smearing) 0.0015702247619628906
+START: 0_x7y3z5t7_1HYP_GSRC_W90_k3_T5_PX0PY0PZ9dt4
+TIME Pyquda: Generatring boosted src 0.057672977447509766
+PyQUDA INFO: Time = 0.816 secs, Performance = 47.338 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 7.971386e-09, true = 7.971386e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 116.022 GFLOPS
+BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 5.335069e-09, true = 5.335069e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 119.542 GFLOPS
+BiCGstab: Convergence at 20 iterations, L2 relative residual: iterated = 7.272749e-10, true = 7.272749e-10 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 120.871 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 8.679235e-09, true = 8.679235e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 118.379 GFLOPS
+BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 1.907853e-09, true = 1.907853e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 120.006 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 8.334498e-09, true = 8.334498e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 121.429 GFLOPS
+BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 2.894810e-09, true = 2.894810e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 119.934 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 6.382523e-09, true = 6.382523e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 118.234 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 6.595100e-09, true = 6.595100e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 117.835 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 4.883060e-09, true = 4.883060e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 118.161 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 7.796707e-09, true = 7.796707e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 118.052 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 4.804978e-09, true = 4.804978e-09 (requested = 1.000000e-08)
+TIME Pyquda: Forward propagator inversion 2.7600319385528564
+TIME Pyquda: Contraction 2pt (includes sink smearing) 0.0014951229095458984
 starting diquark contractions for down quark insertion and Polarization PpUnpol
 diquark contractions for Polarization PpUnpol done
-PyQUDA INFO: Time = 0.022 secs, Performance = 18.147 GFLOPS
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 2.938124e-09, true = 2.938124e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 118.661 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 7.790486e-09, true = 7.790486e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 120.689 GFLOPS
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 3.278231e-09, true = 3.278231e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 119.471 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 8.500336e-09, true = 8.500336e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 117.799 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 5.913640e-09, true = 5.913640e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 117.835 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 6.373374e-09, true = 6.373374e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 121.077 GFLOPS
-BiCGstab: Convergence at 17 iterations, L2 relative residual: iterated = 9.914277e-09, true = 9.914277e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 119.754 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 6.289758e-09, true = 6.289758e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 117.835 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 8.436535e-09, true = 8.436535e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 117.980 GFLOPS
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 2.385633e-09, true = 2.385633e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 119.294 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 5.375775e-09, true = 5.375775e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 117.980 GFLOPS
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 3.792741e-09, true = 3.792741e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.023 secs, Performance = 17.018 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 9.414458e-09, true = 9.414458e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 120.728 GFLOPS
+BiCGstab: Convergence at 21 iterations, L2 relative residual: iterated = 9.622992e-10, true = 9.622992e-10 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.004 secs, Performance = 121.948 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 9.821583e-09, true = 9.821583e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 117.583 GFLOPS
+BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 3.847690e-09, true = 3.847690e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 119.330 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 8.102806e-09, true = 8.102806e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 121.429 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 9.950278e-09, true = 9.950278e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 117.763 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 9.998358e-09, true = 9.998358e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 117.871 GFLOPS
+BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 3.429642e-09, true = 3.429642e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 119.188 GFLOPS
+BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 3.446701e-09, true = 3.446701e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 119.863 GFLOPS
+BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 2.554881e-09, true = 2.554881e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 119.365 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 8.213090e-09, true = 8.213090e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 121.390 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 7.058769e-09, true = 7.058769e-09 (requested = 1.000000e-08)
 starting diquark contractions for up quark insertion and Polarization PpUnpol
 diquark contractions for Polarization PpUnpol done
-PyQUDA INFO: Time = 0.023 secs, Performance = 17.166 GFLOPS
-BiCGstab: Convergence at 20 iterations, L2 relative residual: iterated = 1.278569e-09, true = 1.278569e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.004 secs, Performance = 119.665 GFLOPS
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 1.992560e-09, true = 1.992560e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 118.906 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 6.220724e-09, true = 6.220724e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 121.390 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 6.611946e-09, true = 6.611946e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 117.835 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 7.184367e-09, true = 7.184367e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 117.835 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 9.522545e-09, true = 9.522545e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 124.746 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 5.071122e-09, true = 5.071122e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 117.763 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 6.111344e-09, true = 6.111344e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 121.116 GFLOPS
-BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 8.104578e-09, true = 8.104578e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 117.835 GFLOPS
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 2.887680e-09, true = 2.887680e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 119.259 GFLOPS
-BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 4.029019e-09, true = 4.029019e-09 (requested = 1.000000e-08)
-PyQUDA INFO: Time = 0.003 secs, Performance = 119.118 GFLOPS
+PyQUDA INFO: Time = 0.024 secs, Performance = 16.081 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 6.857267e-09, true = 6.857267e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 120.341 GFLOPS
+BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 3.570963e-09, true = 3.570963e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.004 secs, Performance = 116.012 GFLOPS
+BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 3.121706e-09, true = 3.121706e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 119.330 GFLOPS
+BiCGstab: Convergence at 20 iterations, L2 relative residual: iterated = 2.839897e-09, true = 2.839897e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 120.386 GFLOPS
+BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 5.791210e-09, true = 5.791210e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 118.977 GFLOPS
+BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 8.611672e-09, true = 8.611672e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 119.507 GFLOPS
+BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 2.798534e-09, true = 2.798534e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.004 secs, Performance = 116.110 GFLOPS
+BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 4.121281e-09, true = 4.121281e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 122.803 GFLOPS
+BiCGstab: Convergence at 19 iterations, L2 relative residual: iterated = 2.960397e-09, true = 2.960397e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 118.661 GFLOPS
+BiCGstab: Convergence at 18 iterations, L2 relative residual: iterated = 7.383667e-09, true = 7.383667e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 117.475 GFLOPS
+BiCGstab: Convergence at 20 iterations, L2 relative residual: iterated = 1.792731e-09, true = 1.792731e-09 (requested = 1.000000e-08)
+PyQUDA INFO: Time = 0.003 secs, Performance = 120.663 GFLOPS
 WARNING: Storing profile info disabled
 
-               initQuda Total time =     0.031 secs
-                     init     =     0.031 secs ( 99.977%),	 with        2 calls at 1.548e+04 us per call
-        total accounted       =     0.031 secs ( 99.977%)
-        total missing         =     0.000 secs (  0.023%)
+               initQuda Total time =     0.030 secs
+                     init     =     0.030 secs ( 99.987%),	 with        2 calls at 1.525e+04 us per call
+        total accounted       =     0.030 secs ( 99.987%)
+        total missing         =     0.000 secs (  0.013%)
 
-          loadGaugeQuda Total time =     0.189 secs
-                 download     =     0.151 secs ( 80.039%),	 with        3 calls at 5.033e+04 us per call
-                     init     =     0.000 secs (  0.064%),	 with       19 calls at 6.368e+00 us per call
-                  compute     =     0.025 secs ( 13.356%),	 with        5 calls at 5.039e+03 us per call
+          loadGaugeQuda Total time =     0.187 secs
+                 download     =     0.150 secs ( 80.443%),	 with        3 calls at 5.011e+04 us per call
+                     init     =     0.000 secs (  0.068%),	 with       19 calls at 6.737e+00 us per call
+                  compute     =     0.024 secs ( 12.930%),	 with        5 calls at 4.833e+03 us per call
                     comms     =     0.000 secs (  0.013%),	 with        2 calls at 1.200e+01 us per call
-                     free     =     0.000 secs (  0.002%),	 with        4 calls at 1.000e+00 us per call
-        total accounted       =     0.176 secs ( 93.474%)
-        total missing         =     0.012 secs (  6.526%)
+                     free     =     0.000 secs (  0.002%),	 with        4 calls at 7.500e-01 us per call
+        total accounted       =     0.175 secs ( 93.456%)
+        total missing         =     0.012 secs (  6.544%)
 
-         loadCloverQuda Total time =     1.827 secs
-                     init     =     0.000 secs (  0.009%),	 with        5 calls at 3.300e+01 us per call
-                  compute     =     1.756 secs ( 96.092%),	 with        7 calls at 2.508e+05 us per call
-                     free     =     0.000 secs (  0.000%),	 with        3 calls at 3.000e+00 us per call
-        total accounted       =     1.756 secs ( 96.102%)
-        total missing         =     0.071 secs (  3.898%)
+         loadCloverQuda Total time =     1.824 secs
+                     init     =     0.000 secs (  0.009%),	 with        5 calls at 3.220e+01 us per call
+                  compute     =     1.754 secs ( 96.135%),	 with        7 calls at 2.505e+05 us per call
+                     free     =     0.000 secs (  0.000%),	 with        3 calls at 2.333e+00 us per call
+        total accounted       =     1.754 secs ( 96.144%)
+        total missing         =     0.070 secs (  3.856%)
 
-     invertMultiSrcQuda Total time =     0.970 secs
-                     init     =     0.055 secs (  5.708%),	 with     1270 calls at 4.361e+01 us per call
-                 preamble     =     0.310 secs ( 31.937%),	 with      149 calls at 2.080e+03 us per call
-                  compute     =     0.570 secs ( 58.756%),	 with       49 calls at 1.163e+04 us per call
-                 epilogue     =     0.001 secs (  0.114%),	 with       72 calls at 1.531e+01 us per call
-                     free     =     0.000 secs (  0.012%),	 with      404 calls at 2.995e-01 us per call
-        total accounted       =     0.937 secs ( 96.528%)
-        total missing         =     0.034 secs (  3.472%)
+     invertMultiSrcQuda Total time =     0.972 secs
+                     init     =     0.057 secs (  5.908%),	 with     1270 calls at 4.520e+01 us per call
+                 preamble     =     0.308 secs ( 31.697%),	 with      149 calls at 2.067e+03 us per call
+                  compute     =     0.573 secs ( 58.951%),	 with       49 calls at 1.169e+04 us per call
+                 epilogue     =     0.001 secs (  0.112%),	 with       72 calls at 1.517e+01 us per call
+                     free     =     0.000 secs (  0.010%),	 with      404 calls at 2.450e-01 us per call
+        total accounted       =     0.939 secs ( 96.679%)
+        total missing         =     0.032 secs (  3.321%)
 
-   gaugeObservablesQuda Total time =     1.337 secs
-                     init     =     0.000 secs (  0.007%),	 with        1 calls at 8.900e+01 us per call
-                  compute     =     1.272 secs ( 95.109%),	 with        1 calls at 1.272e+06 us per call
-                    comms     =     0.000 secs (  0.001%),	 with        1 calls at 2.000e+01 us per call
-        total accounted       =     1.272 secs ( 95.117%)
-        total missing         =     0.065 secs (  4.883%)
+   gaugeObservablesQuda Total time =     1.329 secs
+                     init     =     0.000 secs (  0.006%),	 with        1 calls at 7.600e+01 us per call
+                  compute     =     1.264 secs ( 95.120%),	 with        1 calls at 1.264e+06 us per call
+                    comms     =     0.000 secs (  0.002%),	 with        1 calls at 2.000e+01 us per call
+        total accounted       =     1.264 secs ( 95.127%)
+        total missing         =     0.065 secs (  4.873%)
 
                 endQuda Total time =     0.002 secs
-                     free     =     0.000 secs (  0.178%),	 with        7 calls at 5.714e-01 us per call
-        total accounted       =     0.000 secs (  0.178%)
-        total missing         =     0.002 secs ( 99.822%)
+                     free     =     0.000 secs (  0.133%),	 with        7 calls at 4.286e-01 us per call
+        total accounted       =     0.000 secs (  0.133%)
+        total missing         =     0.002 secs ( 99.867%)
 
-       initQuda-endQuda Total time =     5.051 secs
+       initQuda-endQuda Total time =     5.034 secs
 
-                   QUDA Total time =     4.356 secs
-                 download     =     0.151 secs (  3.466%),	 with        3 calls at 5.033e+04 us per call
-                     init     =     0.087 secs (  1.991%),	 with     1297 calls at 6.687e+01 us per call
-                 preamble     =     0.310 secs (  7.113%),	 with      149 calls at 2.080e+03 us per call
-                  compute     =     3.623 secs ( 83.160%),	 with       62 calls at 5.843e+04 us per call
-                    comms     =     0.000 secs (  0.001%),	 with        3 calls at 1.433e+01 us per call
-                 epilogue     =     0.001 secs (  0.025%),	 with       72 calls at 1.529e+01 us per call
-                     free     =     0.000 secs (  0.003%),	 with      418 calls at 3.373e-01 us per call
-        total accounted       =     4.172 secs ( 95.759%)
-        total missing         =     0.185 secs (  4.241%)
+                   QUDA Total time =     4.344 secs
+                 download     =     0.150 secs (  3.461%),	 with        3 calls at 5.011e+04 us per call
+                     init     =     0.088 secs (  2.032%),	 with     1297 calls at 6.806e+01 us per call
+                 preamble     =     0.308 secs (  7.090%),	 with      149 calls at 2.067e+03 us per call
+                  compute     =     3.614 secs ( 83.203%),	 with       62 calls at 5.830e+04 us per call
+                    comms     =     0.000 secs (  0.001%),	 with        3 calls at 1.400e+01 us per call
+                 epilogue     =     0.001 secs (  0.025%),	 with       72 calls at 1.518e+01 us per call
+                     free     =     0.000 secs (  0.003%),	 with      418 calls at 2.751e-01 us per call
+        total accounted       =     4.162 secs ( 95.815%)
+        total missing         =     0.182 secs (  4.185%)
 
 Device memory used = 15.4 MiB
 Pinned device memory used = 0.0 MiB
@@ -165,116 +165,116 @@ Shmem memory used = 0.0 MiB
 Page-locked host memory used = 1.1 MiB
 Total host memory used >= 4.7 MiB
 
-TIME Pyquda: Backward propagator through sequential source for U and D 0.42194437980651855
+TIME Pyquda: Backward propagator through sequential source for U and D 0.4243462085723877
 contract_TMD loop: CG no links
-TIME PyQUDA: contract bw prop with gamma_ls for U and D 0.00817108154296875
+TIME PyQUDA: contract bw prop with gamma_ls for U and D 0.008150339126586914
 TIME PyQUDA: contract TMD 1/30 [0, -2, 0, 0]
-TIME PyQUDA: cshift 0.0005426406860351562
-TIME PyQUDA: contract TMD for U and D 0.0031545162200927734
+TIME PyQUDA: cshift 0.0005233287811279297
+TIME PyQUDA: contract TMD for U and D 0.003123760223388672
 TIME PyQUDA: contract TMD 2/30 [0, -1, 0, 0]
-TIME PyQUDA: cshift 0.00021338462829589844
-TIME PyQUDA: contract TMD for U and D 0.0026047229766845703
+TIME PyQUDA: cshift 0.00021314620971679688
+TIME PyQUDA: contract TMD for U and D 0.002599000930786133
 TIME PyQUDA: contract TMD 3/30 [0, 0, 0, 0]
-TIME PyQUDA: cshift 0.0002124309539794922
-TIME PyQUDA: contract TMD for U and D 0.0026047229766845703
+TIME PyQUDA: cshift 0.0002446174621582031
+TIME PyQUDA: contract TMD for U and D 0.002580404281616211
 TIME PyQUDA: contract TMD 4/30 [0, 1, 0, 0]
 TIME PyQUDA: cshift 0.0002117156982421875
-TIME PyQUDA: contract TMD for U and D 0.0026090145111083984
+TIME PyQUDA: contract TMD for U and D 0.002592802047729492
 TIME PyQUDA: contract TMD 5/30 [0, 2, 0, 0]
-TIME PyQUDA: cshift 0.0002129077911376953
-TIME PyQUDA: contract TMD for U and D 0.002602100372314453
+TIME PyQUDA: cshift 0.00021266937255859375
+TIME PyQUDA: contract TMD for U and D 0.0026092529296875
 TIME PyQUDA: contract TMD 6/30 [1, 1, 0, 0]
-TIME PyQUDA: cshift 0.005438327789306641
-TIME PyQUDA: contract TMD for U and D 0.0026056766510009766
+TIME PyQUDA: cshift 0.005198478698730469
+TIME PyQUDA: contract TMD for U and D 0.002599000930786133
 TIME PyQUDA: contract TMD 7/30 [1, 0, 0, 0]
-TIME PyQUDA: cshift 0.0002129077911376953
-TIME PyQUDA: contract TMD for U and D 0.002602815628051758
+TIME PyQUDA: cshift 0.00021266937255859375
+TIME PyQUDA: contract TMD for U and D 0.002607107162475586
 TIME PyQUDA: contract TMD 8/30 [1, -1, 0, 0]
-TIME PyQUDA: cshift 0.00021791458129882812
-TIME PyQUDA: contract TMD for U and D 0.0025975704193115234
-TIME PyQUDA: contract TMD 9/30 [1, -2, 0, 0]
-TIME PyQUDA: cshift 0.00021457672119140625
+TIME PyQUDA: cshift 0.00021219253540039062
 TIME PyQUDA: contract TMD for U and D 0.002602100372314453
+TIME PyQUDA: contract TMD 9/30 [1, -2, 0, 0]
+TIME PyQUDA: cshift 0.0002124309539794922
+TIME PyQUDA: contract TMD for U and D 0.0025930404663085938
 TIME PyQUDA: contract TMD 10/30 [2, -2, 0, 0]
-TIME PyQUDA: cshift 0.001634836196899414
-TIME PyQUDA: contract TMD for U and D 0.0026166439056396484
+TIME PyQUDA: cshift 0.0016047954559326172
+TIME PyQUDA: contract TMD for U and D 0.002596139907836914
 TIME PyQUDA: contract TMD 11/30 [2, -1, 0, 0]
-TIME PyQUDA: cshift 0.00021386146545410156
-TIME PyQUDA: contract TMD for U and D 0.0026063919067382812
+TIME PyQUDA: cshift 0.0002124309539794922
+TIME PyQUDA: contract TMD for U and D 0.0025963783264160156
 TIME PyQUDA: contract TMD 12/30 [2, 0, 0, 0]
-TIME PyQUDA: cshift 0.0002472400665283203
-TIME PyQUDA: contract TMD for U and D 0.0026292800903320312
+TIME PyQUDA: cshift 0.00021147727966308594
+TIME PyQUDA: contract TMD for U and D 0.0025925636291503906
 TIME PyQUDA: contract TMD 13/30 [2, 1, 0, 0]
 TIME PyQUDA: cshift 0.00021195411682128906
-TIME PyQUDA: contract TMD for U and D 0.0026023387908935547
+TIME PyQUDA: contract TMD for U and D 0.0025911331176757812
 TIME PyQUDA: contract TMD 14/30 [1, 2, 0, 0]
-TIME PyQUDA: cshift 0.001661062240600586
-TIME PyQUDA: contract TMD for U and D 0.0026040077209472656
+TIME PyQUDA: cshift 0.0016622543334960938
+TIME PyQUDA: contract TMD for U and D 0.0026023387908935547
 TIME PyQUDA: contract TMD 15/30 [2, 2, 0, 0]
-TIME PyQUDA: cshift 0.001611948013305664
-TIME PyQUDA: contract TMD for U and D 0.002597808837890625
+TIME PyQUDA: cshift 0.0015769004821777344
+TIME PyQUDA: contract TMD for U and D 0.0025937557220458984
 TIME PyQUDA: contract TMD 16/30 [0, -2, 0, 1]
-TIME PyQUDA: cshift 0.00033473968505859375
-TIME PyQUDA: contract TMD for U and D 0.002609729766845703
+TIME PyQUDA: cshift 0.0003304481506347656
+TIME PyQUDA: contract TMD for U and D 0.0025932788848876953
 TIME PyQUDA: contract TMD 17/30 [0, -1, 0, 1]
-TIME PyQUDA: cshift 0.0002124309539794922
-TIME PyQUDA: contract TMD for U and D 0.002602815628051758
+TIME PyQUDA: cshift 0.00021219253540039062
+TIME PyQUDA: contract TMD for U and D 0.002589702606201172
 TIME PyQUDA: contract TMD 18/30 [0, 0, 0, 1]
 TIME PyQUDA: cshift 0.0002124309539794922
-TIME PyQUDA: contract TMD for U and D 0.0026025772094726562
+TIME PyQUDA: contract TMD for U and D 0.0026018619537353516
 TIME PyQUDA: contract TMD 19/30 [0, 1, 0, 1]
-TIME PyQUDA: cshift 0.00021266937255859375
-TIME PyQUDA: contract TMD for U and D 0.002610445022583008
+TIME PyQUDA: cshift 0.0002124309539794922
+TIME PyQUDA: contract TMD for U and D 0.0025908946990966797
 TIME PyQUDA: contract TMD 20/30 [0, 2, 0, 1]
-TIME PyQUDA: cshift 0.00021314620971679688
-TIME PyQUDA: contract TMD for U and D 0.002603769302368164
+TIME PyQUDA: cshift 0.0002129077911376953
+TIME PyQUDA: contract TMD for U and D 0.0025937557220458984
 TIME PyQUDA: contract TMD 21/30 [1, 1, 0, 1]
-TIME PyQUDA: cshift 0.0002770423889160156
-TIME PyQUDA: contract TMD for U and D 0.0025959014892578125
+TIME PyQUDA: cshift 0.00027632713317871094
+TIME PyQUDA: contract TMD for U and D 0.0025844573974609375
 TIME PyQUDA: contract TMD 22/30 [1, 0, 0, 1]
-TIME PyQUDA: cshift 0.00021219253540039062
-TIME PyQUDA: contract TMD for U and D 0.002599954605102539
-TIME PyQUDA: contract TMD 23/30 [1, -1, 0, 1]
 TIME PyQUDA: cshift 0.0002117156982421875
-TIME PyQUDA: contract TMD for U and D 0.002605438232421875
+TIME PyQUDA: contract TMD for U and D 0.002587556838989258
+TIME PyQUDA: contract TMD 23/30 [1, -1, 0, 1]
+TIME PyQUDA: cshift 0.00021123886108398438
+TIME PyQUDA: contract TMD for U and D 0.0025854110717773438
 TIME PyQUDA: contract TMD 24/30 [1, -2, 0, 1]
-TIME PyQUDA: cshift 0.00021338462829589844
-TIME PyQUDA: contract TMD for U and D 0.002611875534057617
+TIME PyQUDA: cshift 0.0002129077911376953
+TIME PyQUDA: contract TMD for U and D 0.0025997161865234375
 TIME PyQUDA: contract TMD 25/30 [2, -2, 0, 1]
 TIME PyQUDA: cshift 0.00021314620971679688
-TIME PyQUDA: contract TMD for U and D 0.002592802047729492
+TIME PyQUDA: contract TMD for U and D 0.0025932788848876953
 TIME PyQUDA: contract TMD 26/30 [2, -1, 0, 1]
-TIME PyQUDA: cshift 0.00021266937255859375
-TIME PyQUDA: contract TMD for U and D 0.0026085376739501953
+TIME PyQUDA: cshift 0.00021219253540039062
+TIME PyQUDA: contract TMD for U and D 0.0025954246520996094
 TIME PyQUDA: contract TMD 27/30 [2, 0, 0, 1]
-TIME PyQUDA: cshift 0.0002129077911376953
-TIME PyQUDA: contract TMD for U and D 0.0026009082794189453
+TIME PyQUDA: cshift 0.00021195411682128906
+TIME PyQUDA: contract TMD for U and D 0.0025916099548339844
 TIME PyQUDA: contract TMD 28/30 [2, 1, 0, 1]
-TIME PyQUDA: cshift 0.00021576881408691406
-TIME PyQUDA: contract TMD for U and D 0.002600431442260742
+TIME PyQUDA: cshift 0.00021195411682128906
+TIME PyQUDA: contract TMD for U and D 0.0025873184204101562
 TIME PyQUDA: contract TMD 29/30 [1, 2, 0, 1]
-TIME PyQUDA: cshift 0.0002779960632324219
-TIME PyQUDA: contract TMD for U and D 0.002604246139526367
+TIME PyQUDA: cshift 0.00032210350036621094
+TIME PyQUDA: contract TMD for U and D 0.0025892257690429688
 TIME PyQUDA: contract TMD 30/30 [2, 2, 0, 1]
-TIME PyQUDA: cshift 0.000213623046875
-TIME PyQUDA: contract TMD for U and D 0.0026171207427978516
-contract_TMD over: proton_TMDs.shape (30, 1, 1, 16, 8) 0.10421562194824219s
-DEBUG: rank 0, /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/full_TMD/data/qTMD/l64c64a076.qTMD.0.CG.D.ex.x7y3z5t7.1HYP_GSRC_W90_k3_T5.PX0PY0PZ0dt0.PpUnpol.5
+TIME PyQUDA: cshift 0.00021266937255859375
+TIME PyQUDA: contract TMD for U and D 0.0025870800018310547
+contract_TMD over: proton_TMDs.shape (30, 1, 1, 16, 8) 0.10346484184265137s
+DEBUG: rank 0, /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/full_TMD/data/qTMD/l64c64a076.qTMD.0.CG.D.ex.x7y3z5t7.1HYP_GSRC_W90_k3_T5.PX0PY0PZ9dt4.PpUnpol.5
 no roll
-corr.shape, (30, 1, 1, 2)
+corr.shape, (30, 1, 1, 6)
 plist.shape, (1, 4)
-TIME: save TMDs for PpUnpol 0.004815578460693359
+TIME: save TMDs for PpUnpol 0.004498481750488281
 contract_TMD DONE: CG no links
 contract_PDF loop: GI with links
-contract_GI_PDF over: proton_PDFs.shape (1, 1, 1, 16, 8) 0.010399580001831055s
-contract_GI_PDF over: proton_PDFs.shape (2, 1, 1, 16, 8) 0.10155892372131348s
-contract_GI_PDF over: proton_PDFs.shape (3, 1, 1, 16, 8) 0.004368782043457031s
-contract_GI_PDF over: proton_PDFs.shape (4, 1, 1, 16, 8) 0.03956007957458496s
-contract_GI_PDF over: proton_PDFs.shape (5, 1, 1, 16, 8) 0.004351139068603516s
-TIME PyQUDA: contract GI PDF for U and D 0.16026544570922852
+contract_GI_PDF over: proton_PDFs.shape (1, 1, 1, 16, 8) 0.010322332382202148s
+contract_GI_PDF over: proton_PDFs.shape (2, 1, 1, 16, 8) 0.09962749481201172s
+contract_GI_PDF over: proton_PDFs.shape (3, 1, 1, 16, 8) 0.004303693771362305s
+contract_GI_PDF over: proton_PDFs.shape (4, 1, 1, 16, 8) 0.03919625282287598s
+contract_GI_PDF over: proton_PDFs.shape (5, 1, 1, 16, 8) 0.004300117492675781s
+TIME PyQUDA: contract GI PDF for U and D 0.15776753425598145
 no roll
-corr.shape, (5, 1, 16, 2)
+corr.shape, (5, 1, 16, 6)
 plist.shape, (1, 4)
-TIME: save PDFs for PpUnpol 0.01171731948852539
+TIME: save PDFs for PpUnpol 0.01066446304321289
 contract_PDF DONE: GI with links
-DONE: 0_x7y3z5t7_1HYP_GSRC_W90_k3_T5_PX0PY0PZ0dt0
+DONE: 0_x7y3z5t7_1HYP_GSRC_W90_k3_T5_PX0PY0PZ9dt4

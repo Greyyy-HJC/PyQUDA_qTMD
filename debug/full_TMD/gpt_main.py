@@ -48,15 +48,15 @@ parameters = {
     "qext": [[x,y,z,0] for x in [2] for y in [-2] for z in [0]], # momentum transfer for TMD, pf = pi + q
     #"qext": [list(v + (0,)) for v in {tuple(sorted((x, y, z))) for x in [-2,-1,0] for y in [-2,-1,0] for z in [0]}], # momentum transfer for TMD, pf = pi + q
     "qext_PDF": [[x,y,z,0] for x in [2] for y in [-2] for z in [0]], # momentum transfer for PDF, not used 
-    "pf": [0,0,0,0],
+    "pf": [0,0,9,0],
     "p_2pt": [[x,y,z,0] for x in [2] for y in [-2] for z in [0]], # 2pt momentum, should match pf & pi
 
-    "boost_in": [0,0,0],
-    "boost_out": [0,0,0],
-    "width" : 1.0,
+    "boost_in": [0,0,3],
+    "boost_out": [0,0,3],
+    "width" : 9.0,
 
     "pol": ["PpUnpol"],
-    "t_insert": 0, # time separation for TMD
+    "t_insert": 4, # time separation for TMD
 
     "save_propagators": False,
 }
