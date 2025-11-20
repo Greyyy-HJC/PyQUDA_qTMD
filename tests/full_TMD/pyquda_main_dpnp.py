@@ -110,7 +110,16 @@ identity_data[..., 1,1] = 1
 identity_data[..., 2,2] = 1
 identity_trafo = SimpleNamespace(data=identity_data, latt_info=latt_info)
 
-pyquda_gamma_ls = xp.zeros((16, 4, 4))
+first_gamma = my_pyquda_gammas[0]
+n_gamma = len(my_pyquda_gammas)
+
+# dpnp supports device in oneAPI environment
+pyquda_gamma_ls = xp.empty(
+    (n_gamma,) + first_gamma.shape,
+    dtype=first_gamma.dtype,
+    device=first_gamma.device,   # key: use the same device as gamma_pyq
+)
+
 for gamma_idx, gamma_pyq in enumerate(my_pyquda_gammas):
     pyquda_gamma_ls[gamma_idx] = gamma_pyq
 
