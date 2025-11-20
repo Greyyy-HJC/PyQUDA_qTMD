@@ -9,24 +9,11 @@ boosted smearing: apply a gauge-covariant Gaussian convolution with an injected 
 
 from typing import Sequence
 from math import pi
+import numpy as np
 from pyquda.field import Ns, Nc
 from pyquda.field import LatticeInfo, LatticeGauge, LatticeFermion, LatticePropagator
 
-# ---------- backend picking (generic) ----------
-def _get_xp_from_array(a):
-    """Return the base module of the array's type, e.g. cupy / numpy / dpnp / torch."""
-    base = type(a).__module__.split('.')[0]
-    return __import__(base)
-
-def _ensure_backend(x, xp):
-    """Move x to the same backend as xp if needed."""
-    if type(x).__module__.split('.')[0] == xp.__name__:
-        return x
-    if hasattr(xp, "asarray"):
-        return xp.asarray(x)
-    if xp.__name__ == "torch":
-        return xp.as_tensor(x)
-    return x  # fallback
+from utils.tools import _get_xp_from_array, _ensure_backend, _asarray_on_queue
 
 def _fftnd(xp, a, axes, inverse=False):
     if xp.__name__ == "torch":
@@ -40,6 +27,9 @@ def _exp_complex(xp, real, imag):
 
 # ---------- layout helpers ----------
 def _eo_to_full(xp, psi_eo, Lt, Lz, Ly, Lx):
+    temp = xp.zeros((Lt, Lz, Ly, Lx, Ns, Nc), dtype=psi_eo.dtype)
+    psi_eo = _asarray_on_queue(psi_eo, xp, temp) # move to the correct queue
+    
     full = xp.zeros((Lt, Lz, Ly, Lx, Ns, Nc), dtype=psi_eo.dtype)
     tz = xp.arange(Lt)[:, None, None]
     zz = xp.arange(Lz)[None, :, None]
@@ -56,6 +46,9 @@ def _eo_to_full(xp, psi_eo, Lt, Lz, Ly, Lx):
     return full
 
 def _full_to_eo(xp, psi_full, Lt, Lz, Ly, Lx):
+    temp = xp.zeros((2, Lt, Lz, Ly, Lx // 2, Ns, Nc), dtype=psi_full.dtype)
+    psi_full = _asarray_on_queue(psi_full, xp, temp) # move to the correct queue
+    
     eo = xp.zeros((2, Lt, Lz, Ly, Lx // 2, Ns, Nc), dtype=psi_full.dtype)
     tz = xp.arange(Lt)[:, None, None]
     zz = xp.arange(Lz)[None, :, None]

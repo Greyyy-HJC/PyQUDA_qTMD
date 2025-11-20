@@ -3,7 +3,6 @@
 # GPT inversion sources selection
 #
 import os
-import numpy as np
 
 # ---------- Backend Helpers (consistent with boosted_smearing_pyquda) ----------
 def _get_xp_from_array(a):
@@ -26,6 +25,17 @@ def _ensure_backend(x, xp):
         return xp.as_tensor(x)
     return xp.array(x)
 
+# --- HELPER: Ensure new arrays are on the EXACT SAME QUEUE as the data ---
+def _asarray_on_queue(val, xp, ref_arr):
+    """
+    Creates an array 'val' on the same backend and SYCL queue as 'ref_arr'.
+    """
+    # 1. If usage is dpnp, strictly enforce the sycl_queue
+    if xp.__name__ == 'dpnp' and hasattr(ref_arr, 'sycl_queue'):
+        return xp.asarray(val, sycl_queue=ref_arr.sycl_queue)
+    
+    # 2. Fallback for standard numpy/cupy or if ref_arr has no queue info
+    return xp.asarray(val)
 
 def mpi_print(latt_info, message):
     if latt_info.mpi_rank == 0:
