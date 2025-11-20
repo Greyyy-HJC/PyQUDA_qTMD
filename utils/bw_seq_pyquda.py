@@ -110,6 +110,7 @@ def create_bw_seq_pyquda(dirac, prop: LatticePropagator, trafo, origin, sm_width
         seq_data *= mask
         
         seq_data = evenodd(seq_data, axes=[0,1,2,3])  
+        seq_data = _ensure_backend(seq_data, xp)
         
         # --- 3. Create momentum phase ---
         # Generate phase (returns numpy or cupy usually)

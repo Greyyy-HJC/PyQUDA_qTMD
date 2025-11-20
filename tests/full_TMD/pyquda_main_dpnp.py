@@ -5,16 +5,26 @@ v2 means no mesonAllSinkTwoPoint, for non-CUDA environments
 
 # load python modules
 import time
-
+import os
 import numpy as np
-import cupy as cp
-from opt_einsum import contract
+import dpnp as dnp
+
 from types import SimpleNamespace
 
 from pyquda import init, getMPIComm
+
+# --------------------------
+# initiate quda
+# --------------------------
+if not os.path.exists(".cache"):
+    os.makedirs(".cache", exist_ok=True)
+
+mpi_geometry = [1, 1, 1, 2]
+init(mpi_geometry, enable_mps=True, grid_map="shared", backend="dpnp", backend_target="sycl", resource_path=".cache")
+
 from pyquda_utils import core, gamma, phase, io, source
 from pyquda_utils.phase import MomentumPhase
-from pyquda_plugins import pycontract #: for PyQUDA contraction v2
+from pyquda.field import LatticeGauge
 
 from utils.boosted_smearing_pyquda import boosted_smearing
 from utils.bw_seq_pyquda import create_bw_seq_pyquda
@@ -24,18 +34,11 @@ from utils.tools import srcLoc_distri_eq, mpi_print, _get_xp_from_array, _ensure
 
 
 # Global parameters
-data_dir="/home/jinchen/git/lat-software/PyQUDA_qTMD/tests/full_TMD/data" # NOTE
-lat_tag = "l64c64a076v2" # NOTE
+data_dir="/lus/flare/projects/StructNGB/jinchen/test/full_TMD/data" # NOTE
+lat_tag = "l64c64a076" # NOTE
 interpolation = "T5" # NOTE, new interpolation operator
 sm_tag = "v2_1HYP_GSRC_W90_k3_"+interpolation # NOTE
 GEN_SIMD_WIDTH = 64
-
-# --------------------------
-# initiate quda
-# --------------------------
-mpi_geometry = [1, 1, 1, 1]
-init(mpi_geometry, enable_mps=True, grid_map="shared")
-G5 = gamma.gamma(15)
 
 # --------------------------
 # Setup parameters
@@ -67,7 +70,7 @@ pf_tag = "PX"+str(pf[0]) + "PY"+str(pf[1]) + "PZ"+str(pf[2]) + "dt" + str(parame
 gammalist = ["5", "T", "T5", "X", "X5", "Y", "Y5", "Z", "Z5", "I", "SXT", "SXY", "SXZ", "SYT", "SYZ", "SZT"]
     
 Measurement = proton_TMD(parameters)
-xp = cp
+xp = dnp
 
 # --------------------------
 # Load gauge and create inverter
@@ -75,7 +78,7 @@ xp = cp
 
 ###################### load gauge ######################
 Ls = 8
-Lt = 8
+Lt = 32
 L = [Ls, Ls, Ls, Lt]
 xi_0, nu = 1.0, 1.0
 mass = -0.038888 # kappa = 0.12623
@@ -97,15 +100,17 @@ mpi_print(latt_info, f"--config_num {conf}")
 
 
 dirac = core.getClover(latt_info, mass, 1e-8, 10000, xi_0, csw_r, csw_t, multigrid)
-gauge = io.readNERSCGauge(f"/home/jinchen/git/lat-software/PyQUDA_qTMD/test_gauge/S8T8_wilson_b6.0")
+gauge = io.readNERSCGauge(f"/home/jinchen/git/lat-software/PyQUDA_qTMD/test_gauge/S8T32_wilson_b6.cg.1e-08.0")
 
-identity_data = xp.zeros((Lt,Ls,Ls,Ls,3,3), "<c16")
+Lx, Ly, Lz, Lt_local = latt_info.size
+identity_data = xp.zeros((Lt_local, Lz, Ly, Lx, 3, 3)) 
+
 identity_data[..., 0,0] = 1
 identity_data[..., 1,1] = 1
 identity_data[..., 2,2] = 1
 identity_trafo = SimpleNamespace(data=identity_data, latt_info=latt_info)
 
-pyquda_gamma_ls = xp.zeros((16, 4, 4), "<c16")
+pyquda_gamma_ls = xp.zeros((16, 4, 4))
 for gamma_idx, gamma_pyq in enumerate(my_pyquda_gammas):
     pyquda_gamma_ls[gamma_idx] = gamma_pyq
 
@@ -213,12 +218,12 @@ for ipos, pos in enumerate(src_production):
     proton_TMDs_up = []
     
 
-    sequential_bw_prop_down_contracted_pyq = contract(
+    sequential_bw_prop_down_contracted_pyq = xp.einsum(
                 "pwtzyxjicf, gim -> pgwtzyxjmcf",
                 sequential_bw_prop_down_pyq, pyquda_gamma_ls
             )
 
-    sequential_bw_prop_up_contracted_pyq = contract(
+    sequential_bw_prop_up_contracted_pyq = xp.einsum(
                 "pwtzyxjicf, gim -> pgwtzyxjmcf",
                 sequential_bw_prop_up_pyq, pyquda_gamma_ls
             )
@@ -240,8 +245,8 @@ for ipos, pos in enumerate(src_production):
         mpi_print(latt_info, f"TIME PyQUDA: cshift {time.time() - t0}s")
         t0 = time.time()
         
-        proton_TMDs_down += [contract("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_down_contracted_pyq, tmd_forward_prop_dir0.data)]
-        proton_TMDs_up += [contract("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_up_contracted_pyq, tmd_forward_prop_dir0.data)]
+        proton_TMDs_down += [xp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_down_contracted_pyq, tmd_forward_prop_dir0.data)]
+        proton_TMDs_up += [xp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_up_contracted_pyq, tmd_forward_prop_dir0.data)]
         
         mpi_print(latt_info, f"TIME PyQUDA: contract TMD for U and D {time.time() - t0}s")
     del tmd_forward_prop_dir0
@@ -259,16 +264,16 @@ for ipos, pos in enumerate(src_production):
         mpi_print(latt_info, f"TIME PyQUDA: cshift {time.time() - t0}s")
 
         t0 = time.time()
-        proton_TMDs_down += [contract("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_down_contracted_pyq, tmd_forward_prop_dir1.data)]
-        proton_TMDs_up += [contract("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_up_contracted_pyq, tmd_forward_prop_dir1.data)]
+        proton_TMDs_down += [xp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_down_contracted_pyq, tmd_forward_prop_dir1.data)]
+        proton_TMDs_up += [xp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_up_contracted_pyq, tmd_forward_prop_dir1.data)]
         
         mpi_print(latt_info, f"TIME PyQUDA: contract TMD for U and D {time.time() - t0}s")
     del tmd_forward_prop_dir1
     del sequential_bw_prop_down_contracted_pyq
     del sequential_bw_prop_up_contracted_pyq
     
-    proton_TMDs_down = [core.gatherLattice(contract("qwtzyx, pgwtzyx -> pqgt", phases_3pt_pyq, temp).get(), [3, -1, -1, -1]) for temp in proton_TMDs_down]
-    proton_TMDs_up = [core.gatherLattice(contract("qwtzyx, pgwtzyx -> pqgt", phases_3pt_pyq, temp).get(), [3, -1, -1, -1]) for temp in proton_TMDs_up]
+    proton_TMDs_down = [core.gatherLattice(dnp.asnumpy(xp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_3pt_pyq, temp)), [3, -1, -1, -1]) for temp in proton_TMDs_down]
+    proton_TMDs_up = [core.gatherLattice(dnp.asnumpy(xp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_3pt_pyq, temp)), [3, -1, -1, -1]) for temp in proton_TMDs_up]
     
     proton_TMDs_down = np.array(proton_TMDs_down)
     proton_TMDs_up = np.array(proton_TMDs_up)
@@ -316,11 +321,11 @@ for ipos, pos in enumerate(src_production):
     phases_pdf_pyq = phase.MomentumPhase(latt_info).getPhases(qext_pdf_xyz, pos)
     
     #! PyQUDA: bw prop   
-    sequential_prop_down_contracted_pyq = contract(
+    sequential_prop_down_contracted_pyq = xp.einsum(
         "pwtzyxjicf, gim -> pgwtzyxjmcf",
         sequential_bw_prop_down_pyq, pyquda_gamma_ls
     )
-    sequential_prop_up_contracted_pyq = contract(
+    sequential_prop_up_contracted_pyq = xp.einsum(
         "pwtzyxjicf, gim -> pgwtzyxjmcf",
         sequential_bw_prop_up_pyq, pyquda_gamma_ls
     )
@@ -347,11 +352,11 @@ for ipos, pos in enumerate(src_production):
 
         #! PyQUDA: contract
         
-        proton_PDFs_down += [contract("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_prop_down_contracted_pyq, tmd_forward_prop_pyq.data)]
-        proton_PDFs_up += [contract("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_prop_up_contracted_pyq, tmd_forward_prop_pyq.data)]
+        proton_PDFs_down += [xp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_prop_down_contracted_pyq, tmd_forward_prop_pyq.data)]
+        proton_PDFs_up += [xp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_prop_up_contracted_pyq, tmd_forward_prop_pyq.data)]
         
-    proton_PDFs_down = [core.gatherLattice(contract("qwtzyx, pgwtzyx -> pqgt", phases_pdf_pyq, temp).get(), [3, -1, -1, -1]) for temp in proton_PDFs_down]
-    proton_PDFs_up = [core.gatherLattice(contract("qwtzyx, pgwtzyx -> pqgt", phases_pdf_pyq, temp).get(), [3, -1, -1, -1]) for temp in proton_PDFs_up]
+    proton_PDFs_down = [core.gatherLattice(dnp.asnumpy(xp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_pdf_pyq, temp)), [3, -1, -1, -1]) for temp in proton_PDFs_down]
+    proton_PDFs_up = [core.gatherLattice(dnp.asnumpy(xp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_pdf_pyq, temp)), [3, -1, -1, -1]) for temp in proton_PDFs_up]
     
     proton_PDFs_down = np.array(proton_PDFs_down)
     proton_PDFs_up = np.array(proton_PDFs_up)
