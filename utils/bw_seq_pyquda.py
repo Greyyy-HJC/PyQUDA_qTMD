@@ -1,13 +1,15 @@
 '''
-Modified by Jinchen He, 2025-11-13.
+Modified by Jinchen He, 2025-11-21.
 Fixed SYCL Queue Mismatch by ensuring all arrays share the propagator's queue.
+Refactored by Gemini to use pyquda_utils.source.sequential12 for time slicing.
 '''
 import numpy as np
 
 from pyquda.field import LatticePropagator
 from pyquda_utils import core, gamma
 from pyquda_utils.phase import MomentumPhase
-from pyquda.field import evenodd
+
+from pyquda_utils.source import sequential12 
 from utils.boosted_smearing_pyquda import boosted_smearing
 from utils.tools import _get_xp_from_array, _asarray_on_queue
 
@@ -34,7 +36,7 @@ PolProjections = {
     "PpUnpol": Pp,  
 }
 
-def create_bw_seq_pyquda(dirac, prop: LatticePropagator, trafo, origin, sm_width, sm_boost, momentum, t_insert, pol_list, flavor, interpolator="5"):
+def create_bw_seq_pyquda(dirac, prop: LatticePropagator, origin, sm_width, sm_boost, momentum, t_insert, pol_list, flavor, interpolator="5"):
     """
     PyQUDA version: Build backward sequential source (Backend Agnostic).
     """
@@ -52,10 +54,10 @@ def create_bw_seq_pyquda(dirac, prop: LatticePropagator, trafo, origin, sm_width
     xp = _get_xp_from_array(prop.data)
 
     latt_info = prop.latt_info
-    Lt = latt_info.Lt
+    GLt = latt_info.GLt
     
     # Perform boosted smearing
-    prop = boosted_smearing(trafo, prop, w=sm_width, boost=sm_boost)
+    prop = boosted_smearing(prop, w=sm_width, boost=sm_boost)
     
     dst_seq = []
     for pol in pol_list:
@@ -72,32 +74,34 @@ def create_bw_seq_pyquda(dirac, prop: LatticePropagator, trafo, origin, sm_width
         else:
             raise ValueError(f"Invalid flavor: {flavor}")
         
-        # --- 2. Time slicing ---
+        # --- 2. Time slicing (Refactored) ---
         t_source = origin[3] 
-        t_sink = (t_source + t_insert) % Lt
+        t_sink = (t_source + t_insert) % GLt
         
-        # Get data (unpacked from evenodd)
-        seq_data = src_seq.lexico()
+        # Use pyquda_utils.source.sequential12 to handle time slicing/masking.
+        # This operates directly on the LatticePropagator without manual reshape/masking.
+        src_seq_sliced = sequential12(src_seq, t_sink)
         
-        # Zero out non-insertion time slices
-        mask = np.zeros_like(seq_data) # numpy mask is fine here, multiplied later
-        mask[t_sink, :, :, :, :, :, :, :] = 1 
-        seq_data *= mask # masking on host or device depends on seq_data location, likely safe here
+        # Extract the underlying data (in even-odd format)
+        seq_data = src_seq_sliced.data
         
-        seq_data = evenodd(seq_data, axes=[0,1,2,3])  
-        
-        # ENSURE seq_data is on the correct queue (it should be already, but to be safe)
+        # ENSURE seq_data is on the correct queue (Critical for SYCL/GPU compatibility)
         seq_data = _asarray_on_queue(seq_data, xp, prop.data)
         
         # --- 3. Create momentum phase ---
         # Generate phase (returns numpy usually)
-        mom_phase_raw = MomentumPhase(latt_info).getPhase(momentum, x0=origin)
-        mom_phase = _asarray_on_queue(mom_phase_raw, xp, prop.data)
+        mom_phase = MomentumPhase(latt_info).getPhase(momentum, x0=origin)
+        mom_phase = _asarray_on_queue(mom_phase, xp, prop.data)
+        
+        print(f"DEBUG: mom_phase shape: {mom_phase.shape}")
         
         # Get Gamma5 on correct backend AND QUEUE
         G5 = _asarray_on_queue(gamma.gamma(15), xp, prop.data)
         
         # Einsum contraction
+        # Note: seq_data is now directly from LatticePropagator, so it is in even-odd format (5 dims spatial/parity + 4 dims spin/color)
+        # The einsum 'wtzyxkjba' matches the standard PyQUDA data layout:
+        # w=parity, t, z, y, x=x_cb, k=spin_sink, j=spin_src, b=color_sink, a=color_src
         data = xp.einsum("ij, wtzyx, wtzyxkjba -> wtzyxikab", G5, mom_phase, seq_data.conj())
     
         smearing_input = core.LatticePropagator(latt_info)
@@ -106,7 +110,7 @@ def create_bw_seq_pyquda(dirac, prop: LatticePropagator, trafo, origin, sm_width
         if latt_info.mpi_rank == 0:
             print(f"diquark contractions for Polarization {pol} done")
             
-        src = boosted_smearing(trafo, smearing_input, w=sm_width, boost=sm_boost)
+        src = boosted_smearing(smearing_input, w=sm_width, boost=sm_boost)
         prop_smeared = core.invertPropagator(dirac, src, 1, 0) 
         
         # Einsum at the end

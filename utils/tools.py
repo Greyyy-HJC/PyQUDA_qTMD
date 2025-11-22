@@ -2,7 +2,6 @@
 #
 # GPT inversion sources selection
 #
-import os
 
 # ---------- Backend Helpers (consistent with boosted_smearing_pyquda) ----------
 def _get_xp_from_array(a):

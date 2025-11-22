@@ -1,8 +1,7 @@
-from pyquda import init, LatticeInfo
 from pyquda_utils import core, gamma
 from utils.boosted_smearing_pyquda import boosted_smearing
 from utils.io_corr import save_proton_c2pt_hdf5
-from utils.tools import _get_xp_from_array, _ensure_backend, mpi_print
+from utils.tools import _get_xp_from_array, mpi_print, _asarray_on_queue
 
 
 my_gammas = ["5", "T", "T5", "X", "X5", "Y", "Y5", "Z", "Z5", "I", "SXT", "SXY", "SXZ", "SYT", "SYZ", "SZT"]
@@ -46,7 +45,7 @@ class proton_TMD():
         self.save_propagators = parameters["save_propagators"] # if save propagators
         
     #! PyQUDA: contract 2pt TMD
-    def contract_2pt_TMD(self, latt_info, prop_f, phases, trafo, tag, interpolator = "5"): 
+    def contract_2pt_TMD(self, latt_info, prop_f, phases, tag, interpolator = "5"): 
         if interpolator == "5":
             gamma_insert = Cg5
         elif interpolator == "T5":
@@ -58,40 +57,118 @@ class proton_TMD():
         
         
         mpi_print(latt_info, "Begin sink smearing")
-        prop_f = boosted_smearing(trafo, prop_f, w=self.width, boost=self.pos_boost)
+        prop_f = boosted_smearing(prop_f, w=self.width, boost=self.pos_boost)
         mpi_print(latt_info, "Sink smearing completed")
         
         xp = _get_xp_from_array(prop_f.data)
-        P_2pt_gamma = xp.zeros((16, latt_info.Lt, 4, 4), "<c16")
-        for gamma_idx, gamma_pyq in enumerate(my_pyquda_gammas):
-            P_2pt = xp.zeros((latt_info.Lt, 4, 4), "<c16")
-            P_2pt[:] = gamma_pyq
-            P_2pt_gamma[gamma_idx] = P_2pt
+        P_2pt_gamma_host = xp.zeros((16, latt_info.Lt, 4, 4))
+        P_2pt_gamma = _asarray_on_queue(P_2pt_gamma_host, xp, prop_f.data)
+
+        for gamma_idx, gamma_pyq_host in enumerate(my_pyquda_gammas):
+            gamma_device = _asarray_on_queue(gamma_pyq_host, xp, prop_f.data)
             
-        epsilon= xp.zeros((3,3,3))
+            P_2pt_local = _asarray_on_queue(xp.zeros((latt_info.Lt, 4, 4)), xp, prop_f.data)
+            P_2pt_local[:] = gamma_device
+            P_2pt_gamma[gamma_idx] = P_2pt_local
+            
+        epsilon_host = xp.zeros((3,3,3))
         for a in range (3):
             b = (a+1) % 3
             c = (a+2) % 3
-            epsilon[a,b,c] = 1
-            epsilon[a,c,b] = -1
+            epsilon_host[a,b,c] = 1
+            epsilon_host[a,c,b] = -1
+        epsilon = _asarray_on_queue(epsilon_host, xp, prop_f.data)
         
-        corr = (
-                - xp.einsum(
-                "abc, def, pwtzyx, ij, kl, gtmn, wtzyxikad, wtzyxjlbe, wtzyxmncf->gpt",
-                epsilon,    epsilon,    phases,    gamma_insert,    gamma_insert,    P_2pt_gamma,
-                prop_f.data,  prop_f.data,  prop_f.data,
-                ) 
-                - xp.einsum(
-                    "abc, def, pwtzyx, ij, kl, gtmn, wtzyxikad, wtzyxjnbe, wtzyxmlcf->gpt",
-                    epsilon,    epsilon,    phases,    gamma_insert,    gamma_insert,    P_2pt_gamma,
-                    prop_f.data,  prop_f.data,  prop_f.data,
-                )
-            )
-        corr_collect = core.gatherLattice(corr.get(), [2, -1, -1, -1])
+        phases = _asarray_on_queue(phases, xp, prop_f.data)
+        gamma_insert = _asarray_on_queue(gamma_insert, xp, prop_f.data)
+        
+        
+        #! Optimized version of the 2pt TMD contraction
+        # --- Term 1 ---
+        # original equation: -1 * [epsilon(abc)*epsilon(def)*G(ij)*G(kl)*P2pt(gtmn)*P1(ikad)*P2(jlbe)*P3(mncf)*Phases]
+        # structure: Prop1 and Prop2 are directly connected to Sink(ij) and Src(kl); Prop3 is self-closed(mn)
+
+        # 1. [Sink Block] contract Sink color(abc), spin(ij) and Prop1, Prop2
+        #    Indices: P1(i,k,a,d), P2(j,l,b,e), E(a,b,c), G(i,j) -> Result(k,l,d,e,c)
+        #    Note: c is the sink color of Prop3
+        term1_sink = xp.einsum(
+            "abc, ij, wtzyxikad, wtzyxjlbe -> wtzyxklcde",
+            epsilon, gamma_insert, prop_f.data, prop_f.data,
+            optimize=True
+        )
+
+        # 2. [P3 Block] Prop3 is self-closed with P_2pt
+        #    Indices: P3(m,n,c,f), P2pt(g,t,m,n) -> Result(g,c,f)
+        #    Note: here m,n are contracted
+        term1_p3 = xp.einsum(
+            "gtmn, wtzyxmncf -> gwtzyxcf",
+            P_2pt_gamma, prop_f.data,
+            optimize=True
+        )
+
+        # 3. [Final Assembly] combine two parts
+        #    Indices: Sink(k,l,d,e,c), P3(g,c,f), E(d,e,f), G(k,l), Phases
+        #    Remaining: g, p, t
+        term1 = xp.einsum(
+            "def, pwtzyx, kl, wtzyxklcde, gwtzyxcf -> gpt",
+            epsilon, phases, gamma_insert, term1_sink, term1_p3,
+            optimize=True
+        )
+
+        # clean up memory
+        del term1_sink, term1_p3
+
+
+        # --- Term 2 ---
+        # original equation: -1 * [epsilon(abc)*epsilon(def)*G(ij)*G(kl)*P2pt(gtmn)*P1(ikad)*P2(jnbe)*P3(mlcf)*Phases]
+        # structure: Prop1(k) is connected to Prop3(l) in Src; Prop2(n) is connected to Prop3(m) through P2pt... This is a big loop.
+
+        # 1. [Sink Block] contract Sink color(abc), spin(ij) and Prop1, Prop2
+        #    Indices: P1(i,k,a,d), P2(j,n,b,e), E(a,b,c), G(i,j) -> Result(k,n,d,e,c)
+        #    Note: l is changed to n
+        term2_sink = xp.einsum(
+            "abc, ij, wtzyxikad, wtzyxjnbe -> wtzyxkncde",
+            epsilon, gamma_insert, prop_f.data, prop_f.data,
+            optimize=True
+        )
+
+        # 2. [P3 Block] Prop3 is connected to P2pt
+        #    Indices: P3(m,l,c,f), P2pt(g,t,m,n) -> Result(g,n,l,c,f)
+        #    Note: m is contracted, but n (connected to Prop2) and l (connected to Gamma) are kept
+        term2_p3 = xp.einsum(
+            "gtmn, wtzyxmlcf -> gwtzyxnlcf",
+            P_2pt_gamma, prop_f.data,
+            optimize=True
+        )
+
+        # 3. [Final Assembly]
+        #    Indices: 
+        #      Sink: k, n, d, e, c
+        #      P3:   g, n, l, c, f
+        #      Gamma: k, l
+        #      Eps:   d, e, f
+        #    contracted path: 
+        #      k (Sink-Gamma), l (P3-Gamma), n (Sink-P3), c (Sink-P3), def (Eps-Sink-P3)
+        term2 = xp.einsum(
+            "def, pwtzyx, kl, wtzyxkncde, gwtzyxnlcf -> gpt",
+            epsilon, phases, gamma_insert, term2_sink, term2_p3,
+            optimize=True
+        )
+
+        # clean up memory
+        del term2_sink, term2_p3
+
+        # --- Final Result ---
+        # original code is (- Einsum1 - Einsum2)
+        corr = - term1 - term2
+
+        corr_collect = core.gatherLattice(xp.asnumpy(corr), [2, -1, -1, -1])
+        
         
         if latt_info.mpi_rank == 0:
             save_proton_c2pt_hdf5(corr_collect, tag, my_gammas, self.pilist)
         del corr, corr_collect
+    
         
     def create_TMD_Wilsonline_index_list_CG(self):
         index_list_trans0 = []
