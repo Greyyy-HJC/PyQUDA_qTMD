@@ -139,11 +139,11 @@ for ipos, pos in enumerate(src_production):
     
     sample_log_tag = get_sample_log_tag(str(conf), pos, sm_tag + "_" + pf_tag)
     g.message(f"START: {sample_log_tag}")
-    with open(sample_log_file, "a+") as f:
-        f.seek(0)
-        if sample_log_tag in f.read():
-            g.message("SKIP: " + sample_log_tag)
-            continue # NOTE comment this out for test otherwise it will skip all the sources that are already done
+    # with open(sample_log_file, "a+") as f:
+    #     f.seek(0)
+    #     if sample_log_tag in f.read():
+    #         g.message("SKIP: " + sample_log_tag)
+    #         continue # NOTE comment this out for test otherwise it will skip all the sources that are already done
 
 
 
@@ -173,7 +173,7 @@ for ipos, pos in enumerate(src_production):
     t0 = time.time()
     tag = get_c2pt_file_tag(data_dir, lat_tag, conf, "ex", pos, sm_tag)
     phases_2pt = Measurement.make_mom_phases_2pt(U[0].grid, pos)
-    # Measurement.contract_2pt_TMD(prop_exact_f, phases_2pt, trafo, tag, interpolation) # NOTE, new interpolation operator
+    Measurement.contract_2pt_TMD(prop_exact_f, phases_2pt, trafo, tag, interpolation) # NOTE, new interpolation operator
     cp.cuda.runtime.deviceSynchronize()
     g.message("TIME GPT: Contraction 2pt (includes sink smearing)", time.time() - t0)
     

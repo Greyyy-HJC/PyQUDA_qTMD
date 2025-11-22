@@ -96,12 +96,6 @@ if latt_info.mpi_rank == 0:
 dirac = core.getClover(latt_info, mass, 1e-8, 10000, xi_0, csw_r, csw_t, multigrid)
 gauge = io.readNERSCGauge(f"/home/jinchen/git/lat-software/PyQUDA_qTMD/test_gauge/S8T8_wilson_b6.0")
 
-identity_data = cp.zeros((Lt,Ls,Ls,Ls,3,3), dtype=cp.complex128)
-identity_data[..., 0,0] = 1
-identity_data[..., 1,1] = 1
-identity_data[..., 2,2] = 1
-identity_trafo = SimpleNamespace(data=identity_data, latt_info=latt_info)
-
 # gauge.hypSmear(1, 0.75, 0.6, 0.3, -1)
 
 ###################### setup source positions ######################
@@ -146,12 +140,12 @@ for ipos, pos in enumerate(src_production):
     sample_log_tag = get_sample_log_tag(str(conf), pos, sm_tag + "_" + pf_tag)
     if latt_info.mpi_rank == 0:
         print(f"START: {sample_log_tag}")
-    with open(sample_log_file, "a+") as f:
-        f.seek(0)
-        if sample_log_tag in f.read():
-            if latt_info.mpi_rank == 0:
-                print("SKIP: " + sample_log_tag)
-            continue # NOTE comment this out for test otherwise it will skip all the sources that are already done
+    # with open(sample_log_file, "a+") as f:
+    #     f.seek(0)
+    #     if sample_log_tag in f.read():
+    #         if latt_info.mpi_rank == 0:
+    #             print("SKIP: " + sample_log_tag)
+    #         continue # NOTE comment this out for test otherwise it will skip all the sources that are already done
 
 
 
@@ -161,7 +155,8 @@ for ipos, pos in enumerate(src_production):
     cp.cuda.runtime.deviceSynchronize()
     t0 = time.time()
     srcD = source.propagator(latt_info, "point", pos)
-    srcDp = boosted_smearing(identity_trafo, srcD, w=parameters["width"], boost=parameters["boost_in"])
+    srcDp = boosted_smearing(srcD, w=parameters["width"], boost=parameters["boost_in"])
+    
     cp.cuda.runtime.deviceSynchronize()
     if latt_info.mpi_rank == 0:
         print("TIME Pyquda: Generatring boosted src", time.time() - t0)
@@ -179,9 +174,10 @@ for ipos, pos in enumerate(src_production):
     cp.cuda.runtime.deviceSynchronize()
     t0 = time.time()
     tag = get_c2pt_file_tag(data_dir, lat_tag, conf, "ex", pos, sm_tag)
-    phases_2pt = MomentumPhase(latt_info).getPhases([pos], x0=pos)
+    p_2pt_xyz = [[-v[0], -v[1], -v[2]] for v in parameters["p_2pt"]]
+    phases_2pt = MomentumPhase(latt_info).getPhases(p_2pt_xyz, x0=pos)
     
-    # Measurement.contract_2pt_TMD(latt_info, propag, phases_2pt, identity_trafo, tag, interpolation)
+    Measurement.contract_2pt_TMD(latt_info, propag, phases_2pt, tag, interpolation)
 
     cp.cuda.runtime.deviceSynchronize()
     if latt_info.mpi_rank == 0:
@@ -191,8 +187,8 @@ for ipos, pos in enumerate(src_production):
     #! PyQUDA: get backward propagator through sequential source for U and D
     cp.cuda.runtime.deviceSynchronize()
     t0 = time.time()
-    sequential_bw_prop_down_pyq = create_bw_seq_pyquda(dirac, propag, identity_trafo, pos, parameters["width"], parameters["boost_out"], parameters["pf"], parameters["t_insert"], parameters["pol"], 2, interpolation)
-    sequential_bw_prop_up_pyq = create_bw_seq_pyquda(dirac, propag, identity_trafo, pos, parameters["width"], parameters["boost_out"], parameters["pf"], parameters["t_insert"], parameters["pol"], 1, interpolation)
+    sequential_bw_prop_down_pyq = create_bw_seq_pyquda(dirac, propag, pos, parameters["width"], parameters["boost_out"], parameters["pf"], parameters["t_insert"], parameters["pol"], 2, interpolation)
+    sequential_bw_prop_up_pyq = create_bw_seq_pyquda(dirac, propag, pos, parameters["width"], parameters["boost_out"], parameters["pf"], parameters["t_insert"], parameters["pol"], 1, interpolation)
     
     cp.cuda.runtime.deviceSynchronize()
     if latt_info.mpi_rank == 0:

@@ -1,7 +1,10 @@
 '''
-Modified by Jinchen He, 2025-11-13.
+Modified by Jinchen He, 2025-11-21.
+Refactored for MPI support using pyquda_utils.fft by Gemini.
+Optimized: Removed U_trafo dependency (Assuming Identity Gauge).
 
-This is the module to implement the boosted smearing in PyQUDA, which used a different method from the momentum smearing.
+This module implements boosted smearing in PyQUDA.
+It supports MPI parallelization by leveraging PyQUDA's internal distributed FFT utils.
 
 momentum smearing: add a momentum phase to the gauge, then do the gaussian smearing;
 boosted smearing: apply a gauge-covariant Gaussian convolution with an injected momentum: the source is first rotated into the fixed gauge frame, Fourier-transformed, multiplied by the momentum-shifted Gaussian kernel in momentum space, inverse-transformed back to position space, and finally rotated back with the hermitian conjugate of the gauge transformation.
@@ -10,124 +13,143 @@ boosted smearing: apply a gauge-covariant Gaussian convolution with an injected 
 from typing import Sequence
 from math import pi
 import numpy as np
+
+# PyQUDA imports
 from pyquda.field import Ns, Nc
-from pyquda.field import LatticeInfo, LatticeGauge, LatticeFermion, LatticePropagator
+from pyquda.field import LatticeInfo, LatticeFermion, LatticePropagator, LatticeComplex
 
-from utils.tools import _get_xp_from_array, _ensure_backend, _asarray_on_queue
+# Import PyQUDA's distributed FFT
+try:
+    from pyquda_utils.fft import fft, ifft
+except ImportError:
+    raise ImportError("Could not import 'fft' from 'pyquda_utils'. Please ensure PyQUDA is installed correctly.")
 
-def _fftnd(xp, a, axes, inverse=False):
-    if xp.__name__ == "torch":
-        return (xp.fft.ifftn if inverse else xp.fft.fftn)(a, dim=axes)
-    return (xp.fft.ifftn if inverse else xp.fft.fftn)(a, axes=axes)
+from pyquda_comm import getMPIRank, getCoordFromRank
+from utils.tools import _get_xp_from_array, _ensure_backend
 
 def _exp_complex(xp, real, imag):
     if xp.__name__ == "torch":
         return xp.exp(real) * (xp.cos(imag) + 1j * xp.sin(imag))
     return xp.exp(real + 1j * imag)
 
-# ---------- layout helpers ----------
-def _eo_to_full(xp, psi_eo, Lt, Lz, Ly, Lx):
-    temp = xp.zeros((Lt, Lz, Ly, Lx, Ns, Nc), dtype=psi_eo.dtype)
-    psi_eo = _asarray_on_queue(psi_eo, xp, temp) # move to the correct queue
-    
-    full = xp.zeros((Lt, Lz, Ly, Lx, Ns, Nc), dtype=psi_eo.dtype)
-    tz = xp.arange(Lt)[:, None, None]
-    zz = xp.arange(Lz)[None, :, None]
-    yy = xp.arange(Ly)[None, None, :]
-    parity_tzy = ((tz + zz + yy) & 1)[..., None]
-    xh = xp.arange(Lx // 2)[None, None, None, :]
-    tt = xp.arange(Lt)[:, None, None, None]
-    z2 = xp.arange(Lz)[None, :, None, None]
-    y2 = xp.arange(Ly)[None, None, :, None]
-    for eo in (0, 1):
-        x_par = (eo - parity_tzy) & 1
-        x_full = 2 * xh + x_par
-        full[tt, z2, y2, x_full, ...] = psi_eo[eo]
-    return full
-
-def _full_to_eo(xp, psi_full, Lt, Lz, Ly, Lx):
-    temp = xp.zeros((2, Lt, Lz, Ly, Lx // 2, Ns, Nc), dtype=psi_full.dtype)
-    psi_full = _asarray_on_queue(psi_full, xp, temp) # move to the correct queue
-    
-    eo = xp.zeros((2, Lt, Lz, Ly, Lx // 2, Ns, Nc), dtype=psi_full.dtype)
-    tz = xp.arange(Lt)[:, None, None]
-    zz = xp.arange(Lz)[None, :, None]
-    yy = xp.arange(Ly)[None, None, :]
-    parity_tzy = ((tz + zz + yy) & 1)[..., None]
-    xh = xp.arange(Lx // 2)[None, None, None, :]
-    tt = xp.arange(Lt)[:, None, None, None]
-    z2 = xp.arange(Lz)[None, :, None, None]
-    y2 = xp.arange(Ly)[None, None, :, None]
-    for eo_par in (0, 1):
-        x_par = (eo_par - parity_tzy) & 1
-        x_full = 2 * xh + x_par
-        eo[eo_par] = psi_full[tt, z2, y2, x_full, ...]
-    return eo
-
-def _left_color_mul_full(xp, U_full, psi_full):
-    # U_full: (...,3,3), psi_full: (...,Ns,3) -> (...,Ns,3)
-    return xp.einsum("...ab,...sb->...sa", U_full, psi_full)
-
-def _build_kernel_realspace_full(xp, Lx, Ly, Lz, w, k):
-    rx = xp.arange(Lx, dtype=xp.float64); rx = (rx + Lx/2) % Lx - Lx/2
-    ry = xp.arange(Ly, dtype=xp.float64); ry = (ry + Ly/2) % Ly - Ly/2
-    rz = xp.arange(Lz, dtype=xp.float64); rz = (rz + Lz/2) % Lz - Lz/2
-    kx, ky, kz = k
-    real = (-0.5/(w*w)) * (rx[None,None,:]**2 + ry[None,:,None]**2 + rz[:,None,None]**2)
-    imag = 2*pi * ((kx/Lx)*rx[None,None,:] + (ky/Ly)*ry[None,:,None] + (kz/Lz)*rz[:,None,None])
-    return _exp_complex(xp, real, imag)  # (Lz, Ly, Lx)
-
-# ---------- smear one fermion ----------
-def _boosted_smearing_fermion(U_trafo: LatticeGauge, src: LatticeFermion, *, w: float, boost):
-    latt_info: LatticeInfo = src.latt_info
+def _get_global_grid_coords(xp, latt_info: LatticeInfo):
+    """
+    generate the global coordinates of the MPI Rank (Global Coordinates).
+    """
     Lx, Ly, Lz, Lt = latt_info.size
+    Gx, Gy, Gz, Gt = latt_info.global_size
+    
+    rank = getMPIRank()
+    coords = getCoordFromRank(rank) 
+    
+    # calculate the offset of the current rank in the global lattice
+    off_t = coords[3] * Lt
+    off_z = coords[2] * Lz
+    off_y = coords[1] * Ly
+    off_x = coords[0] * Lx
 
+    # generate the local coordinates (0 ~ L-1)
+    rx_local = xp.arange(Lx, dtype=xp.float64)
+    ry_local = xp.arange(Ly, dtype=xp.float64)
+    rz_local = xp.arange(Lz, dtype=xp.float64)
+
+    # convert to global coordinates, and handle the periodic boundary conditions (centered at 0)
+    rx = (rx_local + off_x + Gx/2) % Gx - Gx/2
+    ry = (ry_local + off_y + Gy/2) % Gy - Gy/2
+    rz = (rz_local + off_z + Gz/2) % Gz - Gz/2
+
+    return rx, ry, rz
+
+def _build_kernel_realspace_distributed(xp, latt_info: LatticeInfo, w: float, boost: Sequence[float]):
+    """
+    build the distributed real space Gaussian kernel.
+    return a LatticeComplex object (Checkerboard layout), which can be directly passed to fft.
+    """
+    rx, ry, rz = _get_global_grid_coords(xp, latt_info)
+    Lx, Ly, Lz, Lt = latt_info.size
+    Gx, Gy, Gz, Gt = latt_info.global_size
+    
+    kx, ky, kz = boost
+
+    # Broadcasting: (Lz, Ly, Lx)
+    rx = rx[None, None, :]
+    ry = ry[None, :, None]
+    rz = rz[:, None, None]
+
+    # calculate the exponential part
+    real = (-0.5/(w*w)) * (rx**2 + ry**2 + rz**2)
+    imag = 2*pi * ((kx/Gx)*rx + (ky/Gy)*ry + (kz/Gz)*rz)
+    
+    k_xyz = _exp_complex(xp, real, imag) # Shape: (Lz, Ly, Lx)
+
+    # wrap the 3D Kernel into LatticeComplex (4D Field)
+    kernel_field = LatticeComplex(latt_info)
+    
+    # create the local full array (Lt, Lz, Ly, Lx)
+    k_full_local = xp.zeros((Lt, Lz, Ly, Lx), dtype=xp.complex128)
+    k_full_local[:] = k_xyz[None, ...] # Broadcast time
+    
+    # explicitly convert to CPU (NumPy) and then call evenodd
+    k_full_local_cpu = xp.asnumpy(k_full_local)
+    cb_data = latt_info.evenodd(k_full_local_cpu, False)
+    
+    # assign to field.data (convert back to GPU through _ensure_backend)
+    kernel_field.data = _ensure_backend(cb_data, xp)
+    
+    return kernel_field
+
+def _boosted_smearing_fermion(src: LatticeFermion, *, w: float, boost: Sequence[float]):
+    """
+    Core implementation of boosted smearing for a single fermion.
+    Optimized: Assumes Identity Gauge (No U_trafo input).
+    """
+    latt_info: LatticeInfo = src.latt_info
     xp = _get_xp_from_array(src.data)
-    U_full = _ensure_backend(U_trafo.data, xp)  # (Lt,Lz,Ly,Lx,3,3)
 
-    # 1) eo+x/2 -> full
-    psi_full = _eo_to_full(xp, src.data, Lt, Lz, Ly, Lx)  # (Lt,Lz,Ly,Lx,Ns,Nc)
+    # ---------------------------------------------------------
+    # 1. Forward FFT (Distributed)
+    # ---------------------------------------------------------
+    # because U=Identity, so we don't need to do src.lexico() -> einsum -> evenodd()
+    # directly do FFT on LatticeFermion
+    psi_p = fft(src, fft3d=True, backend="cupy" if xp.__name__=="cupy" else "numpy")
 
-    # 2) multiply U
-    psi_gf = _left_color_mul_full(xp, U_full, psi_full)
+    # ---------------------------------------------------------
+    # 2. Apply Momentum Space Kernel
+    # ---------------------------------------------------------
+    K_xyz = _build_kernel_realspace_distributed(xp, latt_info, w, boost)
+    K_p = fft(K_xyz, fft3d=True, backend="cupy" if xp.__name__=="cupy" else "numpy")
 
-    # 3) FFT on (Lz, Ly, Lx) axes
-    axes = (1, 2, 3)
-    psi_p = _fftnd(xp, psi_gf, axes=axes, inverse=False)
+    # multiply in momentum space: psi(k) * K(k)
+    psi_p.data = psi_p.data * K_p.data[..., None, None]
 
-    # 4) kernel FFT and multiply
-    Kxyz = _build_kernel_realspace_full(xp, Lx, Ly, Lz, w, boost)     # (Lz,Ly,Lx)
-    Kp = _fftnd(xp, Kxyz, axes=(0, 1, 2), inverse=False)              # (Lz,Ly,Lx)
-    psi_p = psi_p * Kp[None, ..., None, None]
+    # ---------------------------------------------------------
+    # 3. Inverse FFT (Distributed)
+    # ---------------------------------------------------------
+    psi_smeared = ifft(psi_p, fft3d=True, backend="cupy" if xp.__name__=="cupy" else "numpy")
 
-    # 5) inverse FFT
-    psi_back = _fftnd(xp, psi_p, axes=axes, inverse=True)
-
-    # 6) multiply U^\dagger
-    Udag = xp.swapaxes(xp.conj(U_full), -1, -2)
-    psi_out_full = _left_color_mul_full(xp, Udag, psi_back)
-
-    # 7) full -> eo+x/2
-    psi_out_eo = _full_to_eo(xp, psi_out_full, Lt, Lz, Ly, Lx)
-
-    out = LatticeFermion(latt_info)
-    out.data = psi_out_eo
-    return out
+    # ---------------------------------------------------------
+    # 4. Result
+    # ---------------------------------------------------------
+    # because U=Identity, we don't need to do the inverse Gauge Rotation
+    # psi_smeared is already the final result
+    
+    return psi_smeared
 
 # ---------- public API ----------
 def boosted_smearing(
-    U_trafo: LatticeGauge,
-    src, *,
+    src,
+    *,
     w: float,
     boost: Sequence[float],
 ):
     if isinstance(src, LatticeFermion):
-        return _boosted_smearing_fermion(U_trafo, src, w=w, boost=boost)
+        return _boosted_smearing_fermion(src, w=w, boost=boost)
     if isinstance(src, LatticePropagator):
         out = LatticePropagator(src.latt_info)
         for s in range(Ns):
             for c in range(Nc):
-                f_sm = _boosted_smearing_fermion(U_trafo, src.getFermion(s, c), w=w, boost=boost)
+                # pass in a single fermion
+                f_sm = _boosted_smearing_fermion(src.getFermion(s, c), w=w, boost=boost)
                 out.setFermion(f_sm, s, c)
         return out
     raise TypeError(f"boosted_smearing: unsupported src type: {type(src)}")
