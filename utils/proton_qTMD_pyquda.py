@@ -61,17 +61,21 @@ class proton_TMD():
         mpi_print(latt_info, "Sink smearing completed")
         
         xp = _get_xp_from_array(prop_f.data)
-        P_2pt_gamma_host = xp.zeros((16, latt_info.Lt, 4, 4))
+        #* IMPORTANT: keep complex dtype.
+        # Some gamma matrices (e.g. Z / Z5 in the QUDA bitmask basis) can be purely imaginary.
+        # If we allocate float here, imaginary parts get dropped and those gammas become identically 0,
+        # which makes the corresponding c2pt channels exactly zero.
+        P_2pt_gamma_host = xp.zeros((16, latt_info.Lt, 4, 4), dtype=prop_f.data.dtype)
         P_2pt_gamma = _asarray_on_queue(P_2pt_gamma_host, xp, prop_f.data)
 
         for gamma_idx, gamma_pyq_host in enumerate(my_pyquda_gammas):
             gamma_device = _asarray_on_queue(gamma_pyq_host, xp, prop_f.data)
             
-            P_2pt_local = _asarray_on_queue(xp.zeros((latt_info.Lt, 4, 4)), xp, prop_f.data)
+            P_2pt_local = _asarray_on_queue(xp.zeros((latt_info.Lt, 4, 4), dtype=prop_f.data.dtype), xp, prop_f.data)
             P_2pt_local[:] = gamma_device
             P_2pt_gamma[gamma_idx] = P_2pt_local
             
-        epsilon_host = xp.zeros((3,3,3))
+        epsilon_host = xp.zeros((3,3,3), dtype=prop_f.data.real.dtype)
         for a in range (3):
             b = (a+1) % 3
             c = (a+2) % 3
