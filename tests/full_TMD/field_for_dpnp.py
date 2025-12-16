@@ -1,5 +1,6 @@
 #! path: /home/jinchen/software/pyq/lib/python3.10/site-packages/pyquda_comm/field.py
 #! for dpnp backend on Aurora
+#! not necessary for PyQUDA after 0.10.30
 
 from abc import abstractmethod
 from math import prod

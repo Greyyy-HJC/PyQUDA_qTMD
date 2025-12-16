@@ -29,8 +29,8 @@ from utils.tools import srcLoc_distri_eq, mpi_print, _get_xp_from_array, _ensure
 my_pyquda_gammas = [gamma.gamma(15), gamma.gamma(8), gamma.gamma(7), gamma.gamma(1), gamma.gamma(14), gamma.gamma(2), gamma.gamma(13), gamma.gamma(4), gamma.gamma(11), gamma.gamma(0), gamma.gamma(9), gamma.gamma(3), gamma.gamma(5), gamma.gamma(10), gamma.gamma(6), gamma.gamma(12)]
 
 # Global parameters
-data_dir="/lus/flare/projects/StructNGB/jinchen/temp/PyQUDA_qTMD/tests/full_TMD/data" # NOTE
-lat_tag = "l64c64a076" # NOTE
+data_dir="/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/full_TMD/data" # NOTE
+lat_tag = "S8T8_aurora" # NOTE
 interpolation = "T5" # NOTE, new interpolation operator
 sm_tag = "1HYP_GSRC_W90_k3_"+interpolation # NOTE
 GEN_SIMD_WIDTH = 64
@@ -100,7 +100,7 @@ if latt_info.mpi_rank == 0:
 
 
 dirac = core.getClover(latt_info, mass, 1e-8, 10000, xi_0, csw_r, csw_t, multigrid)
-gauge = io.readNERSCGauge(f"/lus/flare/projects/StructNGB/jinchen/temp/PyQUDA_qTMD/test_gauge/S8T8_wilson_b6.0")
+gauge = io.readNERSCGauge(f"/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/test_gauge/S8T8_wilson_b6.0")
 
 # gauge.hypSmear(1, 0.75, 0.6, 0.3, -1)
 
