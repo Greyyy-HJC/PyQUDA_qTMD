@@ -28,7 +28,7 @@ my_pyquda_gammas = [gamma.gamma(15), gamma.gamma(8), gamma.gamma(7), gamma.gamma
 
 # Global parameters
 data_dir="/home/jinchen/git/lat-software/PyQUDA_qTMD/tests/full_TMD/data" # NOTE
-lat_tag = "l64c64a076" # NOTE
+lat_tag = "S8T8_local" # NOTE
 interpolation = "T5" # NOTE, new interpolation operator
 sm_tag = "1HYP_GSRC_W90_k3_"+interpolation # NOTE
 GEN_SIMD_WIDTH = 64
