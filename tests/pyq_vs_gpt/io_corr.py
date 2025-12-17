@@ -6,6 +6,25 @@ import gpt as g
 import os
 import h5py
 import numpy as np
+import re
+
+
+_SRC_TAG_RE = re.compile(r"x(-?\d+)y(-?\d+)z(-?\d+)t(-?\d+)")
+
+
+def _extract_src_t_from_tag(tag: str) -> int:
+    """
+    Extract source time 't' from a tag string.
+
+    Robust against '.' in directory names (e.g. './data/...'), unlike tag.split('.')[4].
+    """
+    m = _SRC_TAG_RE.search(tag)
+    if not m:
+        raise ValueError(
+            "Cannot extract source time t from tag. Expected substring like 'x..y..z..t..'. "
+            f"tag={tag!r}"
+        )
+    return int(m.group(4))
 
 def get_fwPropagator_file_tag(data_dir, lat, cfg, ama, src, sm):
 
@@ -104,7 +123,7 @@ def save_fwPropagator_hdf5(prop, tag, sm="SP"):
 
 def save_proton_c2pt_hdf5(corr, tag, gammalist, plist):
 
-    roll = -int(tag.split(".")[4].split('t')[1])
+    roll = -_extract_src_t_from_tag(tag)
 
     save_h5 = tag + ".h5"
     f = h5py.File(save_h5, 'w')
@@ -120,7 +139,7 @@ def save_proton_c2pt_hdf5(corr, tag, gammalist, plist):
 def save_c2pt_hdf5(corr, tag, gammalist, plist, sm="SS"):
 
     # corr[link][plist][gammalist][t]
-    roll = -int(tag.split(".")[4].split('t')[1])
+    roll = -_extract_src_t_from_tag(tag)
 
     save_h5 = tag + ".h5"
     f = h5py.File(save_h5, 'w')
@@ -138,7 +157,7 @@ def save_softFF_hdf5(corr, tag, pion_src, pion_sink, Gamma1, Gamma2, bT_dir, bT_
     bT: length of bT
     """
 
-    roll = -int(tag.split(".")[4].split('t')[1])
+    roll = -_extract_src_t_from_tag(tag)
     bT_list = ['bX', 'bY']
 
     save_h5 = tag + ".h5"
@@ -161,7 +180,7 @@ def save_softFF_hdf5(corr, tag, pion_src, pion_sink, Gamma1, Gamma2, bT_dir, bT_
 
 def save_qTMDWF_hdf5_subset(corr, tag, gammalist, plist, W_index_list, i_sub):
 
-    roll = -int(tag.split(".")[4].split('t')[1])
+    roll = -_extract_src_t_from_tag(tag)
     bT_list = ['b_X', 'b_Y']
 
     if g.rank() == 0:
@@ -209,7 +228,7 @@ def save_qTMDWF_hdf5_noRoll(corr, tag, gammalist, plist, W_index_list):
 
 def save_qTMDWF_hdf5(corr, tag, gammalist, plist, eta, b_T, b_z, bT_dir = [0,1]):
 
-    roll = -int(tag.split(".")[4].split('t')[1])
+    roll = -_extract_src_t_from_tag(tag)
     td_offset = b_T*b_z*len(eta)
     eta_offset = b_T*b_z
     bz_offset = b_T
@@ -263,7 +282,7 @@ def save_qTMD_proton_hdf5_noRoll(corr, tag, gammalist, plist, W_index_list, tsep
 # W_index_list[bT, bz, eta, Tdir]
 def save_qTMD_proton_hdf5(corr, tag, gammalist, plist, W_index_list, tsep):
     
-    roll = -int(tag.split(".")[6].split('t')[1]) # 6: xyzt
+    roll = -_extract_src_t_from_tag(tag)
     bT_list = ['b_X', 'b_Y']
  
     #g.message("-->>",W_index_list)
@@ -291,7 +310,7 @@ def save_qTMD_proton_hdf5(corr, tag, gammalist, plist, W_index_list, tsep):
 # W_index_list[bT, bz, eta, Tdir]
 def save_qTMD_proton_hdf5_subset(corr, tag, gammalist, plist, W_index_list, i_sub, tsep):
 
-    roll = -int(tag.split(".")[6].split('t')[1]) # 6: xyzt
+    roll = -_extract_src_t_from_tag(tag)
     bT_list = ['b_X', 'b_Y']
 
     g.message("-->>",W_index_list)

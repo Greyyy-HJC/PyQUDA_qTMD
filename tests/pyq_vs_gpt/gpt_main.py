@@ -17,7 +17,7 @@ from pyquda_utils import core, gpt, gamma, phase
 from pyquda_plugins import pycontract #todo: for PyQUDA contraction v2
 
 # Global parameters
-data_dir="./tests/pyq_vs_gpt/data" # NOTE
+data_dir="tests/pyq_vs_gpt/data" # NOTE
 lat_tag = "S8T8_gpt" # NOTE
 interpolation = "T5" # NOTE, new interpolation operator
 sm_tag = "1HYP_GSRC_W90_k3_"+interpolation # NOTE

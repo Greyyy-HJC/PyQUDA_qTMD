@@ -1,5 +1,24 @@
 import h5py
 import numpy as np
+import re
+
+
+_SRC_TAG_RE = re.compile(r"x(-?\d+)y(-?\d+)z(-?\d+)t(-?\d+)")
+
+
+def _extract_src_t_from_tag(tag: str) -> int:
+    """
+    Extract source time 't' from a tag string.
+
+    Robust against '.' in directory names (e.g. './data/...'), unlike tag.split('.')[4].
+    """
+    m = _SRC_TAG_RE.search(tag)
+    if not m:
+        raise ValueError(
+            "Cannot extract source time t from tag. Expected substring like 'x..y..z..t..'. "
+            f"tag={tag!r}"
+        )
+    return int(m.group(4))
 
 def get_sample_log_tag(ama, src, sm):
 
@@ -34,7 +53,7 @@ def get_qTMD_file_tag(data_dir, lat, cfg, ama,src, sm):
 
 def save_proton_c2pt_hdf5(corr, tag, gammalist, plist):
 
-    roll = -int(tag.split(".")[4].split('t')[1])
+    roll = -_extract_src_t_from_tag(tag)
 
     save_h5 = tag + ".h5"
     f = h5py.File(save_h5, 'w')

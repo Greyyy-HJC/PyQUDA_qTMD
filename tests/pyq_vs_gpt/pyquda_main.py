@@ -21,7 +21,7 @@ from utils.tools import srcLoc_distri_eq, mpi_print, _get_xp_from_array, _ensure
 
 
 # Global parameters
-data_dir="./tests/pyq_vs_gpt/data" # NOTE
+data_dir="tests/pyq_vs_gpt/data" # NOTE
 lat_tag = "S8T8_pyq" # NOTE
 interpolation = "T5" # NOTE, new interpolation operator
 sm_tag = "1HYP_GSRC_W90_k3_"+interpolation # NOTE
@@ -81,16 +81,16 @@ multigrid = None
 
 latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
 
-if latt_info.mpi_rank == 0:
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--config_num", type=int, default=0, help="Configuration number")
-    args, unknown = parser.parse_known_args()
-    conf = args.config_num
 
-    print(f"--lat_tag {lat_tag}")
-    print(f"--sm_tag {sm_tag}")
-    print(f"--config_num {conf}")
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--config_num", type=int, default=0, help="Configuration number")
+args, unknown = parser.parse_known_args()
+conf = args.config_num
+
+mpi_print(latt_info, f"--lat_tag {lat_tag}")
+mpi_print(latt_info, f"--sm_tag {sm_tag}")
+mpi_print(latt_info, f"--config_num {conf}")
 
 
 dirac = core.getClover(latt_info, mass, 1e-8, 10000, xi_0, csw_r, csw_t, multigrid)
