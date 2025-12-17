@@ -15,7 +15,7 @@ from pyquda_utils.phase import MomentumPhase
 
 mpi_geometry = [1, 1, 1, 1]
 init(mpi_geometry, enable_mps=True, grid_map="shared")
-G5 = gamma.gamma(15)
+
 
 from utils.boosted_smearing_pyquda import boosted_smearing
 from utils.bw_seq_pyquda import create_bw_seq_pyquda
@@ -85,16 +85,15 @@ multigrid = None
 
 latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
 
-if latt_info.mpi_rank == 0:
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--config_num", type=int, default=0, help="Configuration number")
-    args, unknown = parser.parse_known_args()
-    conf = args.config_num
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--config_num", type=int, default=0, help="Configuration number")
+args, unknown = parser.parse_known_args()
+conf = args.config_num
 
-    print(f"--lat_tag {lat_tag}")
-    print(f"--sm_tag {sm_tag}")
-    print(f"--config_num {conf}")
+mpi_print(latt_info, f"--lat_tag {lat_tag}")
+mpi_print(latt_info, f"--sm_tag {sm_tag}")
+mpi_print(latt_info, f"--config_num {conf}")
 
 
 dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, multigrid)

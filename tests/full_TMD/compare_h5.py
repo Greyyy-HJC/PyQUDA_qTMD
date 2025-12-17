@@ -142,7 +142,11 @@ def _max_abs_diff_dataset(
     dset_a: "h5py.Dataset", dset_b: "h5py.Dataset", *, chunk_rows: int
 ) -> float:
     """
-    Compute max(abs(a - b)) for numeric datasets.
+    Compute relative diff for numeric datasets:
+
+      rel = max( abs(abs(a) - abs(b)) / abs(a) )
+
+    This allows sign differences between the two sides (and for complex values, compares magnitudes).
     Uses row-chunking along axis 0 for large arrays to limit memory.
     """
     shape = dset_a.shape
@@ -154,8 +158,12 @@ def _max_abs_diff_dataset(
     if shape == ():
         a = np.asarray(dset_a[()])
         b = np.asarray(dset_b[()])
-        diff = a - b
-        return float(np.max(np.abs(diff)))
+        aa = np.abs(a)
+        ab = np.abs(b)
+        diff = np.abs(aa - ab)
+        if float(aa) == 0.0:
+            return 0.0 if float(diff) == 0.0 else float("inf")
+        return float(diff / aa)
 
     # small dataset: read whole thing
     n_elem = int(np.prod(shape)) if shape else 0
@@ -163,24 +171,35 @@ def _max_abs_diff_dataset(
     if n_elem <= 1_000_000:
         a = np.asarray(dset_a[...])
         b = np.asarray(dset_b[...])
-        return float(np.max(np.abs(a - b)))
+        aa = np.abs(a)
+        ab = np.abs(b)
+        diff = np.abs(aa - ab)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            ratio = diff / aa
+        ratio = np.where(aa == 0, np.where(diff == 0, 0.0, float("inf")), ratio)
+        return float(np.max(ratio))
 
     # large: chunk along first axis
     n0 = shape[0]
     if n0 == 0:
         return 0.0
 
-    maxv = 0.0
+    max_ratio = 0.0
     for i in range(0, n0, max(1, chunk_rows)):
         j = min(n0, i + max(1, chunk_rows))
         slc = (slice(i, j),) + (slice(None),) * (len(shape) - 1)
         a = np.asarray(dset_a[slc])
         b = np.asarray(dset_b[slc])
-        v = np.max(np.abs(a - b))
-        # v may be numpy scalar
-        if float(v) > maxv:
-            maxv = float(v)
-    return maxv
+        aa = np.abs(a)
+        ab = np.abs(b)
+        diff = np.abs(aa - ab)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            ratio = diff / aa
+        ratio = np.where(aa == 0, np.where(diff == 0, 0.0, float("inf")), ratio)
+        vmax = float(np.max(ratio))
+        if vmax > max_ratio:
+            max_ratio = vmax
+    return max_ratio
 
 
 def compare_h5(file_a: str, file_b: str, *, chunk_rows: int = 1024) -> int:
@@ -193,7 +212,7 @@ def compare_h5(file_a: str, file_b: str, *, chunk_rows: int = 1024) -> int:
         # Print header for readability
         print(f"# file_a: {file_a}")
         print(f"# file_b: {file_b}")
-        print("# dataset_path\tmax_abs_diff")
+        print("# dataset_path\trel_diff=max(abs(abs(a)-abs(b))/abs(a))  (abs(a)==0 -> 0 if diff==0 else inf)")
 
         for p in dataset_paths:
             da = fa[p]
