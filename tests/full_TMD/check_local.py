@@ -114,7 +114,7 @@ n_gamma = len(my_pyquda_gammas)
 pyquda_gamma_ls = cp.empty(
     (n_gamma,) + first_gamma.shape,
     dtype=first_gamma.dtype,
-    device=first_gamma.device,   # key: use the same device as gamma_pyq
+    # device=first_gamma.device,   # key: use the same device as gamma_pyq
 )
 
 for gamma_idx, gamma_pyq in enumerate(my_pyquda_gammas):
