@@ -1,6 +1,7 @@
 
 # load python modules
 import time
+import os
 
 import numpy as np
 
@@ -11,11 +12,18 @@ import numpy as np
 import dpnp as dnp
 
 from pyquda import init, getMPIComm
+
+# Create .cache directory for QUDA tuning parameters
+if not os.path.exists(".cache"):
+    os.makedirs(".cache", exist_ok=True)
+
+
 from pyquda_utils import core, gamma, phase, io, source
 from pyquda_utils.phase import MomentumPhase
 # from pyquda_plugins import pycontract #: for PyQUDA contraction v2
 
 mpi_geometry = [1, 1, 1, 1]
+# Use the same init() parameters as the successful pyquda_main.py
 init(mpi_geometry, enable_mps=True, grid_map="shared", backend="dpnp", backend_target="sycl", resource_path=".cache")
 
 
@@ -136,8 +144,7 @@ src_production = src_positions[0:1] # take the number of sources needed for this
 
 ###################### create multigrid inverter ######################
 
-if latt_info.mpi_rank == 0:
-    print("DEBUG plaquette U_hyp:", gauge.plaquette())
+mpi_print(latt_info, f"DEBUG plaquette U_hyp: {gauge.plaquette()}")
 
 
 # --------------------------

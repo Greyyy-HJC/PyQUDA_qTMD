@@ -22,7 +22,7 @@ from pyquda_utils import core, gamma, phase, io, source
 from pyquda_utils.phase import MomentumPhase
 # from pyquda_plugins import pycontract #: for PyQUDA contraction v2
 
-mpi_geometry = [1, 1, 1, 2]
+mpi_geometry = [1, 1, 2, 2]
 # Use the same init() parameters as the successful pyquda_main.py
 init(mpi_geometry, enable_mps=True, grid_map="shared", backend="dpnp", backend_target="sycl", resource_path=".cache")
 
@@ -95,21 +95,6 @@ multigrid = None
 
 latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
 
-# Check Phase Sum for first momentum
-qext_xyz_check = [[v[0], v[1], v[2]] for v in parameters["qext"]]
-phases_check = phase.MomentumPhase(latt_info).getPhases(qext_xyz_check, [0,0,0,0])
-p_sum_local = dnp.sum(phases_check[0])
-p_sum_local_np = dnp.asnumpy(p_sum_local)
-p_sum_global = getMPIComm().allreduce(p_sum_local_np)
-mpi_print(latt_info, f"DEBUG: Global Phase Sum (p={qext_xyz_check[0]}): {p_sum_global}")
-
-# Check Phase Sum for p=0
-phases_check_0 = phase.MomentumPhase(latt_info).getPhases([[0,0,0,0]], [0,0,0,0])
-p_sum_local_0 = dnp.sum(phases_check_0[0])
-p_sum_local_np_0 = dnp.asnumpy(p_sum_local_0)
-p_sum_global_0 = getMPIComm().allreduce(p_sum_local_np_0)
-mpi_print(latt_info, f"DEBUG: Global Phase Sum (p=[0,0,0,0]): {p_sum_global_0} (Expected {latt_info.global_volume})")
-
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--config_num", type=int, default=0, help="Configuration number")
@@ -159,8 +144,7 @@ src_production = src_positions[0:1] # take the number of sources needed for this
 
 ###################### create multigrid inverter ######################
 
-if latt_info.mpi_rank == 0:
-    print("DEBUG plaquette U_hyp:", gauge.plaquette())
+mpi_print(latt_info, f"DEBUG plaquette U_hyp: {gauge.plaquette()}")
 
 
 # --------------------------
