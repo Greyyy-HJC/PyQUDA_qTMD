@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-"""Compare two text files containing numerical data."""
+"""Compare two npy files containing numerical data."""
 
 import argparse
 import numpy as np
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Compare two numerical text files")
-    parser.add_argument("file1", type=str, help="First file to compare")
-    parser.add_argument("file2", type=str, help="Second file to compare")
+    parser = argparse.ArgumentParser(description="Compare two npy files")
+    parser.add_argument("file1", type=str, help="First npy file to compare")
+    parser.add_argument("file2", type=str, help="Second npy file to compare")
     
     args = parser.parse_args()
     
-    data1 = np.loadtxt(args.file1, dtype=complex)
-    data2 = np.loadtxt(args.file2, dtype=complex)
+    data1 = np.load(args.file1).flatten()
+    data2 = np.load(args.file2).flatten()
     
     # Real part
     real1, real2 = data1.real, data2.real
