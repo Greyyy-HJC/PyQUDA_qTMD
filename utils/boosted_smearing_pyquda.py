@@ -90,7 +90,10 @@ def _build_kernel_realspace_distributed(xp, latt_info: LatticeInfo, w: float, bo
     k_full_local[:] = k_xyz[None, ...] # Broadcast time
     
     # explicitly convert to CPU (NumPy) and then call evenodd
-    k_full_local_cpu = xp.asnumpy(k_full_local)
+    if xp.__name__ == "numpy":
+        k_full_local_cpu = k_full_local
+    else:
+        k_full_local_cpu = xp.asnumpy(k_full_local)
     cb_data = latt_info.evenodd(k_full_local_cpu, False)
     
     # assign to field.data (convert back to GPU through _ensure_backend)

@@ -195,7 +195,7 @@ for ipos, pos in enumerate(src_production):
 
     src_point = source.point(latt_info, pos, 0, 0)
     mpi_print(latt_info, "\nTESTING: dirac.invert(src_point)")
-    result = dirac.invert(src_point).data.get()
+    result = dirac.invert(src_point).getHost()
     output_txt_file = f"{data_dir}/sample_log_qtmd/{lat_tag}_inv_point_src.txt"
     if latt_info.mpi_rank == 0:
         with open(output_txt_file, "w") as f:
@@ -305,8 +305,8 @@ for ipos, pos in enumerate(src_production):
             print(f"TIME PyQUDA: cshift", time.time() - t0)
         
         t0 = time.time()
-        proton_TMDs_down += [cp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_down_contracted_pyq, tmd_forward_prop_dir1.data.get())]
-        proton_TMDs_up += [cp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_up_contracted_pyq, tmd_forward_prop_dir1.data.get())]
+        proton_TMDs_down += [cp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_down_contracted_pyq, tmd_forward_prop_dir1.getHost())]
+        proton_TMDs_up += [cp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_up_contracted_pyq, tmd_forward_prop_dir1.getHost())]
         
         mpi_print(latt_info, f"TIME PyQUDA: contract TMD for U and D {time.time() - t0}s")
     del tmd_forward_prop_dir1
@@ -399,8 +399,8 @@ for ipos, pos in enumerate(src_production):
 
         #! PyQUDA: contract
         
-        proton_PDFs_down += [cp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_prop_down_contracted_pyq, tmd_forward_prop_pyq.data.get())]
-        proton_PDFs_up += [cp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_prop_up_contracted_pyq, tmd_forward_prop_pyq.data.get())]
+        proton_PDFs_down += [cp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_prop_down_contracted_pyq, tmd_forward_prop_pyq.getHost())]
+        proton_PDFs_up += [cp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_prop_up_contracted_pyq, tmd_forward_prop_pyq.getHost())]
         
     proton_PDFs_down = [core.gatherLattice(cp.asnumpy(cp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_pdf_pyq, temp)), [3, -1, -1, -1]) for temp in proton_PDFs_down]
     proton_PDFs_up = [core.gatherLattice(cp.asnumpy(cp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_pdf_pyq, temp)), [3, -1, -1, -1]) for temp in proton_PDFs_up]

@@ -166,7 +166,10 @@ class proton_TMD():
         # original code is (- Einsum1 - Einsum2)
         corr = - term1 - term2
 
-        corr_collect = core.gatherLattice(xp.asnumpy(corr), [2, -1, -1, -1])
+        if xp.__name__ == "numpy":
+            corr_collect = core.gatherLattice(corr, [2, -1, -1, -1])
+        else:
+            corr_collect = core.gatherLattice(xp.asnumpy(corr), [2, -1, -1, -1])
         
         
         if latt_info.mpi_rank == 0:
