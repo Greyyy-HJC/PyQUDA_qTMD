@@ -7,7 +7,7 @@
 #PBS -q debug
 #PBS -j oe
 #PBS -l walltime=1:00:00
-#PBS -o /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/full_TMD/logs/full_TMD_S8T8_aurora.log
+#PBS -o /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/full_TMD/logs/full_TMD_S8T8_aurora_np.log
 
 # switch to the submit directory
 WORKDIR=/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/full_TMD
@@ -53,7 +53,7 @@ ls -l $PYQ_LIB_PATH/libur_loader.so* 2>/dev/null || echo "Not found in $PYQ_LIB_
 
 
 echo ">>> Running check_aurora.py"
-mpirun -n 1 python3 check_aurora.py
+mpirun -n 1 python3 check_aurora_numpy.py
 
 # calculate total time
 end_time=$(date +"%Y-%m-%d %H:%M:%S")
