@@ -1,0 +1,1 @@
+python3 compare_txt.py S8T8_local_np_inv_point_src.txt S8T8_local_inv_point_src.txt

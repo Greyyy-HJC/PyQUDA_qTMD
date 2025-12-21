@@ -183,12 +183,6 @@ for ipos, pos in enumerate(src_production):
     srcDp = boosted_smearing(srcD, w=parameters["width"], boost=parameters["boost_in"])
     
     
-    src_point = source.point(latt_info, pos, 0, 0)
-    mpi_print(latt_info, "TESTING: dirac.mat(dirac.invert(src_point))")
-    mpi_print(latt_info, dirac.mat(dirac.invert(src_point)))
-    mpi_print(latt_info, "TESTING: dirac.mat(dirac.invert(src_point)) DONE")
-    
-    
     if latt_info.mpi_rank == 0:
         print("TIME Pyquda: Generatring boosted src", time.time() - t0)
 
@@ -200,6 +194,17 @@ for ipos, pos in enumerate(src_production):
     
     if latt_info.mpi_rank == 0:
         print("TIME Pyquda: Forward propagator inversion", time.time() - t0)
+
+
+    src_point = source.point(latt_info, pos, 0, 0)
+    mpi_print(latt_info, "\nTESTING: dirac.invert(src_point)")
+    result = dirac.invert(src_point).data.get()
+    output_txt_file = f"{data_dir}/sample_log_qtmd/{lat_tag}_inv_point_src.txt"
+    if latt_info.mpi_rank == 0:
+        with open(output_txt_file, "w") as f:
+            np.savetxt(f, result.reshape(-1), fmt="%.16e")
+    mpi_print(latt_info, "TESTING: dirac.invert(src_point) DONE\n")
+
 
     #! GPT: contract 2pt TMD
     

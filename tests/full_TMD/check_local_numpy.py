@@ -4,7 +4,7 @@ import time
 import os
 
 import numpy as np
-import cupy as cp
+# Using numpy backend instead of cupy
 
 # from types import SimpleNamespace
 # from opt_einsum import contract
@@ -35,7 +35,7 @@ my_pyquda_gammas = [gamma.gamma(15), gamma.gamma(8), gamma.gamma(7), gamma.gamma
 
 # Global parameters
 data_dir="/home/jinchen/git/lat-software/PyQUDA_qTMD/tests/full_TMD/data" # NOTE
-lat_tag = "S8T8_local" # NOTE
+lat_tag = "S8T8_local_np" # NOTE
 interpolation = "T5" # NOTE, new interpolation operator
 sm_tag = "1HYP_GSRC_W90_k3_"+interpolation # NOTE
 GEN_SIMD_WIDTH = 64
@@ -112,14 +112,13 @@ gauge = io.readNERSCGauge(f"/home/jinchen/git/lat-software/PyQUDA_qTMD/test_gaug
 first_gamma = my_pyquda_gammas[0]
 n_gamma = len(my_pyquda_gammas)
 
-pyquda_gamma_ls = cp.empty(
+pyquda_gamma_ls = np.empty(
     (n_gamma,) + first_gamma.shape,
     dtype=first_gamma.dtype,
-    # device=first_gamma.device,   # key: use the same device as gamma_pyq
 )
 
 for gamma_idx, gamma_pyq in enumerate(my_pyquda_gammas):
-    pyquda_gamma_ls[gamma_idx] = gamma_pyq
+    pyquda_gamma_ls[gamma_idx] = gamma_pyq.get() if hasattr(gamma_pyq, 'get') else gamma_pyq
 
 ###################### setup source positions ######################
 src_shift = np.array([0,0,0,0]) + np.array([7,11,13,23])
@@ -191,8 +190,8 @@ for ipos, pos in enumerate(src_production):
     
     if latt_info.mpi_rank == 0:
         print("TIME Pyquda: Forward propagator inversion", time.time() - t0)
-
-
+        
+        
     src_point = source.point(latt_info, pos, 0, 0)
     mpi_print(latt_info, "\nTESTING: dirac.invert(src_point)")
     result = dirac.invert(src_point).data.get()
@@ -201,7 +200,7 @@ for ipos, pos in enumerate(src_production):
         with open(output_txt_file, "w") as f:
             np.savetxt(f, result.reshape(-1), fmt="%.16e")
     mpi_print(latt_info, "TESTING: dirac.invert(src_point) DONE\n")
-
+        
 
     #! GPT: contract 2pt TMD
     
@@ -252,14 +251,14 @@ for ipos, pos in enumerate(src_production):
     proton_TMDs_down = [] # [WL_indices][pol][qext][gammalist][tau]
     proton_TMDs_up = []
     
-    sequential_bw_prop_down_contracted_pyq = cp.einsum(
+    sequential_bw_prop_down_contracted_pyq = np.einsum(
                 "pwtzyxjicf, gim -> pgwtzyxjmcf",
-                sequential_bw_prop_down_pyq, pyquda_gamma_ls
+                sequential_bw_prop_down_pyq.get() if hasattr(sequential_bw_prop_down_pyq, 'get') else sequential_bw_prop_down_pyq, pyquda_gamma_ls
             )
 
-    sequential_bw_prop_up_contracted_pyq = cp.einsum(
+    sequential_bw_prop_up_contracted_pyq = np.einsum(
                 "pwtzyxjicf, gim -> pgwtzyxjmcf",
-                sequential_bw_prop_up_pyq, pyquda_gamma_ls
+                sequential_bw_prop_up_pyq.get() if hasattr(sequential_bw_prop_up_pyq, 'get') else sequential_bw_prop_up_pyq, pyquda_gamma_ls
             )
     
     
@@ -282,8 +281,8 @@ for ipos, pos in enumerate(src_production):
         mpi_print(latt_info, f"TIME PyQUDA: cshift {time.time() - t0}s")
         t0 = time.time()
         
-        proton_TMDs_down += [cp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_down_contracted_pyq, tmd_forward_prop_dir0.data)]
-        proton_TMDs_up += [cp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_up_contracted_pyq, tmd_forward_prop_dir0.data)]
+        proton_TMDs_down += [np.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_down_contracted_pyq, tmd_forward_prop_dir0.data.get())]
+        proton_TMDs_up += [np.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_up_contracted_pyq, tmd_forward_prop_dir0.data.get())]
         
         mpi_print(latt_info, f"TIME PyQUDA: contract TMD for U and D {time.time() - t0}s")
     del tmd_forward_prop_dir0
@@ -305,16 +304,17 @@ for ipos, pos in enumerate(src_production):
             print(f"TIME PyQUDA: cshift", time.time() - t0)
         
         t0 = time.time()
-        proton_TMDs_down += [cp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_down_contracted_pyq, tmd_forward_prop_dir1.data.get())]
-        proton_TMDs_up += [cp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_up_contracted_pyq, tmd_forward_prop_dir1.data.get())]
+        proton_TMDs_down += [np.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_down_contracted_pyq, tmd_forward_prop_dir1.data.get())]
+        proton_TMDs_up += [np.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_bw_prop_up_contracted_pyq, tmd_forward_prop_dir1.data.get())]
         
         mpi_print(latt_info, f"TIME PyQUDA: contract TMD for U and D {time.time() - t0}s")
     del tmd_forward_prop_dir1
     del sequential_bw_prop_down_contracted_pyq
     del sequential_bw_prop_up_contracted_pyq
     
-    proton_TMDs_down = [core.gatherLattice(cp.asnumpy(cp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_3pt_pyq, temp)), [3, -1, -1, -1]) for temp in proton_TMDs_down]
-    proton_TMDs_up = [core.gatherLattice(cp.asnumpy(cp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_3pt_pyq, temp)), [3, -1, -1, -1]) for temp in proton_TMDs_up]
+    phases_3pt_np = phases_3pt_pyq.get() if hasattr(phases_3pt_pyq, 'get') else phases_3pt_pyq
+    proton_TMDs_down = [core.gatherLattice(np.einsum("qwtzyx, pgwtzyx -> pqgt", phases_3pt_np, temp), [3, -1, -1, -1]) for temp in proton_TMDs_down]
+    proton_TMDs_up = [core.gatherLattice(np.einsum("qwtzyx, pgwtzyx -> pqgt", phases_3pt_np, temp), [3, -1, -1, -1]) for temp in proton_TMDs_up]
     
     proton_TMDs_down = np.array(proton_TMDs_down)
     proton_TMDs_up = np.array(proton_TMDs_up)
@@ -366,13 +366,13 @@ for ipos, pos in enumerate(src_production):
     phases_pdf_pyq = phase.MomentumPhase(latt_info).getPhases(qext_pdf_xyz, pos)
     
     #! PyQUDA: bw prop
-    sequential_prop_down_contracted_pyq = cp.einsum(
+    sequential_prop_down_contracted_pyq = np.einsum(
         "pwtzyxjicf, gim -> pgwtzyxjmcf",
-        sequential_bw_prop_down_pyq, pyquda_gamma_ls
+        sequential_bw_prop_down_pyq.get() if hasattr(sequential_bw_prop_down_pyq, 'get') else sequential_bw_prop_down_pyq, pyquda_gamma_ls
     )
-    sequential_prop_up_contracted_pyq = cp.einsum(
+    sequential_prop_up_contracted_pyq = np.einsum(
         "pwtzyxjicf, gim -> pgwtzyxjmcf",
-        sequential_bw_prop_up_pyq, pyquda_gamma_ls
+        sequential_bw_prop_up_pyq.get() if hasattr(sequential_bw_prop_up_pyq, 'get') else sequential_bw_prop_up_pyq, pyquda_gamma_ls
     )
     
     if latt_info.mpi_rank == 0:
@@ -399,11 +399,12 @@ for ipos, pos in enumerate(src_production):
 
         #! PyQUDA: contract
         
-        proton_PDFs_down += [cp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_prop_down_contracted_pyq, tmd_forward_prop_pyq.data.get())]
-        proton_PDFs_up += [cp.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_prop_up_contracted_pyq, tmd_forward_prop_pyq.data.get())]
+        proton_PDFs_down += [np.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_prop_down_contracted_pyq, tmd_forward_prop_pyq.data.get())]
+        proton_PDFs_up += [np.einsum("pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx", sequential_prop_up_contracted_pyq, tmd_forward_prop_pyq.data.get())]
         
-    proton_PDFs_down = [core.gatherLattice(cp.asnumpy(cp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_pdf_pyq, temp)), [3, -1, -1, -1]) for temp in proton_PDFs_down]
-    proton_PDFs_up = [core.gatherLattice(cp.asnumpy(cp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_pdf_pyq, temp)), [3, -1, -1, -1]) for temp in proton_PDFs_up]
+    phases_pdf_np = phases_pdf_pyq.get() if hasattr(phases_pdf_pyq, 'get') else phases_pdf_pyq
+    proton_PDFs_down = [core.gatherLattice(np.einsum("qwtzyx, pgwtzyx -> pqgt", phases_pdf_np, temp), [3, -1, -1, -1]) for temp in proton_PDFs_down]
+    proton_PDFs_up = [core.gatherLattice(np.einsum("qwtzyx, pgwtzyx -> pqgt", phases_pdf_np, temp), [3, -1, -1, -1]) for temp in proton_PDFs_up]
     
     proton_PDFs_down = np.array(proton_PDFs_down)
     proton_PDFs_up = np.array(proton_PDFs_up)
