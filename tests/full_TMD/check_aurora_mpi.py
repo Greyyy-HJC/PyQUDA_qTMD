@@ -22,7 +22,7 @@ from pyquda_utils import core, gamma, phase, io, source
 from pyquda_utils.phase import MomentumPhase
 # from pyquda_plugins import pycontract #: for PyQUDA contraction v2
 
-mpi_geometry = [1, 1, 2, 2]
+mpi_geometry = [2, 2, 2, 2]
 # Use the same init() parameters as the successful pyquda_main.py
 init(mpi_geometry, enable_mps=True, grid_map="shared", backend="dpnp", backend_target="sycl", resource_path=".cache")
 
@@ -75,7 +75,8 @@ parameters = {
 }
 pf = parameters["pf"]
 pf_tag = "PX"+str(pf[0]) + "PY"+str(pf[1]) + "PZ"+str(pf[2]) + "dt" + str(parameters["t_insert"])
-gammalist = ["5", "T", "T5", "X", "X5", "Y", "Y5", "Z", "Z5", "I", "SXT", "SXY", "SXZ", "SYT", "SYZ", "SZT"]
+gammalist = ["5"]  # NOTE: temporarily only run one gamma structure
+# gammalist = ["5", "T", "T5", "X", "X5", "Y", "Y5", "Z", "Z5", "I", "SXT", "SXY", "SXZ", "SYT", "SYZ", "SZT"]
 Measurement = proton_TMD(parameters)
 
 
@@ -190,6 +191,12 @@ for ipos, pos in enumerate(src_production):
     t0 = time.time()
     dirac.loadGauge(gauge) #TODO: debug
     propag = core.invertPropagator(dirac, srcDp, 1, 0) # NOTE or "propag = core.invertPropagator(dirac, b, 0)" depends on the quda version
+    
+    
+    mpi_print(latt_info, "TESTING: dirac.mat(dirac.invert(srcDp))")
+    mpi_print(latt_info, dirac.mat(dirac.invert(srcDp)))
+    mpi_print(latt_info, "TESTING: dirac.mat(dirac.invert(srcDp)) DONE")
+    
     
     if latt_info.mpi_rank == 0:
         print("TIME Pyquda: Forward propagator inversion", time.time() - t0)
@@ -331,11 +338,13 @@ for ipos, pos in enumerate(src_production):
             tasks.append((gidx, 'D'))  # Down
             tasks.append((gidx, 'U'))  # Up
         rank = latt_info.mpi_rank
-        if rank < len(tasks):
-            gidx, flavor = tasks[rank]
+        n_ranks = latt_info.mpi_size
+        # Each rank loops over its assigned tasks (round-robin distribution)
+        for task_idx in range(rank, len(tasks), n_ranks):
+            gidx, flavor = tasks[task_idx]
             gm = gammalist[gidx]
             tag = get_qTMD_file_tag(data_dir, lat_tag, conf, f"CG.{flavor}.ex", pos, f"{sm_tag}.{pf_tag}.{pol}.{gm}")
-            print(f"DEBUG: rank {rank}, {tag}")
+            print(f"DEBUG: rank {rank}, task {task_idx}, {tag}")
             data = proton_TMDs_down[:, i, :, gidx:gidx+1, :] if flavor == 'D' else proton_TMDs_up[:, i, :, gidx:gidx+1, :]
             save_qTMD_proton_hdf5_noRoll(data, tag, [gm], parameters["qext"], W_index_list_CG, parameters["t_insert"], latt_info)
         
@@ -418,8 +427,11 @@ for ipos, pos in enumerate(src_production):
         proton_PDFs_up = getMPIComm().bcast(proton_PDFs_up, root=0)
 
         tasks = ['D', 'U']
-        if latt_info.mpi_rank < len(tasks):
-            flavor = tasks[latt_info.mpi_rank]
+        rank = latt_info.mpi_rank
+        n_ranks = latt_info.mpi_size
+        # Each rank loops over its assigned tasks (round-robin distribution)
+        for task_idx in range(rank, len(tasks), n_ranks):
+            flavor = tasks[task_idx]
             tag = get_qTMD_file_tag(data_dir, lat_tag, conf, f"GI_PDF.{flavor}.ex", pos, f"{sm_tag}.{pf_tag}.{pol}")
             data = proton_PDFs_down[:, i, :, :, :] if flavor == 'D' else proton_PDFs_up[:, i, :, :, :]
             save_qTMD_proton_hdf5_noRoll(data, tag, gammalist, parameters["qext_PDF"], W_index_list_PDF, parameters["t_insert"], latt_info)

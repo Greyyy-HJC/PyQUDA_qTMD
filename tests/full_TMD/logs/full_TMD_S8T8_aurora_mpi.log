@@ -1,8 +1,11 @@
  
 >>> PBS_NODEFILE content:
-x4013c4s7b0n0.hsn.cm.aurora.alcf.anl.gov
-1n*1t
-Start time: 2025-12-18 03:52:57
+x4516c2s4b0n0.hsn.cm.aurora.alcf.anl.gov
+x4516c5s5b0n0.hsn.cm.aurora.alcf.anl.gov
+x4516c6s0b0n0.hsn.cm.aurora.alcf.anl.gov
+x4516c6s2b0n0.hsn.cm.aurora.alcf.anl.gov
+4n*4t
+Start time: 2025-12-21 19:02:19
 Python 3.10.14
 Python path: /lus/flare/projects/StructNGB/jinchen/env/pyq_venv/bin/python
 PYTHONPATH: /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/full_TMD:/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD
@@ -11,16 +14,16 @@ Checking for libur_loader.so in PYQ_LIB_PATH:
 -rwxr-xr-x 1 jinchen StructNGB 24405760 Dec 15 17:22 /lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/libur_loader.so.0
 -rwxr-xr-x 1 jinchen StructNGB 24405760 Dec 15 17:22 /lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/libur_loader.so.0.12.0
 >>> Running check_aurora_mpi.py
-PyQUDA INFO: Using grid size (1, 1, 2, 2)
+PyQUDA INFO: Using grid size (2, 2, 2, 2)
 PyQUDA INFO: Using Array API backend dpnp with target sycl
 PyQUDA INFO: Using QUDA_RESOURCE_PATH=.cache
 PyQUDA INFO: Using QUDA_ENABLE_MPS=1
 Disabling GPU-Direct RDMA access
 Enabling peer-to-peer copy engine and direct load/store access
-Intra-node (non peer-to-peer) enabled for rank   0 (gpu=0) with neighbor   2 (gpu=2) dir=0, dim=2
-Intra-node (non peer-to-peer) enabled for rank   0 (gpu=0) with neighbor   1 (gpu=1) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank   0 (gpu=0) with neighbor   2 (gpu=2) dir=1, dim=2
-Intra-node (non peer-to-peer) enabled for rank   0 (gpu=0) with neighbor   1 (gpu=1) dir=1, dim=3
+Intra-node (non peer-to-peer) enabled for rank   0 (gpu=0) with neighbor   8 (gpu=2) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank   0 (gpu=0) with neighbor   4 (gpu=1) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank   0 (gpu=0) with neighbor   8 (gpu=2) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank   0 (gpu=0) with neighbor   4 (gpu=1) dir=1, dim=1
 QUDA 1.1.0 (git 1.1.0-8a6e4e029-SYCL)
 SYCL platforms available:
   Intel(R) oneAPI Unified Runtime over Level-Zero Intel(R) Corporation 1.6
@@ -63,300 +66,175 @@ Selected device number: 0
   Atomic memory scopes: work_item sub_group work_group device system
 WARNING: Data reordering done on GPU (set with QUDA_REORDER_LOCATION=GPU/CPU)
 Creating context... done
-Loaded 95 sets of cached parameters from .cache/tunecache.tsv
+Loaded 262 sets of cached parameters from .cache/tunecache.tsv
 WARNING: Using device memory pool allocator
 WARNING: Using pinned memory pool allocator
 /lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
   return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 5.631405e-11, true = 5.631405e-11 (requested = 1.000000e-10)
+/lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
+  return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
+/lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
+  return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
+/lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
+  return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
+/lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
+  return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
+/lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
+  return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
+/lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
+  return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
+/lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
+  return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
+/lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
+  return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
+/lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
+  return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
+/lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
+  return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
+/lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
+  return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
+BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 5.973220e-11, true = 5.973220e-11 (requested = 1.000000e-10)
 --lat_tag S8T8_aurora_mpi
 --sm_tag 1HYP_GSRC_W90_k3_T5
 --config_num 0
 DEBUG plaquette U_hyp: [0.5919862407536087, 0.5911411986845837, 0.5928312828226336]
 START: 0_x7y3z5t7_1HYP_GSRC_W90_k3_T5_PX0PY0PZ9dt4
-TIME Pyquda: Generatring boosted src 1.4172379970550537
-PyQUDA INFO: Time = 0.374 secs, Performance = 1.362 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 9.307444e-11, true = 9.307444e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.023 secs, Performance = 21.920 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 6.271905e-11, true = 6.271905e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.540 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 4.505162e-11, true = 4.505162e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.240 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 3.802848e-11, true = 3.802848e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.381 GFLOPS
-BiCGstab: Convergence at 22 iterations, L2 relative residual: iterated = 9.090443e-11, true = 9.090443e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.021 secs, Performance = 22.282 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 9.498098e-11, true = 9.498098e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.359 GFLOPS
-BiCGstab: Convergence at 22 iterations, L2 relative residual: iterated = 7.610341e-11, true = 7.610341e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.021 secs, Performance = 22.406 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 5.791656e-11, true = 5.791656e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.400 GFLOPS
-BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 6.285792e-11, true = 6.285792e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.025 secs, Performance = 20.768 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 4.519319e-11, true = 4.519319e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.445 GFLOPS
-BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 5.439967e-11, true = 5.439967e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.023 secs, Performance = 22.681 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 6.726344e-11, true = 6.726344e-11 (requested = 1.000000e-10)
-TIME Pyquda: Forward propagator inversion 0.7781753540039062
-Begin sink smearing
-Sink smearing completed
-TIME Pyquda: Contraction 2pt (includes sink smearing) 2.240290403366089
-starting diquark contractions for down quark insertion and Polarization PpUnpol
-DEBUG: mom_phase shape: (2, 4, 4, 8, 4)
-diquark contractions for Polarization PpUnpol done
-PyQUDA INFO: Time = 0.032 secs, Performance = 15.665 GFLOPS
-BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 4.791548e-11, true = 4.791548e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.023 secs, Performance = 22.278 GFLOPS
-BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 2.138563e-11, true = 2.138563e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.023 secs, Performance = 22.225 GFLOPS
-BiCGstab: Convergence at 25 iterations, L2 relative residual: iterated = 8.593782e-12, true = 8.593782e-12 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.024 secs, Performance = 22.428 GFLOPS
-BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 2.661213e-11, true = 2.661213e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.023 secs, Performance = 22.602 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 4.953551e-11, true = 4.953551e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.023 secs, Performance = 21.027 GFLOPS
-BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 4.253943e-11, true = 4.253943e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.023 secs, Performance = 22.687 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 3.805316e-11, true = 3.805316e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.359 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 5.145853e-11, true = 5.145853e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.596 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 3.646150e-11, true = 3.646150e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.525 GFLOPS
-BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 7.253653e-11, true = 7.253653e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.023 secs, Performance = 22.697 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 4.282190e-11, true = 4.282190e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.599 GFLOPS
-BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 5.004724e-11, true = 5.004724e-11 (requested = 1.000000e-10)
-starting diquark contractions for up quark insertion and Polarization PpUnpol
-DEBUG: mom_phase shape: (2, 4, 4, 8, 4)
-diquark contractions for Polarization PpUnpol done
-PyQUDA INFO: Time = 0.033 secs, Performance = 15.913 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 6.582958e-11, true = 6.582958e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.421 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 6.172898e-11, true = 6.172898e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.024 secs, Performance = 20.924 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 8.079581e-11, true = 8.079581e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.023 secs, Performance = 21.781 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 4.368231e-11, true = 4.368231e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.498 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 5.117460e-11, true = 5.117460e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.629 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 4.784408e-11, true = 4.784408e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.576 GFLOPS
-BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 3.735179e-11, true = 3.735179e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.023 secs, Performance = 22.786 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 4.122872e-11, true = 4.122872e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.629 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 4.323236e-11, true = 4.323236e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.671 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 5.584795e-11, true = 5.584795e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.022 secs, Performance = 22.794 GFLOPS
-BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 5.129580e-11, true = 5.129580e-11 (requested = 1.000000e-10)
-PyQUDA INFO: Time = 0.023 secs, Performance = 21.419 GFLOPS
-DEBUG: mom_phase shape: (2, 4, 4, 8, 4)
-DEBUG: mom_phase shape: (2, 4, 4, 8, 4)
-DEBUG: rank 2, /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/full_TMD/data/qTMD/S8T8_aurora_mpi.qTMD.0.CG.D.ex.x7y3z5t7.1HYP_GSRC_W90_k3_T5.PX0PY0PZ9dt4.PpUnpol.T
-DEBUG: mom_phase shape: (2, 4, 4, 8, 4)
-DEBUG: mom_phase shape: (2, 4, 4, 8, 4)
-DEBUG: rank 3, /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/full_TMD/data/qTMD/S8T8_aurora_mpi.qTMD.0.CG.U.ex.x7y3z5t7.1HYP_GSRC_W90_k3_T5.PX0PY0PZ9dt4.PpUnpol.T
-DEBUG: mom_phase shape: (2, 4, 4, 8, 4)
-DEBUG: mom_phase shape: (2, 4, 4, 8, 4)
-DEBUG: rank 1, /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/full_TMD/data/qTMD/S8T8_aurora_mpi.qTMD.0.CG.U.ex.x7y3z5t7.1HYP_GSRC_W90_k3_T5.PX0PY0PZ9dt4.PpUnpol.5
-TIME Pyquda: Backward propagator through sequential source for U and D 1.842348575592041
-contract_TMD loop: CG no links
-TIME PyQUDA: contract bw prop with gamma_ls for U and D 0.07393050193786621
-TIME PyQUDA: contract TMD 1/30 [0, -2, 0, 0]
-TIME PyQUDA: cshift 0.0038170814514160156s
-TIME PyQUDA: contract TMD for U and D 0.012985467910766602s
-TIME PyQUDA: contract TMD 2/30 [0, -1, 0, 0]
-TIME PyQUDA: cshift 0.0023267269134521484s
-TIME PyQUDA: contract TMD for U and D 0.005015850067138672s
-TIME PyQUDA: contract TMD 3/30 [0, 0, 0, 0]
-TIME PyQUDA: cshift 0.002156496047973633s
-TIME PyQUDA: contract TMD for U and D 0.004969120025634766s
-TIME PyQUDA: contract TMD 4/30 [0, 1, 0, 0]
-TIME PyQUDA: cshift 0.0021119117736816406s
-TIME PyQUDA: contract TMD for U and D 0.004993915557861328s
-TIME PyQUDA: contract TMD 5/30 [0, 2, 0, 0]
-TIME PyQUDA: cshift 0.025313615798950195s
-TIME PyQUDA: contract TMD for U and D 0.0038466453552246094s
-TIME PyQUDA: contract TMD 6/30 [1, 1, 0, 0]
-TIME PyQUDA: cshift 0.1651597023010254s
-TIME PyQUDA: contract TMD for U and D 0.05533576011657715s
-TIME PyQUDA: contract TMD 7/30 [1, 0, 0, 0]
-TIME PyQUDA: cshift 0.0019655227661132812s
-TIME PyQUDA: contract TMD for U and D 0.0048487186431884766s
-TIME PyQUDA: contract TMD 8/30 [1, -1, 0, 0]
-TIME PyQUDA: cshift 0.0018362998962402344s
-TIME PyQUDA: contract TMD for U and D 0.0044629573822021484s
-TIME PyQUDA: contract TMD 9/30 [1, -2, 0, 0]
-TIME PyQUDA: cshift 0.001977205276489258s
-TIME PyQUDA: contract TMD for U and D 0.005015134811401367s
-TIME PyQUDA: contract TMD 10/30 [2, -2, 0, 0]
-TIME PyQUDA: cshift 0.003163576126098633s
-TIME PyQUDA: contract TMD for U and D 0.0039196014404296875s
-TIME PyQUDA: contract TMD 11/30 [2, -1, 0, 0]
-TIME PyQUDA: cshift 0.0016560554504394531s
-TIME PyQUDA: contract TMD for U and D 0.0038657188415527344s
-TIME PyQUDA: contract TMD 12/30 [2, 0, 0, 0]
-TIME PyQUDA: cshift 0.0014994144439697266s
-TIME PyQUDA: contract TMD for U and D 0.004499912261962891s
-TIME PyQUDA: contract TMD 13/30 [2, 1, 0, 0]
-TIME PyQUDA: cshift 0.0019483566284179688s
-TIME PyQUDA: contract TMD for U and D 0.004981279373168945s
-TIME PyQUDA: contract TMD 14/30 [1, 2, 0, 0]
-TIME PyQUDA: cshift 0.005697965621948242s
-TIME PyQUDA: contract TMD for U and D 0.004883527755737305s
-TIME PyQUDA: contract TMD 15/30 [2, 2, 0, 0]
-TIME PyQUDA: cshift 0.002933025360107422s
-TIME PyQUDA: contract TMD for U and D 0.003854513168334961s
-TIME PyQUDA: contract TMD 16/30 [0, -2, 0, 1]
-TIME PyQUDA: cshift 0.002818584442138672
-TIME PyQUDA: contract TMD for U and D 0.0038802623748779297s
-TIME PyQUDA: contract TMD 17/30 [0, -1, 0, 1]
-TIME PyQUDA: cshift 0.0014667510986328125
-TIME PyQUDA: contract TMD for U and D 0.004299640655517578s
-TIME PyQUDA: contract TMD 18/30 [0, 0, 0, 1]
-TIME PyQUDA: cshift 0.001918792724609375
-TIME PyQUDA: contract TMD for U and D 0.005161762237548828s
-TIME PyQUDA: contract TMD 19/30 [0, 1, 0, 1]
-TIME PyQUDA: cshift 0.002022981643676758
-TIME PyQUDA: contract TMD for U and D 0.0049419403076171875s
-TIME PyQUDA: contract TMD 20/30 [0, 2, 0, 1]
-TIME PyQUDA: cshift 0.001967906951904297
-TIME PyQUDA: contract TMD for U and D 0.004796266555786133s
-TIME PyQUDA: contract TMD 21/30 [1, 1, 0, 1]
-TIME PyQUDA: cshift 0.002257823944091797
-TIME PyQUDA: contract TMD for U and D 0.0050907135009765625s
-TIME PyQUDA: contract TMD 22/30 [1, 0, 0, 1]
-TIME PyQUDA: cshift 0.0019345283508300781
-TIME PyQUDA: contract TMD for U and D 0.004948139190673828s
-TIME PyQUDA: contract TMD 23/30 [1, -1, 0, 1]
-TIME PyQUDA: cshift 0.0019617080688476562
-TIME PyQUDA: contract TMD for U and D 0.004048347473144531s
-TIME PyQUDA: contract TMD 24/30 [1, -2, 0, 1]
-TIME PyQUDA: cshift 0.0015344619750976562
-TIME PyQUDA: contract TMD for U and D 0.003814220428466797s
-TIME PyQUDA: contract TMD 25/30 [2, -2, 0, 1]
-TIME PyQUDA: cshift 0.0006930828094482422
-TIME PyQUDA: contract TMD for U and D 0.0038292407989501953s
-TIME PyQUDA: contract TMD 26/30 [2, -1, 0, 1]
-TIME PyQUDA: cshift 0.0016024112701416016
-TIME PyQUDA: contract TMD for U and D 0.004408359527587891s
-TIME PyQUDA: contract TMD 27/30 [2, 0, 0, 1]
-TIME PyQUDA: cshift 0.0019145011901855469
-TIME PyQUDA: contract TMD for U and D 0.0049304962158203125s
-TIME PyQUDA: contract TMD 28/30 [2, 1, 0, 1]
-TIME PyQUDA: cshift 0.001750946044921875
-TIME PyQUDA: contract TMD for U and D 0.004517078399658203s
-TIME PyQUDA: contract TMD 29/30 [1, 2, 0, 1]
-TIME PyQUDA: cshift 0.0024247169494628906
-TIME PyQUDA: contract TMD for U and D 0.004982948303222656s
-TIME PyQUDA: contract TMD 30/30 [2, 2, 0, 1]
-TIME PyQUDA: cshift 0.0009336471557617188
-TIME PyQUDA: contract TMD for U and D 0.004918575286865234s
-contract_TMD over: proton_TMDs.shape (30, 1, 1, 16, 8) 0.5912678241729736s
-DEBUG: rank 0, /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/full_TMD/data/qTMD/S8T8_aurora_mpi.qTMD.0.CG.D.ex.x7y3z5t7.1HYP_GSRC_W90_k3_T5.PX0PY0PZ9dt4.PpUnpol.5
-no roll
-corr.shape, (30, 1, 1, 6)
-plist.shape, (1, 4)
-TIME: save TMDs for PpUnpol 0.09216833114624023
-contract_TMD DONE: CG no links
-contract_PDF loop: GI with links
-contract_GI_PDF over: proton_PDFs.shape (5, 1, 1, 16, 8) 0.027323484420776367s
-TIME PyQUDA: contract GI PDF for U and D 0.13486409187316895
-no roll
-corr.shape, (5, 1, 16, 6)
-plist.shape, (1, 4)
-TIME: save PDFs for PpUnpol 0.024956941604614258
-contract_PDF DONE: GI with links
-DONE: 0_x7y3z5t7_1HYP_GSRC_W90_k3_T5_PX0PY0PZ9dt4
-Arg buf count 5
-  stream 8 size 2728
-  stream 8 size 2728
-  stream 8 size 2880
-  stream 8 size 2944
-  stream 8 size 2880
-WARNING: Environment variable QUDA_PROFILE_OUTPUT_BASE not set; writing to profile.tsv and profile_async.tsv
-Saving 82 sets of cached parameters to .cache/profile_0.tsv
-Saving 0 sets of cached profiles to .cache/profile_async_0.tsv
-
-               initQuda Total time =     0.077 secs
-                     init     =     0.072 secs ( 93.775%),	 with        2 calls at 3.596e+04 us per call
-        total accounted       =     0.072 secs ( 93.775%)
-        total missing         =     0.005 secs (  6.225%)
-
-          loadGaugeQuda Total time =     0.148 secs
-                 download     =     0.076 secs ( 51.578%),	 with        3 calls at 2.541e+04 us per call
-                     init     =     0.000 secs (  0.075%),	 with       19 calls at 5.842e+00 us per call
-                  compute     =     0.017 secs ( 11.289%),	 with        5 calls at 3.336e+03 us per call
-                    comms     =     0.010 secs (  7.064%),	 with        2 calls at 5.219e+03 us per call
-                     free     =     0.000 secs (  0.003%),	 with        4 calls at 1.000e+00 us per call
-        total accounted       =     0.103 secs ( 70.009%)
-        total missing         =     0.044 secs ( 29.991%)
-
-         loadCloverQuda Total time =     0.053 secs
-                     init     =     0.000 secs (  0.246%),	 with        4 calls at 3.250e+01 us per call
-                  compute     =     0.021 secs ( 39.582%),	 with        3 calls at 6.962e+03 us per call
-                    comms     =     0.000 secs (  0.826%),	 with        1 calls at 4.360e+02 us per call
-                     free     =     0.000 secs (  0.004%),	 with        2 calls at 1.000e+00 us per call
-        total accounted       =     0.021 secs ( 40.658%)
-        total missing         =     0.031 secs ( 59.342%)
-
-     invertMultiSrcQuda Total time =     1.175 secs
-                     init     =     0.024 secs (  2.074%),	 with     1262 calls at 1.931e+01 us per call
-                 preamble     =     0.147 secs ( 12.491%),	 with      145 calls at 1.012e+03 us per call
-                  compute     =     0.951 secs ( 80.964%),	 with       37 calls at 2.571e+04 us per call
-                 epilogue     =     0.009 secs (  0.761%),	 with       72 calls at 1.242e+02 us per call
-                     free     =     0.000 secs (  0.017%),	 with      396 calls at 4.899e-01 us per call
-        total accounted       =     1.132 secs ( 96.307%)
-        total missing         =     0.043 secs (  3.693%)
-
-   gaugeObservablesQuda Total time =     0.054 secs
-                     init     =     0.000 secs (  0.101%),	 with        1 calls at 5.400e+01 us per call
-                  compute     =     0.018 secs ( 34.401%),	 with        1 calls at 1.841e+04 us per call
-                    comms     =     0.018 secs ( 33.235%),	 with        1 calls at 1.779e+04 us per call
-        total accounted       =     0.036 secs ( 67.737%)
-        total missing         =     0.017 secs ( 32.263%)
-
-                endQuda Total time =     0.032 secs
-                     free     =     0.000 secs (  0.022%),	 with        7 calls at 1.000e+00 us per call
-        total accounted       =     0.000 secs (  0.022%)
-        total missing         =     0.032 secs ( 99.978%)
-
-       initQuda-endQuda Total time =    28.714 secs
-
-                   QUDA Total time =     1.538 secs
-                 download     =     0.076 secs (  4.956%),	 with        3 calls at 2.541e+04 us per call
-                     init     =     0.098 secs (  6.357%),	 with     1288 calls at 7.591e+01 us per call
-                 preamble     =     0.147 secs (  9.544%),	 with      145 calls at 1.012e+03 us per call
-                  compute     =     1.007 secs ( 65.503%),	 with       46 calls at 2.190e+04 us per call
-                    comms     =     0.029 secs (  1.864%),	 with        4 calls at 7.165e+03 us per call
-                 epilogue     =     0.009 secs (  0.581%),	 with       72 calls at 1.242e+02 us per call
-                     free     =     0.000 secs (  0.013%),	 with      409 calls at 5.012e-01 us per call
-        total accounted       =     1.366 secs ( 88.819%)
-        total missing         =     0.172 secs ( 11.181%)
-
-Device memory used = 14.4 MB
-Pinned device memory used = 0.0 MB
-Managed memory used = 0.0 MB
-Page-locked host memory used = 9.1 MB
-Total host memory used >= 9.1 MB
-
-Intra-node (non peer-to-peer) enabled for rank   3 (gpu=3) with neighbor   1 (gpu=1) dir=0, dim=2
-Intra-node (non peer-to-peer) enabled for rank   3 (gpu=3) with neighbor   2 (gpu=2) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank   3 (gpu=3) with neighbor   1 (gpu=1) dir=1, dim=2
-Intra-node (non peer-to-peer) enabled for rank   3 (gpu=3) with neighbor   2 (gpu=2) dir=1, dim=3
-Intra-node (non peer-to-peer) enabled for rank   2 (gpu=2) with neighbor   0 (gpu=0) dir=0, dim=2
-Intra-node (non peer-to-peer) enabled for rank   2 (gpu=2) with neighbor   3 (gpu=3) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank   2 (gpu=2) with neighbor   0 (gpu=0) dir=1, dim=2
-Intra-node (non peer-to-peer) enabled for rank   2 (gpu=2) with neighbor   3 (gpu=3) dir=1, dim=3
-Intra-node (non peer-to-peer) enabled for rank   1 (gpu=1) with neighbor   3 (gpu=3) dir=0, dim=2
-Intra-node (non peer-to-peer) enabled for rank   1 (gpu=1) with neighbor   0 (gpu=0) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank   1 (gpu=1) with neighbor   3 (gpu=3) dir=1, dim=2
-Intra-node (non peer-to-peer) enabled for rank   1 (gpu=1) with neighbor   0 (gpu=0) dir=1, dim=3
-End time: 2025-12-18 03:54:54
-Total time: 0h 1m 57s
+TIME Pyquda: Generatring boosted src 1.4476869106292725
+PyQUDA INFO: Time = 0.519 secs, Performance = 0.985 GFLOPS
+BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 8.941742e-11, true = 8.941742e-11 (requested = 1.000000e-10)
+PyQUDA INFO: Time = 0.036 secs, Performance = 14.408 GFLOPS
+BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 6.300961e-11, true = 6.300961e-11 (requested = 1.000000e-10)
+PyQUDA INFO: Time = 0.035 secs, Performance = 14.542 GFLOPS
+BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 4.345823e-11, true = 4.345823e-11 (requested = 1.000000e-10)
+PyQUDA INFO: Time = 0.036 secs, Performance = 14.105 GFLOPS
+BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 4.164335e-11, true = 4.164335e-11 (requested = 1.000000e-10)
+PyQUDA INFO: Time = 0.036 secs, Performance = 14.212 GFLOPS
+BiCGstab: Convergence at 22 iterations, L2 relative residual: iterated = 9.472449e-11, true = 9.472449e-11 (requested = 1.000000e-10)
+PyQUDA INFO: Time = 0.034 secs, Performance = 14.141 GFLOPS
+BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 9.764741e-11, true = 9.764741e-11 (requested = 1.000000e-10)
+PyQUDA INFO: Time = 0.035 secs, Performance = 13.955 GFLOPS
+BiCGstab: Convergence at 22 iterations, L2 relative residual: iterated = 7.614174e-11, true = 7.614174e-11 (requested = 1.000000e-10)
+PyQUDA INFO: Time = 0.035 secs, Performance = 14.032 GFLOPS
+BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 6.259618e-11, true = 6.259618e-11 (requested = 1.000000e-10)
+PyQUDA INFO: Time = 0.036 secs, Performance = 13.866 GFLOPS
+BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 6.089777e-11, true = 6.089777e-11 (requested = 1.000000e-10)
+PyQUDA INFO: Time = 0.040 secs, Performance = 13.346 GFLOPS
+BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 4.335190e-11, true = 4.335190e-11 (requested = 1.000000e-10)
+PyQUDA INFO: Time = 0.035 secs, Performance = 14.792 GFLOPS
+BiCGstab: Convergence at 23 iterations, L2 relative residual: iterated = 9.930690e-11, true = 9.930690e-11 (requested = 1.000000e-10)
+PyQUDA INFO: Time = 0.034 secs, Performance = 15.003 GFLOPS
+Intra-node (non peer-to-peer) enabled for rank   3 (gpu=0) with neighbor  11 (gpu=2) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank   3 (gpu=0) with neighbor   7 (gpu=1) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank   3 (gpu=0) with neighbor  11 (gpu=2) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank   3 (gpu=0) with neighbor   7 (gpu=1) dir=1, dim=1
+ERROR: Source has zero norm (rank 3, host x4516c6s2b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+Intra-node (non peer-to-peer) enabled for rank   7 (gpu=1) with neighbor  15 (gpu=3) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank   7 (gpu=1) with neighbor   3 (gpu=0) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank   7 (gpu=1) with neighbor  15 (gpu=3) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank   7 (gpu=1) with neighbor   3 (gpu=0) dir=1, dim=1
+ERROR: Source has zero norm (rank 7, host x4516c6s2b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+Intra-node (non peer-to-peer) enabled for rank  11 (gpu=2) with neighbor   3 (gpu=0) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank  11 (gpu=2) with neighbor  15 (gpu=3) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank  11 (gpu=2) with neighbor   3 (gpu=0) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank  11 (gpu=2) with neighbor  15 (gpu=3) dir=1, dim=1
+ERROR: Source has zero norm (rank 11, host x4516c6s2b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+Intra-node (non peer-to-peer) enabled for rank  15 (gpu=3) with neighbor   7 (gpu=1) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank  15 (gpu=3) with neighbor  11 (gpu=2) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank  15 (gpu=3) with neighbor   7 (gpu=1) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank  15 (gpu=3) with neighbor  11 (gpu=2) dir=1, dim=1
+ERROR: Source has zero norm (rank 15, host x4516c6s2b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+Intra-node (non peer-to-peer) enabled for rank   4 (gpu=1) with neighbor  12 (gpu=3) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank   4 (gpu=1) with neighbor   0 (gpu=0) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank   4 (gpu=1) with neighbor  12 (gpu=3) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank   4 (gpu=1) with neighbor   0 (gpu=0) dir=1, dim=1
+ERROR: Source has zero norm (rank 4, host x4516c2s4b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+ERROR: Source has zero norm (rank 0, host x4516c2s4b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+Intra-node (non peer-to-peer) enabled for rank   8 (gpu=2) with neighbor   0 (gpu=0) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank   8 (gpu=2) with neighbor  12 (gpu=3) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank   8 (gpu=2) with neighbor   0 (gpu=0) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank   8 (gpu=2) with neighbor  12 (gpu=3) dir=1, dim=1
+ERROR: Source has zero norm (rank 8, host x4516c2s4b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+Intra-node (non peer-to-peer) enabled for rank  12 (gpu=3) with neighbor   4 (gpu=1) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank  12 (gpu=3) with neighbor   8 (gpu=2) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank  12 (gpu=3) with neighbor   4 (gpu=1) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank  12 (gpu=3) with neighbor   8 (gpu=2) dir=1, dim=1
+ERROR: Source has zero norm (rank 12, host x4516c2s4b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+Intra-node (non peer-to-peer) enabled for rank   2 (gpu=0) with neighbor  10 (gpu=2) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank   2 (gpu=0) with neighbor   6 (gpu=1) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank   2 (gpu=0) with neighbor  10 (gpu=2) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank   2 (gpu=0) with neighbor   6 (gpu=1) dir=1, dim=1
+ERROR: Source has zero norm (rank 2, host x4516c6s0b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+Intra-node (non peer-to-peer) enabled for rank   6 (gpu=1) with neighbor  14 (gpu=3) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank   6 (gpu=1) with neighbor   2 (gpu=0) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank   6 (gpu=1) with neighbor  14 (gpu=3) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank   6 (gpu=1) with neighbor   2 (gpu=0) dir=1, dim=1
+ERROR: Source has zero norm (rank 6, host x4516c6s0b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+Intra-node (non peer-to-peer) enabled for rank   1 (gpu=0) with neighbor   9 (gpu=2) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank   1 (gpu=0) with neighbor   5 (gpu=1) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank   1 (gpu=0) with neighbor   9 (gpu=2) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank   1 (gpu=0) with neighbor   5 (gpu=1) dir=1, dim=1
+ERROR: Source has zero norm (rank 1, host x4516c5s5b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+Intra-node (non peer-to-peer) enabled for rank  10 (gpu=2) with neighbor   2 (gpu=0) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank  10 (gpu=2) with neighbor  14 (gpu=3) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank  10 (gpu=2) with neighbor   2 (gpu=0) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank  10 (gpu=2) with neighbor  14 (gpu=3) dir=1, dim=1
+ERROR: Source has zero norm (rank 10, host x4516c6s0b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+Intra-node (non peer-to-peer) enabled for rank   5 (gpu=1) with neighbor  13 (gpu=3) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank   5 (gpu=1) with neighbor   1 (gpu=0) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank   5 (gpu=1) with neighbor  13 (gpu=3) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank   5 (gpu=1) with neighbor   1 (gpu=0) dir=1, dim=1
+ERROR: Source has zero norm (rank 5, host x4516c5s5b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+Intra-node (non peer-to-peer) enabled for rank  14 (gpu=3) with neighbor   6 (gpu=1) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank  14 (gpu=3) with neighbor  10 (gpu=2) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank  14 (gpu=3) with neighbor   6 (gpu=1) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank  14 (gpu=3) with neighbor  10 (gpu=2) dir=1, dim=1
+ERROR: Source has zero norm (rank 14, host x4516c6s0b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+Intra-node (non peer-to-peer) enabled for rank   9 (gpu=2) with neighbor   1 (gpu=0) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank   9 (gpu=2) with neighbor  13 (gpu=3) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank   9 (gpu=2) with neighbor   1 (gpu=0) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank   9 (gpu=2) with neighbor  13 (gpu=3) dir=1, dim=1
+ERROR: Source has zero norm (rank 9, host x4516c5s5b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+Intra-node (non peer-to-peer) enabled for rank  13 (gpu=3) with neighbor   5 (gpu=1) dir=0, dim=0
+Intra-node (non peer-to-peer) enabled for rank  13 (gpu=3) with neighbor   9 (gpu=2) dir=0, dim=1
+Intra-node (non peer-to-peer) enabled for rank  13 (gpu=3) with neighbor   5 (gpu=1) dir=1, dim=0
+Intra-node (non peer-to-peer) enabled for rank  13 (gpu=3) with neighbor   9 (gpu=2) dir=1, dim=1
+ERROR: Source has zero norm (rank 13, host x4516c5s5b0n0, solve.cpp:139 in void quda::solve(cvector_ref<ColorSpinorField> &, cvector_ref<ColorSpinorField> &, Dirac &, Dirac &, Dirac &, Dirac &, QudaInvertParam &)())
+       last kernel called was (name=N4quda4blas5Norm2IddEE,volume=4x4x4x4,aux=GPU-offline,kernel_arg_threshold=2040,vol=256,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1)
+       last tune param used was block=(512,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1)
+Saving 262 sets of cached parameters to .cache/tunecache_error.tsv
+Abort(1) on node 0 (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 0
+Rank 0 aborted with code 1: application called MPI_Abort(MPI_COMM_WORLD, 1) - process 0
+x4516c2s4b0n0.hsn.cm.aurora.alcf.anl.gov: rank 0 died from signal 1
+x4516c6s0b0n0.hsn.cm.aurora.alcf.anl.gov: rank 2 died from signal 15
+End time: 2025-12-21 19:04:12
+Total time: 0h 1m 53s
