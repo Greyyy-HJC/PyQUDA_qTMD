@@ -21,7 +21,7 @@ from pyquda_utils.phase import MomentumPhase
 # from pyquda_plugins import pycontract #: for PyQUDA contraction v2
 
 mpi_geometry = [2, 2, 2, 2]
-init(mpi_geometry, enable_mps=True, grid_map="shared", resource_path=".cache")
+init(mpi_geometry, enable_mps=True, grid_map="shared", backend="numpy", backend_target="cpu", resource_path=".cache")
 
 
 from utils.boosted_smearing_pyquda import boosted_smearing
@@ -194,7 +194,7 @@ for ipos, pos in enumerate(src_production):
         
     src_point = source.point(latt_info, pos, 0, 0)
     mpi_print(latt_info, "\nTESTING: dirac.invert(src_point)")
-    result = dirac.invert(src_point).data.get()
+    result = dirac.invert(src_point).getHost()
     output_txt_file = f"{data_dir}/sample_log_qtmd/{lat_tag}_inv_point_src.txt"
     if latt_info.mpi_rank == 0:
         with open(output_txt_file, "w") as f:

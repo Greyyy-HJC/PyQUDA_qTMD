@@ -21,7 +21,7 @@ from pyquda_utils.phase import MomentumPhase
 # from pyquda_plugins import pycontract #: for PyQUDA contraction v2
 
 mpi_geometry = [1, 1, 1, 1]
-init(mpi_geometry, enable_mps=True, grid_map="shared", resource_path=".cache")
+init(mpi_geometry, enable_mps=True, grid_map="shared", backend="numpy", backend_target="cpu", resource_path=".cache")
 
 
 from utils.boosted_smearing_pyquda import boosted_smearing
