@@ -194,8 +194,14 @@ for ipos, pos in enumerate(src_production):
 
 
     src_point = source.point(latt_info, pos, 0, 0)
+    xp = _get_xp_from_array(src_point.data)
+    mat = src_point.getHost()
+    np.random.seed(42)  # seed
+    random_mat = np.random.randn(*mat.shape) + 1j * np.random.randn(*mat.shape)
+    src_point.data = _ensure_backend(random_mat, xp)
+    
     mpi_print(latt_info, "\nTESTING: dirac.invert(src_point)")
-    dirac.invert(src_point).save(f"{data_dir}/sample_log_qtmd/{lat_tag}_inv_point_src.npy")
+    dirac.mat(src_point).save(f"{data_dir}/sample_log_qtmd/{lat_tag}_inv_point_src.npy")
     mpi_print(latt_info, "TESTING: dirac.invert(src_point) DONE\n")
 
 
