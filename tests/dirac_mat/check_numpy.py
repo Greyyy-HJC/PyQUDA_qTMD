@@ -41,6 +41,7 @@ noise.toDevice()
 
 core.getLogger().info("")
 core.getLogger().info("TESTING: dirac.mat(src_point)")
+dirac.invert_param.verbosity = 2
 dirac.mat(noise).save(f"output/{tag}_mat_noise.npy")
 dirac.invert(noise).save(f"output/{tag}_inv_noise.npy")
 core.getLogger().info("TESTING: dirac.mat(src_point) DONE")
