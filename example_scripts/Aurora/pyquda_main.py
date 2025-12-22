@@ -30,7 +30,6 @@ init(mpi_geometry, enable_mps=True, grid_map="shared", backend="dpnp", backend_t
 
 from pyquda_utils import core, phase, io, source
 from pyquda_utils.phase import MomentumPhase
-from pyquda.field import LatticeGauge
 
 from utils.boosted_smearing_pyquda import boosted_smearing
 from utils.bw_seq_pyquda import create_bw_seq_pyquda
@@ -115,6 +114,7 @@ mpi_print(latt_info, f"--sm_tag {sm_tag}")
 mpi_print(latt_info, f"--config_num {conf}")
 
 dirac = core.getDirac(latt_info, mass, 1e-10, 5000, xi_0, csw_r, csw_t, multigrid)
+dirac.setPrecision(sloppy=8)
 gauge = io.readNERSCGauge(f"/lus/flare/projects/StructNGB/jinchen/benchmark/full_TMD/l6464f21b7130m00119m0322a.1050.coulomb.1e-14.HYP", checksum=False, link_trace=False, plaquette=False) #todo: done hyp by gpt
 
 # use the first gamma's dtype and device to allocate the container
