@@ -140,14 +140,18 @@ def _ensure_same_structure(
 
 def _max_abs_diff_dataset(
     dset_a: "h5py.Dataset", dset_b: "h5py.Dataset", *, chunk_rows: int
-) -> float:
+) -> Tuple[float, float]:
     """
-    Compute relative diff for numeric datasets:
+    Compute both absolute and relative diff for numeric datasets:
 
-      rel = max( abs(abs(a) - abs(b)) / abs(a) )
+      abs_diff = max( abs(abs(a) - abs(b)) )
+      rel_diff = max( abs(abs(a) - abs(b)) / abs(a) )
 
     This allows sign differences between the two sides (and for complex values, compares magnitudes).
     Uses row-chunking along axis 0 for large arrays to limit memory.
+    
+    Returns:
+        (max_abs_diff, max_rel_diff)
     """
     shape = dset_a.shape
     dt = np.dtype(dset_a.dtype)
@@ -161,9 +165,12 @@ def _max_abs_diff_dataset(
         aa = np.abs(a)
         ab = np.abs(b)
         diff = np.abs(aa - ab)
+        abs_diff = float(diff)
         if float(aa) == 0.0:
-            return 0.0 if float(diff) == 0.0 else float("inf")
-        return float(diff / aa)
+            rel_diff = 0.0 if float(diff) == 0.0 else float("inf")
+        else:
+            rel_diff = float(diff / aa)
+        return abs_diff, rel_diff
 
     # small dataset: read whole thing
     n_elem = int(np.prod(shape)) if shape else 0
@@ -174,17 +181,20 @@ def _max_abs_diff_dataset(
         aa = np.abs(a)
         ab = np.abs(b)
         diff = np.abs(aa - ab)
+        max_abs_diff = float(np.max(diff))
         with np.errstate(divide="ignore", invalid="ignore"):
             ratio = diff / aa
         ratio = np.where(aa == 0, np.where(diff == 0, 0.0, float("inf")), ratio)
-        return float(np.max(ratio))
+        max_rel_diff = float(np.max(ratio))
+        return max_abs_diff, max_rel_diff
 
     # large: chunk along first axis
     n0 = shape[0]
     if n0 == 0:
-        return 0.0
+        return 0.0, 0.0
 
-    max_ratio = 0.0
+    max_abs_diff = 0.0
+    max_rel_diff = 0.0
     for i in range(0, n0, max(1, chunk_rows)):
         j = min(n0, i + max(1, chunk_rows))
         slc = (slice(i, j),) + (slice(None),) * (len(shape) - 1)
@@ -193,13 +203,16 @@ def _max_abs_diff_dataset(
         aa = np.abs(a)
         ab = np.abs(b)
         diff = np.abs(aa - ab)
+        vmax_abs = float(np.max(diff))
+        if vmax_abs > max_abs_diff:
+            max_abs_diff = vmax_abs
         with np.errstate(divide="ignore", invalid="ignore"):
             ratio = diff / aa
         ratio = np.where(aa == 0, np.where(diff == 0, 0.0, float("inf")), ratio)
-        vmax = float(np.max(ratio))
-        if vmax > max_ratio:
-            max_ratio = vmax
-    return max_ratio
+        vmax_rel = float(np.max(ratio))
+        if vmax_rel > max_rel_diff:
+            max_rel_diff = vmax_rel
+    return max_abs_diff, max_rel_diff
 
 
 def compare_h5(file_a: str, file_b: str, *, chunk_rows: int = 1024) -> int:
@@ -212,14 +225,14 @@ def compare_h5(file_a: str, file_b: str, *, chunk_rows: int = 1024) -> int:
         # Print header for readability
         print(f"# file_a: {file_a}")
         print(f"# file_b: {file_b}")
-        print("# dataset_path\trel_diff=max(abs(abs(a)-abs(b))/abs(a))  (abs(a)==0 -> 0 if diff==0 else inf)")
+        print("# dataset_path\tabs_diff=max(abs(abs(a)-abs(b)))\trel_diff=max(abs(abs(a)-abs(b))/abs(a))")
 
         for p in dataset_paths:
             da = fa[p]
             db = fb[p]
-            maxdiff = _max_abs_diff_dataset(da, db, chunk_rows=chunk_rows)
+            max_abs_diff, max_rel_diff = _max_abs_diff_dataset(da, db, chunk_rows=chunk_rows)
             # scientific notation, stable width
-            print(f"{p}\t{maxdiff:.16e}")
+            print(f"{p}\t{max_abs_diff:.16e}\t{max_rel_diff:.16e}")
 
     return 0
 
