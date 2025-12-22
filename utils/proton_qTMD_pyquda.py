@@ -28,7 +28,7 @@ class proton_TMD():
 
         self.pf = parameters["pf"] # momentum of final nucleon state; pf = pi + q
         self.plist = parameters["qext"]
-        self.qlist = parameters["qext_PDF"]
+        # self.qlist = parameters["qext_PDF"]
         #self.plist = [list(v + (0,)) for v in {tuple(sorted((x, y, z))) for x in parameters["qext"] for y in parameters["qext"] for z in [0]}]
         #self.plist = [[x,y,z,0] for x in parameters["qext"] for y in parameters["qext"] for z in parameters["qext"]] # generating momentum transfers for TMD
         #self.qlist = [[x,y,z,0] for x in parameters["qext_PDF"] for y in parameters["qext_PDF"] for z in parameters["qext_PDF"]] # generating momentum transfers for PDF

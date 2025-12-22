@@ -1,33 +1,36 @@
-"""
-v2 means no mesonAllSinkTwoPoint, for non-CUDA environments
-"""
-
 # load python modules
 import time
 import os
+
 import numpy as np
 import dpnp as dnp
 
 from pyquda import init, getMPIComm
 
-# --------------------------
-# initiate quda
-# --------------------------
+# Create .cache directory for QUDA tuning parameters
 if not os.path.exists(".cache"):
     os.makedirs(".cache", exist_ok=True)
 
-import argparse
+from pyquda_utils import core, gamma, phase, io, source
+from pyquda_utils.phase import MomentumPhase
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--config_num", type=int, default=0, help="Configuration number")
-parser.add_argument("--mpi_geometry", type=str, default="1.1.1.1", help="MPI geometry")
-args, unknown = parser.parse_known_args()
-conf = args.config_num
+from utils.boosted_smearing_pyquda import boosted_smearing
+from utils.bw_seq_pyquda import create_bw_seq_pyquda
+from utils.proton_qTMD_pyquda import proton_TMD, pyquda_gammas_order
+from utils.io_corr import (
+    get_sample_log_tag,
+    get_c2pt_file_tag,
+    get_qTMD_file_tag,
+    save_qTMD_proton_hdf5_noRoll,
+)
+from utils.tools import srcLoc_distri_eq, mpi_print, _get_xp_from_array, _ensure_backend
 
-mpi_geometry = [int(i) for i in args.mpi_geometry.split(".")]
-print(f"DEBUG: mpi_geometry from args: {mpi_geometry}")
+Ls = 8
+Lt = 8
+
 init(
-    mpi_geometry,
+    None,
+    [Ls, Ls, Ls, Lt],
     enable_mps=True,
     grid_map="shared",
     backend="dpnp",
@@ -35,60 +38,56 @@ init(
     resource_path=".cache",
 )
 
-from pyquda_utils import core, phase, io, source
-from pyquda_utils.phase import MomentumPhase
-
-from utils.boosted_smearing_pyquda import boosted_smearing
-from utils.bw_seq_pyquda import create_bw_seq_pyquda
-from utils.proton_qTMD_pyquda import proton_TMD, my_pyquda_gammas
-from utils.io_corr import (
-    get_sample_log_tag,
-    get_c2pt_file_tag,
-    get_qTMD_file_tag,
-    save_qTMD_proton_hdf5_noRoll,
-)
-from utils.tools import srcLoc_distri_eq, mpi_print
-
+my_pyquda_gammas = [
+    gamma.gamma(15),
+    gamma.gamma(8),
+    gamma.gamma(7),
+    gamma.gamma(1),
+    gamma.gamma(14),
+    gamma.gamma(2),
+    gamma.gamma(13),
+    gamma.gamma(4),
+    gamma.gamma(11),
+    gamma.gamma(0),
+    gamma.gamma(9),
+    gamma.gamma(3),
+    gamma.gamma(5),
+    gamma.gamma(10),
+    gamma.gamma(6),
+    gamma.gamma(12),
+]
 
 # Global parameters
-data_dir = (
-    "/lus/flare/projects/StructNGB/jinchen/benchmark/full_TMD/pyquda/data"  # NOTE
-)
-lat_tag = "l64c64a076"  # NOTE
+data_dir = "/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/full_TMD/data"  # NOTE
 interpolation = "T5"  # NOTE, new interpolation operator
 sm_tag = "1HYP_GSRC_W90_k3_" + interpolation  # NOTE
 GEN_SIMD_WIDTH = 64
+conf = 0
+lat_tag = "S8T8_aurora"
 
 # --------------------------
 # Setup parameters
 # --------------------------
-
 parameters = {
     # NOTE:
     "eta": [0],  # irrelavant for CG TMD
-    "b_z": 20,
-    "b_T": 20,
+    "b_z": 2,
+    "b_T": 2,
     "qext": [
-        [x, y, z, 0]
-        for x in [-2, -1, 0, 1, 2]
-        for y in [-2, -1, 0, 1, 2]
-        for z in [-2, -1, 0]
+        [x, y, z, 0] for x in [2] for y in [-2] for z in [0]
     ],  # momentum transfer for TMD, pf = pi + q
+    # "qext": [list(v + (0,)) for v in {tuple(sorted((x, y, z))) for x in [-2,-1,0] for y in [-2,-1,0] for z in [0]}], # momentum transfer for TMD, pf = pi + q
     "pf": [0, 0, 9, 0],
     "p_2pt": [
-        [x, y, z, 0]
-        for x in [-2, -1, 0, 1, 2]
-        for y in [-2, -1, 0, 1, 2]
-        for z in [5, 6, 7, 8, 9]
+        [x, y, z, 0] for x in [2] for y in [-2] for z in [0]
     ],  # 2pt momentum, should match pf & pi
     "boost_in": [0, 0, 3],
     "boost_out": [0, 0, 3],
     "width": 9.0,
     "pol": ["PpUnpol"],
-    "t_insert": 10,  # time separation for TMD
+    "t_insert": 4,  # time separation for TMD
     "save_propagators": False,
 }
-
 pf = parameters["pf"]
 pf_tag = (
     "PX"
@@ -100,81 +99,37 @@ pf_tag = (
     + "dt"
     + str(parameters["t_insert"])
 )
-gammalist = [
-    "5",
-    "T",
-    "T5",
-    "X",
-    "X5",
-    "Y",
-    "Y5",
-    "Z",
-    "Z5",
-    "I",
-    "SXT",
-    "SXY",
-    "SXZ",
-    "SYT",
-    "SYZ",
-    "SZT",
-]
-
+gammalist = ["5"]  # NOTE: temporarily only run one gamma structure
+# gammalist = ["5", "T", "T5", "X", "X5", "Y", "Y5", "Z", "Z5", "I", "SXT", "SXY", "SXZ", "SYT", "SYZ", "SZT"]
 Measurement = proton_TMD(parameters)
-xp = dnp
+
 
 # --------------------------
 # Load gauge and create inverter
 # --------------------------
 
 ###################### load gauge ######################
-Ls = 64
-Lt = 64
+
 L = [Ls, Ls, Ls, Lt]
 xi_0, nu = 1.0, 1.0
-mass = -0.049  # kappa = 0.12623
-csw_r = 1.0372
-csw_t = 1.0372
-multigrid = [[4, 4, 4, 4]]
+mass = -0.038888  # kappa = 0.12623
+csw_r = 1.02868
+csw_t = 1.02868
+multigrid = None
 
 latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
 
-# Check Phase Sum for first momentum
-qext_xyz_check = [[v[0], v[1], v[2]] for v in parameters["qext"]]
-phases_check = phase.MomentumPhase(latt_info).getPhases(qext_xyz_check, [0, 0, 0, 0])
-p_sum_local = xp.sum(phases_check[0])
-p_sum_local_np = dnp.asnumpy(p_sum_local)
-p_sum_global = getMPIComm().allreduce(p_sum_local_np)
-mpi_print(latt_info, f"DEBUG: Global Phase Sum (p={qext_xyz_check[0]}): {p_sum_global}")
 
-# Check Phase Sum for p=0
-phases_check_0 = phase.MomentumPhase(latt_info).getPhases([[0, 0, 0, 0]], [0, 0, 0, 0])
-p_sum_local_0 = xp.sum(phases_check_0[0])
-p_sum_local_np_0 = dnp.asnumpy(p_sum_local_0)
-p_sum_global_0 = getMPIComm().allreduce(p_sum_local_np_0)
-mpi_print(
-    latt_info,
-    f"DEBUG: Global Phase Sum (p=[0,0,0,0]): {p_sum_global_0} (Expected {latt_info.global_volume})",
-)
-
-mpi_print(latt_info, f"--lat_tag {lat_tag}")
-mpi_print(latt_info, f"--sm_tag {sm_tag}")
-mpi_print(latt_info, f"--config_num {conf}")
-
-dirac = core.getDirac(latt_info, mass, 1e-10, 5000, xi_0, csw_r, csw_t, multigrid)
+dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, multigrid)
 dirac.setPrecision(sloppy=8)
 gauge = io.readNERSCGauge(
-    f"/lus/flare/projects/StructNGB/jinchen/benchmark/full_TMD/l6464f21b7130m00119m0322a.1050.coulomb.1e-14.HYP",
-    checksum=False,
-    link_trace=False,
-    plaquette=False,
-)  # todo: done hyp by gpt
+    f"/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/test_gauge/S8T8_wilson_b6.0"
+)
 
-# use the first gamma's dtype and device to allocate the container
 first_gamma = my_pyquda_gammas[0]
 n_gamma = len(my_pyquda_gammas)
 
-# dpnp supports device in oneAPI environment
-pyquda_gamma_ls = xp.empty(
+pyquda_gamma_ls = dnp.empty(
     (n_gamma,) + first_gamma.shape,
     dtype=first_gamma.dtype,
     device=first_gamma.device,  # key: use the same device as gamma_pyq
@@ -182,8 +137,6 @@ pyquda_gamma_ls = xp.empty(
 
 for gamma_idx, gamma_pyq in enumerate(my_pyquda_gammas):
     pyquda_gamma_ls[gamma_idx] = gamma_pyq
-
-# gauge.hypSmear(1, 0.75, 0.6, 0.3, -1) #todo
 
 ###################### setup source positions ######################
 src_shift = np.array([0, 0, 0, 0]) + np.array([7, 11, 13, 23])
@@ -196,13 +149,26 @@ src_positions = src_positions + srcLoc_distri_eq(
     L, src_origin
 )  # create a list of source
 
+src_shift = np.array([0, 0, 0, 0]) + np.array([7 + 8, 11 + 8, 13 + 8, 23 + 4])
+src_origin = np.array([int(conf) % L[i] for i in range(4)]) + src_shift
+src_positions = src_positions + srcLoc_distri_eq(
+    L, src_origin
+)  # create a list of source
+
+src_shift = np.array([0, 0, 0, 0]) + np.array([7 + 8, 11 + 8, 13 + 4, 23 + 4])
+src_origin = np.array([int(conf) % L[i] for i in range(4)]) + src_shift
+src_positions = src_positions + srcLoc_distri_eq(
+    L, src_origin
+)  # create a list of source
+
 src_production = src_positions[
-    0:512
+    0:1
 ]  # take the number of sources needed for this project NOTE
 
 ###################### create multigrid inverter ######################
 
 mpi_print(latt_info, f"DEBUG plaquette U_hyp: {gauge.plaquette()}")
+
 
 # --------------------------
 # Start measurements
@@ -219,46 +185,58 @@ if latt_info.mpi_rank == 0:
 #! Measurement
 ###################### loop over sources ######################
 for ipos, pos in enumerate(src_production):
-    sample_log_tag = get_sample_log_tag(str(conf), pos, sm_tag + "_" + pf_tag)
-    mpi_print(latt_info, f"START: {sample_log_tag}")
 
-    with open(sample_log_file, "a+") as f:
-        f.seek(0)
-        if sample_log_tag in f.read():
-            mpi_print(latt_info, f"SKIP: {sample_log_tag}")
-            continue  # NOTE comment this out for test otherwise it will skip all the sources that are already done
+    sample_log_tag = get_sample_log_tag(str(conf), pos, sm_tag + "_" + pf_tag)
+    if latt_info.mpi_rank == 0:
+        print(f"START: {sample_log_tag}")
 
     # >>>>>>>>>>>>>>>>>>>>>>>>> Propagators <<<<<<<<<<<<<<<<<<<<<<<<<<#
 
     # get forward propagator boosted source
+
     t0 = time.time()
     srcD = source.propagator(latt_info, "point", pos)
     srcDp = boosted_smearing(srcD, w=parameters["width"], boost=parameters["boost_in"])
-    mpi_print(latt_info, f"TIME Pyquda: Generatring boosted src {time.time() - t0}s")
+
+    if latt_info.mpi_rank == 0:
+        print("TIME Pyquda: Generatring boosted src", time.time() - t0)
 
     # get forward propagator: smeared-point
+
     t0 = time.time()
-    dirac.loadGauge(gauge)
+    dirac.loadGauge(gauge)  # TODO: debug
     propag = core.invertPropagator(
         dirac, srcDp, 1, 0
     )  # NOTE or "propag = core.invertPropagator(dirac, b, 0)" depends on the quda version
-    mpi_print(
-        latt_info, f"TIME Pyquda: Forward propagator inversion {time.time() - t0}s"
-    )
+
+    if latt_info.mpi_rank == 0:
+        print("TIME Pyquda: Forward propagator inversion", time.time() - t0)
+
+    src_point = source.point(latt_info, pos, 0, 0)
+    xp = _get_xp_from_array(src_point.data)
+    mat = src_point.getHost()
+    np.random.seed(42)  # seed
+    random_mat = np.random.randn(*mat.shape) + 1j * np.random.randn(*mat.shape)
+    src_point.data = _ensure_backend(random_mat, xp)
+
+    mpi_print(latt_info, "\nTESTING: dirac.invert(src_point)")
+    dirac.mat(src_point).save(f"{data_dir}/sample_log_qtmd/{lat_tag}_inv_point_src.npy")
+    mpi_print(latt_info, "TESTING: dirac.invert(src_point) DONE\n")
 
     #! PyQUDA: contract 2pt TMD
+
     t0 = time.time()
     tag = get_c2pt_file_tag(data_dir, lat_tag, conf, "ex", pos, sm_tag)
     p_2pt_xyz = [[-v[0], -v[1], -v[2]] for v in parameters["p_2pt"]]
     phases_2pt = MomentumPhase(latt_info).getPhases(p_2pt_xyz, x0=pos)
 
     Measurement.contract_2pt_TMD(latt_info, propag, phases_2pt, tag, interpolation)
-    mpi_print(
-        latt_info,
-        f"TIME Pyquda: Contraction 2pt (includes sink smearing) {time.time() - t0}s",
-    )
+
+    if latt_info.mpi_rank == 0:
+        print("TIME Pyquda: Contraction 2pt (includes sink smearing)", time.time() - t0)
 
     #! PyQUDA: get backward propagator through sequential source for U and D
+
     t0 = time.time()
     sequential_bw_prop_down_pyq = create_bw_seq_pyquda(
         dirac,
@@ -285,10 +263,11 @@ for ipos, pos in enumerate(src_production):
         interpolation,
     )
 
-    mpi_print(
-        latt_info,
-        f"TIME Pyquda: Backward propagator through sequential source for U and D {time.time() - t0}s",
-    )
+    if latt_info.mpi_rank == 0:
+        print(
+            "TIME Pyquda: Backward propagator through sequential source for U and D",
+            time.time() - t0,
+        )
 
     #! PyQUDA: prepare phases for qext
     qext_xyz = [[v[0], v[1], v[2]] for v in parameters["qext"]]
@@ -303,34 +282,36 @@ for ipos, pos in enumerate(src_production):
     W_index_list_CG = W_index_list_CG_dir0 + W_index_list_CG_dir1
 
     #! PyQUDA: contract TMD
-    mpi_print(latt_info, f"DEBUG contract_TMD loop: CG no links")
-
+    if latt_info.mpi_rank == 0:
+        print("contract_TMD loop: CG no links")
     t0_contract = time.time()
+
     t0 = time.time()
     proton_TMDs_down = []  # [WL_indices][pol][qext][gammalist][tau]
     proton_TMDs_up = []
 
-    sequential_bw_prop_down_contracted_pyq = xp.einsum(
+    sequential_bw_prop_down_contracted_pyq = dnp.einsum(
         "pwtzyxjicf, gim -> pgwtzyxjmcf", sequential_bw_prop_down_pyq, pyquda_gamma_ls
     )
 
-    sequential_bw_prop_up_contracted_pyq = xp.einsum(
+    sequential_bw_prop_up_contracted_pyq = dnp.einsum(
         "pwtzyxjicf, gim -> pgwtzyxjmcf", sequential_bw_prop_up_pyq, pyquda_gamma_ls
     )
 
-    mpi_print(
-        latt_info,
-        f"TIME PyQUDA: contract bw prop with gamma_ls for U and D {time.time() - t0}s",
-    )
+    if latt_info.mpi_rank == 0:
+        print(
+            f"TIME PyQUDA: contract bw prop with gamma_ls for U and D", time.time() - t0
+        )
 
     #! PyQUDA: contract TMD +X direction
     tmd_forward_prop_dir0 = propag.copy()
     for iW, WL_indices in enumerate(W_index_list_CG_dir0):
+
         t0 = time.time()
-        mpi_print(
-            latt_info,
-            f"TIME PyQUDA: contract TMD {iW+1}/{len(W_index_list_CG)} {WL_indices}",
-        )
+        if latt_info.mpi_rank == 0:
+            print(
+                f"TIME PyQUDA: contract TMD {iW+1}/{len(W_index_list_CG)} {WL_indices}"
+            )
         if iW == 0:
             WL_indices_previous = [0, 0, 0, 0]
         else:
@@ -343,14 +324,14 @@ for ipos, pos in enumerate(src_production):
         t0 = time.time()
 
         proton_TMDs_down += [
-            xp.einsum(
+            dnp.einsum(
                 "pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx",
                 sequential_bw_prop_down_contracted_pyq,
                 tmd_forward_prop_dir0.data,
             )
         ]
         proton_TMDs_up += [
-            xp.einsum(
+            dnp.einsum(
                 "pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx",
                 sequential_bw_prop_up_contracted_pyq,
                 tmd_forward_prop_dir0.data,
@@ -365,11 +346,12 @@ for ipos, pos in enumerate(src_production):
     #! PyQUDA: contract TMD +Y direction
     tmd_forward_prop_dir1 = propag.copy()
     for iW, WL_indices in enumerate(W_index_list_CG_dir1):
+
         t0 = time.time()
-        mpi_print(
-            latt_info,
-            f"TIME PyQUDA: contract TMD {iW+1+len(W_index_list_CG_dir0)}/{len(W_index_list_CG)} {WL_indices}",
-        )
+        if latt_info.mpi_rank == 0:
+            print(
+                f"TIME PyQUDA: contract TMD {iW+1+len(W_index_list_CG_dir0)}/{len(W_index_list_CG)} {WL_indices}"
+            )
         if iW == 0:
             WL_indices_previous = [0, 0, 0, 0]
         else:
@@ -377,18 +359,20 @@ for ipos, pos in enumerate(src_production):
         tmd_forward_prop_dir1 = Measurement.create_fw_prop_TMD_CG(
             tmd_forward_prop_dir1, WL_indices, WL_indices_previous
         )  #! note here [WL_indices] is changed to WL_indices for PyQUDA, and prop_exact_f is changed to propag
-        mpi_print(latt_info, f"TIME PyQUDA: cshift {time.time() - t0}s")
+
+        if latt_info.mpi_rank == 0:
+            print(f"TIME PyQUDA: cshift", time.time() - t0)
 
         t0 = time.time()
         proton_TMDs_down += [
-            xp.einsum(
+            dnp.einsum(
                 "pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx",
                 sequential_bw_prop_down_contracted_pyq,
                 tmd_forward_prop_dir1.data,
             )
         ]
         proton_TMDs_up += [
-            xp.einsum(
+            dnp.einsum(
                 "pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx",
                 sequential_bw_prop_up_contracted_pyq,
                 tmd_forward_prop_dir1.data,
@@ -404,14 +388,14 @@ for ipos, pos in enumerate(src_production):
 
     proton_TMDs_down = [
         core.gatherLattice(
-            dnp.asnumpy(xp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_3pt_pyq, temp)),
+            dnp.asnumpy(dnp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_3pt_pyq, temp)),
             [3, -1, -1, -1],
         )
         for temp in proton_TMDs_down
     ]
     proton_TMDs_up = [
         core.gatherLattice(
-            dnp.asnumpy(xp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_3pt_pyq, temp)),
+            dnp.asnumpy(dnp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_3pt_pyq, temp)),
             [3, -1, -1, -1],
         )
         for temp in proton_TMDs_up
@@ -426,9 +410,9 @@ for ipos, pos in enumerate(src_production):
 
     # save the TMD correlators
     for i, pol in enumerate(parameters["pol"]):
+
         t0 = time.time()
 
-        #! no need to reorder if not using mesonAllSinkTwoPoint
         # reorder gamma, and cut useful tau in [src_t, src_t+tsep+2)
         if latt_info.mpi_rank == 0 and i == 0:
             proton_TMDs_down = np.roll(proton_TMDs_down, -pos[3], axis=-1)
@@ -446,8 +430,10 @@ for ipos, pos in enumerate(src_production):
             tasks.append((gidx, "D"))  # Down
             tasks.append((gidx, "U"))  # Up
         rank = latt_info.mpi_rank
-        if rank < len(tasks):
-            gidx, flavor = tasks[rank]
+        n_ranks = latt_info.mpi_size
+        # Each rank loops over its assigned tasks (round-robin distribution)
+        for task_idx in range(rank, len(tasks), n_ranks):
+            gidx, flavor = tasks[task_idx]
             gm = gammalist[gidx]
             tag = get_qTMD_file_tag(
                 data_dir,
@@ -457,7 +443,7 @@ for ipos, pos in enumerate(src_production):
                 pos,
                 f"{sm_tag}.{pf_tag}.{pol}.{gm}",
             )
-            print(f"DEBUG: rank {rank}, {tag}")
+            print(f"DEBUG: rank {rank}, task {task_idx}, {tag}")
             data = (
                 proton_TMDs_down[:, i, :, gidx : gidx + 1, :]
                 if flavor == "D"
@@ -473,27 +459,35 @@ for ipos, pos in enumerate(src_production):
                 latt_info,
             )
 
-        mpi_print(latt_info, f"TIME: save TMDs for {pol} {time.time() - t0}s")
-    mpi_print(latt_info, f"contract_TMD DONE: CG no links")
+        if latt_info.mpi_rank == 0:
+            print(f"TIME: save TMDs for {pol}", time.time() - t0)
+    if latt_info.mpi_rank == 0:
+        print("contract_TMD DONE: CG no links")
 
     # >>>>>>>>>>>>>>>>>>>>>>>>> GI GPD <<<<<<<<<<<<<<<<<<<<<<<<<<#
 
     # prepare the TMD separate indices for GI
     W_index_list_PDF = Measurement.create_PDF_Wilsonline_index_list()
 
+    #! PyQUDA: prepare phases for qext
+    qext_pdf_xyz = [[v[0], v[1], v[2]] for v in parameters["qext_PDF"]]
+    phases_pdf_pyq = phase.MomentumPhase(latt_info).getPhases(qext_pdf_xyz, pos)
+
     #! PyQUDA: bw prop
-    sequential_prop_down_contracted_pyq = xp.einsum(
+    sequential_prop_down_contracted_pyq = dnp.einsum(
         "pwtzyxjicf, gim -> pgwtzyxjmcf", sequential_bw_prop_down_pyq, pyquda_gamma_ls
     )
-    sequential_prop_up_contracted_pyq = xp.einsum(
+    sequential_prop_up_contracted_pyq = dnp.einsum(
         "pwtzyxjicf, gim -> pgwtzyxjmcf", sequential_bw_prop_up_pyq, pyquda_gamma_ls
     )
 
-    mpi_print(latt_info, f"contract_PDF loop: GI with links")
+    if latt_info.mpi_rank == 0:
+        print("contract_PDF loop: GI with links")
     t0_contract = time.time()
     proton_PDFs_down = []  # [WL_indices][pol][qext][gammalist][tau]
     proton_PDFs_up = []
     for iW, WL_indices in enumerate(W_index_list_PDF):
+
         t0 = time.time()
 
         if WL_indices[1] == 0:
@@ -512,15 +506,16 @@ for ipos, pos in enumerate(src_production):
         )
 
         #! PyQUDA: contract
+
         proton_PDFs_down += [
-            xp.einsum(
+            dnp.einsum(
                 "pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx",
                 sequential_prop_down_contracted_pyq,
                 tmd_forward_prop_pyq.data,
             )
         ]
         proton_PDFs_up += [
-            xp.einsum(
+            dnp.einsum(
                 "pgwtzyxjmcf, wtzyxmjfc -> pgwtzyx",
                 sequential_prop_up_contracted_pyq,
                 tmd_forward_prop_pyq.data,
@@ -529,14 +524,14 @@ for ipos, pos in enumerate(src_production):
 
     proton_PDFs_down = [
         core.gatherLattice(
-            dnp.asnumpy(xp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_3pt_pyq, temp)),
+            dnp.asnumpy(dnp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_pdf_pyq, temp)),
             [3, -1, -1, -1],
         )
         for temp in proton_PDFs_down
     ]
     proton_PDFs_up = [
         core.gatherLattice(
-            dnp.asnumpy(xp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_3pt_pyq, temp)),
+            dnp.asnumpy(dnp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_pdf_pyq, temp)),
             [3, -1, -1, -1],
         )
         for temp in proton_PDFs_up
@@ -545,21 +540,19 @@ for ipos, pos in enumerate(src_production):
     proton_PDFs_down = np.array(proton_PDFs_down)
     proton_PDFs_up = np.array(proton_PDFs_up)
 
-    mpi_print(
-        latt_info,
-        f"contract_GI_PDF over: proton_PDFs.shape {xp.shape(proton_PDFs_down)} {time.time()-t0}s",
-    )
+    if latt_info.mpi_rank == 0:
+        print(
+            f"contract_GI_PDF over: proton_PDFs.shape {np.shape(proton_PDFs_down)} {time.time()-t0}s"
+        )
 
-    mpi_print(
-        latt_info,
-        f"TIME PyQUDA: contract GI PDF for U and D {time.time() - t0_contract}s",
-    )
+    if latt_info.mpi_rank == 0:
+        print(f"TIME PyQUDA: contract GI PDF for U and D", time.time() - t0_contract)
 
     # save the PDF correlators
     for i, pol in enumerate(parameters["pol"]):
+
         t0 = time.time()
 
-        #! no need to reorder if not using mesonAllSinkTwoPoint
         # reorder gamma, and cut useful tau in [src_t, src_t+tsep+2)
         if latt_info.mpi_rank == 0 and i == 0:
             proton_PDFs_down = np.roll(proton_PDFs_down, -pos[3], axis=-1)
@@ -572,8 +565,11 @@ for ipos, pos in enumerate(src_production):
         proton_PDFs_up = getMPIComm().bcast(proton_PDFs_up, root=0)
 
         tasks = ["D", "U"]
-        if latt_info.mpi_rank < len(tasks):
-            flavor = tasks[latt_info.mpi_rank]
+        rank = latt_info.mpi_rank
+        n_ranks = latt_info.mpi_size
+        # Each rank loops over its assigned tasks (round-robin distribution)
+        for task_idx in range(rank, len(tasks), n_ranks):
+            flavor = tasks[task_idx]
             tag = get_qTMD_file_tag(
                 data_dir,
                 lat_tag,
@@ -597,10 +593,13 @@ for ipos, pos in enumerate(src_production):
                 latt_info,
             )
 
-        mpi_print(latt_info, f"TIME: save PDFs for {pol} {time.time() - t0}s")
-    mpi_print(latt_info, f"contract_PDF DONE: GI with links")
+        if latt_info.mpi_rank == 0:
+            print(f"TIME: save PDFs for {pol}", time.time() - t0)
+    if latt_info.mpi_rank == 0:
+        print("contract_PDF DONE: GI with links")
 
     with open(sample_log_file, "a+") as f:
         if latt_info.mpi_rank == 0:
             f.write(sample_log_tag + "\n")
-    mpi_print(latt_info, f"DONE: {sample_log_tag}")
+    if latt_info.mpi_rank == 0:
+        print("DONE: " + sample_log_tag)

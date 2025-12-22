@@ -2,7 +2,7 @@ from cmath import phase
 from math import gamma
 import gpt as g
 import numpy as np
-from debug.full_TMD.io_corr import *
+from tests.pyq_vs_gpt.io_corr import *
 
 #ordered list of gamma matrix identifiers, needed for the tag in the correlator output
 my_gammas = ["5", "T", "T5", "X", "X5", "Y", "Y5", "Z", "Z5", "I", "SXT", "SXY", "SXZ", "SYT", "SYZ", "SZT"]

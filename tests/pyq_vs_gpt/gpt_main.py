@@ -7,9 +7,9 @@ import time
 
 # load gpt modules
 import gpt as g 
-from debug.full_TMD.PyQUDA_proton_qTMD_draft import proton_TMD, pyq_gamma_order #! import pyquda_gamma_ls and pyq_gamma_order for 3pt
-from debug.full_TMD.tools import *
-from debug.full_TMD.io_corr import *
+from tests.pyq_vs_gpt.PyQUDA_proton_qTMD_draft import proton_TMD, pyq_gamma_order #! import pyquda_gamma_ls and pyq_gamma_order for 3pt
+from tests.pyq_vs_gpt.tools import *
+from tests.pyq_vs_gpt.io_corr import *
 
 # load pyquda modules
 from pyquda import init, getMPIComm
@@ -114,7 +114,7 @@ csw_t = 1.02868
 multigrid = None 
 
 latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
-dirac = core.getClover(latt_info, mass, 1e-8, 10000, xi_0, csw_r, csw_t, multigrid) 
+dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, multigrid) 
 g.message("DEBUG plaquette U_hyp:", g.qcd.gauge.plaquette(U_hyp))
 g.message("DEBUG plaquette gauge:", gauge.plaquette())
 # gauge.projectSU3(1e-15) #todo: modified by Jinchen, for the new version of pyquda

@@ -1,9 +1,9 @@
 
 import gpt as g
-from debug.full_TMD.io_corr import *
+from tests.pyq_vs_gpt.io_corr import *
 import numpy as np
 import cupy as cp #! For PyQUDA
-from debug.full_TMD.gpt_proton_qTMD_utils import proton_measurement
+from tests.pyq_vs_gpt.gpt_proton_qTMD_utils import proton_measurement
 
 # load pyquda modules
 from pyquda import init, LatticeInfo
