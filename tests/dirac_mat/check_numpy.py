@@ -32,14 +32,14 @@ gauge = io.readNERSCGauge(f"../../test_gauge/S8T8_wilson_b6.0")
 dirac.loadGauge(gauge)
 
 pos = [1, 2, 3, 4]
-noise = source.point(latt_info, pos, 0, 0)
-# if core.getMPISize() == 1 and tag == "S8T8_local":
-#     noise = core.LatticeFermion(latt_info)
-#     np.random.seed(42)  # seed
-#     noise.data = np.random.normal(0, 2**-0.5, noise.shape) + 1j * np.random.normal(0, 2**-0.5, noise.shape)
-#     noise.save(f"output/rand_noise.npy")
-# else:
-#     noise = core.LatticeFermion.load(f"output/rand_noise.npy")
+# noise = source.point(latt_info, pos, 0, 0)
+if core.getMPISize() == 1 and tag == "S8T8_local":
+    noise = core.LatticeFermion(latt_info)
+    np.random.seed(42)  # seed
+    noise.data = np.random.normal(0, 2**-0.5, noise.shape) + 1j * np.random.normal(0, 2**-0.5, noise.shape)
+    noise.save(f"output/rand_noise.npy")
+else:
+    noise = core.LatticeFermion.load(f"output/rand_noise.npy")
 noise.toDevice()
 
 core.getLogger().info("")

@@ -108,6 +108,7 @@ mpi_print(latt_info, f"--config_num {conf}")
 
 
 dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, multigrid)
+dirac.setPrecision(sloppy=8)
 gauge = io.readNERSCGauge(f"/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/test_gauge/S8T8_wilson_b6.0")
 
 # gauge.hypSmear(1, 0.75, 0.6, 0.3, -1)
