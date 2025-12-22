@@ -2,8 +2,10 @@ import os
 import numpy as np
 
 # Create .cache directory for QUDA tuning parameters
-if not os.path.exists(".cache"):
-    os.makedirs(".cache", exist_ok=True)
+import shutil
+if os.path.exists(".cache"):
+    shutil.rmtree(".cache")
+os.makedirs(".cache", exist_ok=True)
 
 from pyquda_utils import core, io
 
