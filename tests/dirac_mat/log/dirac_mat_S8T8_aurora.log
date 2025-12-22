@@ -1,8 +1,8 @@
  
 >>> PBS_NODEFILE content:
-x4219c4s6b0n0.hsn.cm.aurora.alcf.anl.gov
+x4303c2s6b0n0.hsn.cm.aurora.alcf.anl.gov
 1n*1t
-Start time: 2025-12-21 23:58:36
+Start time: 2025-12-22 01:23:38
 Python 3.10.14
 Python path: /lus/flare/projects/StructNGB/jinchen/env/pyq_venv/bin/python
 PYTHONPATH: /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/dirac_mat:/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD
@@ -60,76 +60,88 @@ Selected device number: 0
   Atomic memory scopes: work_item sub_group work_group device system
 WARNING: Data reordering done on GPU (set with QUDA_REORDER_LOCATION=GPU/CPU)
 Creating context... done
-Loaded 43 sets of cached parameters from .cache/tunecache.tsv
+Loaded 66 sets of cached parameters from .cache/tunecache.tsv
 WARNING: Using device memory pool allocator
 WARNING: Using pinned memory pool allocator
-Saving 52 sets of cached parameters to .cache/tunecache.tsv
-Saving 58 sets of cached parameters to .cache/tunecache.tsv
-PyQUDA DEBUG: Loaded output/rand_noise.npy in 0.443 secs, 0.002 GB/s
+PyQUDA DEBUG: Loaded output/rand_noise.npy in 0.584 secs, 0.001 GB/s
 PyQUDA INFO: 
 PyQUDA INFO: TESTING: dirac.mat(src_point)
-PyQUDA DEBUG: Saved output/S8T8_aurora_mat_noise.npy in 0.188 secs, 0.004 GB/s
+PyQUDA DEBUG: Saved output/S8T8_aurora_mat_noise.npy in 0.630 secs, 0.001 GB/s
+BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 2.062469e-11, true = 2.062469e-11 (requested = 1.000000e-10)
+Saving 92 sets of cached parameters to .cache/tunecache.tsv
+PyQUDA INFO: Time = 0.858 secs, Performance = 16.764 GFLOPS
+PyQUDA DEBUG: Saved output/S8T8_aurora_inv_noise.npy in 0.618 secs, 0.001 GB/s
 PyQUDA INFO: TESTING: dirac.mat(src_point) DONE
 PyQUDA INFO: 
 Arg buf count 10
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-Saving 63 sets of cached parameters to .cache/tunecache.tsv
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
 WARNING: Environment variable QUDA_PROFILE_OUTPUT_BASE not set; writing to profile.tsv and profile_async.tsv
-Saving 20 sets of cached parameters to .cache/profile_0.tsv
+Saving 46 sets of cached parameters to .cache/profile_0.tsv
 Saving 0 sets of cached profiles to .cache/profile_async_0.tsv
 
-               initQuda Total time =     0.035 secs
-                     init     =     0.031 secs ( 87.526%),	 with        2 calls at 1.533e+04 us per call
-        total accounted       =     0.031 secs ( 87.526%)
-        total missing         =     0.004 secs ( 12.474%)
+               initQuda Total time =     0.048 secs
+                     init     =     0.044 secs ( 91.912%),	 with        2 calls at 2.210e+04 us per call
+        total accounted       =     0.044 secs ( 91.912%)
+        total missing         =     0.004 secs (  8.088%)
 
-          loadGaugeQuda Total time =     0.275 secs
-                 download     =     0.181 secs ( 66.062%),	 with        2 calls at 9.072e+04 us per call
-                     init     =     0.000 secs (  0.039%),	 with       13 calls at 8.154e+00 us per call
-                  compute     =     0.075 secs ( 27.307%),	 with        4 calls at 1.875e+04 us per call
-                    comms     =     0.000 secs (  0.005%),	 with        1 calls at 1.300e+01 us per call
-                     free     =     0.000 secs (  0.001%),	 with        3 calls at 1.000e+00 us per call
-        total accounted       =     0.257 secs ( 93.414%)
-        total missing         =     0.018 secs (  6.586%)
+          loadGaugeQuda Total time =     0.092 secs
+                 download     =     0.058 secs ( 63.294%),	 with        2 calls at 2.904e+04 us per call
+                     init     =     0.000 secs (  0.131%),	 with       13 calls at 9.231e+00 us per call
+                  compute     =     0.017 secs ( 17.995%),	 with        4 calls at 4.128e+03 us per call
+                    comms     =     0.000 secs (  0.014%),	 with        1 calls at 1.300e+01 us per call
+                     free     =     0.000 secs (  0.002%),	 with        3 calls at 6.667e-01 us per call
+        total accounted       =     0.075 secs ( 81.437%)
+        total missing         =     0.017 secs ( 18.563%)
 
-         loadCloverQuda Total time =     0.401 secs
-                     init     =     0.000 secs (  0.047%),	 with        6 calls at 3.133e+01 us per call
-                  compute     =     0.247 secs ( 61.431%),	 with        7 calls at 3.523e+04 us per call
-                    comms     =     0.000 secs (  0.003%),	 with        1 calls at 1.400e+01 us per call
-                     free     =     0.000 secs (  0.001%),	 with        3 calls at 1.000e+00 us per call
-        total accounted       =     0.247 secs ( 61.482%)
-        total missing         =     0.155 secs ( 38.518%)
+         loadCloverQuda Total time =     0.094 secs
+                     init     =     0.000 secs (  0.122%),	 with        4 calls at 2.875e+01 us per call
+                  compute     =     0.038 secs ( 39.949%),	 with        3 calls at 1.253e+04 us per call
+                    comms     =     0.000 secs (  0.089%),	 with        1 calls at 8.400e+01 us per call
+                     free     =     0.000 secs (  0.002%),	 with        1 calls at 2.000e+00 us per call
+        total accounted       =     0.038 secs ( 40.163%)
+        total missing         =     0.056 secs ( 59.837%)
 
-                endQuda Total time =     0.049 secs
-                     free     =     0.000 secs (  0.012%),	 with        5 calls at 1.200e+00 us per call
-        total accounted       =     0.000 secs (  0.012%)
-        total missing         =     0.049 secs ( 99.988%)
+             invertQuda Total time =     0.858 secs
+                     init     =     0.096 secs ( 11.191%),	 with       44 calls at 2.181e+03 us per call
+                 preamble     =     0.218 secs ( 25.399%),	 with        7 calls at 3.112e+04 us per call
+                  compute     =     0.529 secs ( 61.692%),	 with       14 calls at 3.779e+04 us per call
+                 epilogue     =     0.002 secs (  0.285%),	 with        2 calls at 1.222e+03 us per call
+                     free     =     0.000 secs (  0.002%),	 with       18 calls at 8.889e-01 us per call
+        total accounted       =     0.845 secs ( 98.570%)
+        total missing         =     0.012 secs (  1.430%)
 
-       initQuda-endQuda Total time =     5.865 secs
+                endQuda Total time =     0.125 secs
+                     free     =     0.000 secs (  0.003%),	 with        7 calls at 5.714e-01 us per call
+        total accounted       =     0.000 secs (  0.003%)
+        total missing         =     0.125 secs ( 99.997%)
 
-                   QUDA Total time =     0.760 secs
-                 download     =     0.181 secs ( 23.883%),	 with        2 calls at 9.072e+04 us per call
-                     init     =     0.032 secs (  4.260%),	 with       21 calls at 1.541e+03 us per call
-                  compute     =     0.322 secs ( 42.337%),	 with       11 calls at 2.924e+04 us per call
-                    comms     =     0.000 secs (  0.003%),	 with        2 calls at 1.300e+01 us per call
-                     free     =     0.000 secs (  0.001%),	 with       11 calls at 9.091e-01 us per call
-        total accounted       =     0.535 secs ( 70.484%)
-        total missing         =     0.224 secs ( 29.516%)
+       initQuda-endQuda Total time =    13.206 secs
 
-Device memory used = 11.7 MB
+                   QUDA Total time =     1.217 secs
+                 download     =     0.058 secs (  4.774%),	 with        2 calls at 2.904e+04 us per call
+                     init     =     0.142 secs ( 11.637%),	 with       63 calls at 2.247e+03 us per call
+                 preamble     =     0.218 secs ( 17.903%),	 with        7 calls at 3.112e+04 us per call
+                  compute     =     0.583 secs ( 47.931%),	 with       21 calls at 2.777e+04 us per call
+                    comms     =     0.000 secs (  0.008%),	 with        2 calls at 4.850e+01 us per call
+                 epilogue     =     0.002 secs (  0.201%),	 with        2 calls at 1.222e+03 us per call
+                     free     =     0.000 secs (  0.002%),	 with       29 calls at 7.931e-01 us per call
+        total accounted       =     1.003 secs ( 82.455%)
+        total missing         =     0.213 secs ( 17.545%)
+
+Device memory used = 13.3 MB
 Pinned device memory used = 0.0 MB
 Managed memory used = 0.0 MB
 Page-locked host memory used = 0.8 MB
-Total host memory used >= 4.3 MB
+Total host memory used >= 1.4 MB
 
 >>> Running check_numpy.py
 PyQUDA INFO: Using grid size (1, 1, 1, 1)
@@ -181,65 +193,90 @@ Selected device number: 0
   Atomic memory scopes: work_item sub_group work_group device system
 WARNING: Data reordering done on GPU (set with QUDA_REORDER_LOCATION=GPU/CPU)
 Creating context... done
-Loaded 63 sets of cached parameters from .cache/tunecache.tsv
+Loaded 92 sets of cached parameters from .cache/tunecache.tsv
 WARNING: Using device memory pool allocator
 WARNING: Using pinned memory pool allocator
-PyQUDA DEBUG: Loaded output/rand_noise.npy in 1.439 secs, 0.001 GB/s
+PyQUDA DEBUG: Loaded output/rand_noise.npy in 0.486 secs, 0.002 GB/s
 PyQUDA INFO: 
 PyQUDA INFO: TESTING: dirac.mat(src_point)
-PyQUDA DEBUG: Saved output/S8T8_aurora_np_mat_noise.npy in 0.915 secs, 0.001 GB/s
+PyQUDA DEBUG: Saved output/S8T8_aurora_np_mat_noise.npy in 0.459 secs, 0.002 GB/s
+BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 2.062469e-11, true = 2.062469e-11 (requested = 1.000000e-10)
+PyQUDA INFO: Time = 0.018 secs, Performance = 28.021 GFLOPS
+PyQUDA DEBUG: Saved output/S8T8_aurora_np_inv_noise.npy in 0.593 secs, 0.001 GB/s
 PyQUDA INFO: TESTING: dirac.mat(src_point) DONE
 PyQUDA INFO: 
-Arg buf count 1
-  stream 8 size 2736
-Saving 66 sets of cached parameters to .cache/tunecache.tsv
+Arg buf count 10
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
 WARNING: Environment variable QUDA_PROFILE_OUTPUT_BASE not set; writing to profile.tsv and profile_async.tsv
-Saving 23 sets of cached parameters to .cache/profile_0.tsv
+Saving 49 sets of cached parameters to .cache/profile_0.tsv
 Saving 0 sets of cached profiles to .cache/profile_async_0.tsv
 
-               initQuda Total time =     0.028 secs
-                     init     =     0.028 secs ( 99.971%),	 with        2 calls at 1.379e+04 us per call
-        total accounted       =     0.028 secs ( 99.971%)
-        total missing         =     0.000 secs (  0.029%)
+               initQuda Total time =     0.031 secs
+                     init     =     0.031 secs ( 99.974%),	 with        2 calls at 1.550e+04 us per call
+        total accounted       =     0.031 secs ( 99.974%)
+        total missing         =     0.000 secs (  0.026%)
 
           loadGaugeQuda Total time =     0.004 secs
-                 download     =     0.002 secs ( 57.774%),	 with        2 calls at 1.217e+03 us per call
-                     init     =     0.000 secs (  2.279%),	 with       13 calls at 7.385e+00 us per call
-                  compute     =     0.000 secs (  9.138%),	 with        4 calls at 9.625e+01 us per call
-                    comms     =     0.000 secs (  0.309%),	 with        1 calls at 1.300e+01 us per call
-                     free     =     0.000 secs (  0.024%),	 with        3 calls at 3.333e-01 us per call
-        total accounted       =     0.003 secs ( 69.523%)
-        total missing         =     0.001 secs ( 30.477%)
+                 download     =     0.002 secs ( 57.633%),	 with        2 calls at 1.176e+03 us per call
+                     init     =     0.000 secs (  2.328%),	 with       13 calls at 7.308e+00 us per call
+                  compute     =     0.000 secs (  9.385%),	 with        4 calls at 9.575e+01 us per call
+                    comms     =     0.000 secs (  0.319%),	 with        1 calls at 1.300e+01 us per call
+                     free     =     0.000 secs (  0.025%),	 with        3 calls at 3.333e-01 us per call
+        total accounted       =     0.003 secs ( 69.689%)
+        total missing         =     0.001 secs ( 30.311%)
 
          loadCloverQuda Total time =     0.002 secs
-                     init     =     0.000 secs (  5.858%),	 with        4 calls at 2.800e+01 us per call
-                  compute     =     0.001 secs ( 66.527%),	 with        3 calls at 4.240e+02 us per call
-                    comms     =     0.000 secs (  0.941%),	 with        1 calls at 1.800e+01 us per call
-                     free     =     0.000 secs (  0.105%),	 with        1 calls at 2.000e+00 us per call
-        total accounted       =     0.001 secs ( 73.431%)
-        total missing         =     0.001 secs ( 26.569%)
+                     init     =     0.000 secs (  5.155%),	 with        4 calls at 2.450e+01 us per call
+                  compute     =     0.001 secs ( 67.543%),	 with        3 calls at 4.280e+02 us per call
+                    comms     =     0.000 secs (  0.894%),	 with        1 calls at 1.700e+01 us per call
+                     free     =     0.000 secs (  0.053%),	 with        1 calls at 1.000e+00 us per call
+        total accounted       =     0.001 secs ( 73.645%)
+        total missing         =     0.001 secs ( 26.355%)
 
-                endQuda Total time =     0.108 secs
-                     free     =     0.000 secs (  0.005%),	 with        5 calls at 1.000e+00 us per call
-        total accounted       =     0.000 secs (  0.005%)
-        total missing         =     0.108 secs ( 99.995%)
+             invertQuda Total time =     0.018 secs
+                 download     =     0.000 secs (  1.595%),	 with        1 calls at 2.840e+02 us per call
+                   upload     =     0.000 secs (  1.253%),	 with        1 calls at 2.230e+02 us per call
+                     init     =     0.001 secs (  4.281%),	 with       37 calls at 2.059e+01 us per call
+                 preamble     =     0.001 secs (  6.702%),	 with        5 calls at 2.386e+02 us per call
+                  compute     =     0.015 secs ( 84.978%),	 with        2 calls at 7.564e+03 us per call
+                 epilogue     =     0.000 secs (  0.315%),	 with        2 calls at 2.800e+01 us per call
+                     free     =     0.000 secs (  0.017%),	 with       11 calls at 2.727e-01 us per call
+        total accounted       =     0.018 secs ( 99.140%)
+        total missing         =     0.000 secs (  0.860%)
 
-       initQuda-endQuda Total time =     3.026 secs
+                endQuda Total time =     0.039 secs
+                     free     =     0.000 secs (  0.010%),	 with        7 calls at 5.714e-01 us per call
+        total accounted       =     0.000 secs (  0.010%)
+        total missing         =     0.039 secs ( 99.990%)
 
-                   QUDA Total time =     0.141 secs
-                 download     =     0.002 secs (  1.722%),	 with        2 calls at 1.217e+03 us per call
-                     init     =     0.028 secs ( 19.663%),	 with       19 calls at 1.463e+03 us per call
-                  compute     =     0.002 secs (  1.172%),	 with        7 calls at 2.367e+02 us per call
-                    comms     =     0.000 secs (  0.022%),	 with        2 calls at 1.550e+01 us per call
-                     free     =     0.000 secs (  0.005%),	 with        9 calls at 7.778e-01 us per call
-        total accounted       =     0.032 secs ( 22.584%)
-        total missing         =     0.109 secs ( 77.416%)
+       initQuda-endQuda Total time =     2.203 secs
 
-Device memory used = 11.9 MB
+                   QUDA Total time =     0.094 secs
+                 download     =     0.003 secs (  2.802%),	 with        3 calls at 8.787e+02 us per call
+                   upload     =     0.000 secs (  0.237%),	 with        1 calls at 2.230e+02 us per call
+                     init     =     0.032 secs ( 33.970%),	 with       56 calls at 5.706e+02 us per call
+                 preamble     =     0.001 secs (  1.269%),	 with        5 calls at 2.388e+02 us per call
+                  compute     =     0.017 secs ( 17.855%),	 with        9 calls at 1.866e+03 us per call
+                    comms     =     0.000 secs (  0.032%),	 with        2 calls at 1.500e+01 us per call
+                 epilogue     =     0.000 secs (  0.060%),	 with        2 calls at 2.800e+01 us per call
+                     free     =     0.000 secs (  0.011%),	 with       22 calls at 4.545e-01 us per call
+        total accounted       =     0.053 secs ( 56.236%)
+        total missing         =     0.041 secs ( 43.764%)
+
+Device memory used = 13.9 MB
 Pinned device memory used = 0.0 MB
 Managed memory used = 0.0 MB
 Page-locked host memory used = 0.8 MB
-Total host memory used >= 0.8 MB
+Total host memory used >= 0.9 MB
 
-End time: 2025-12-22 00:00:09
-Total time: 0h 1m 33s
+End time: 2025-12-22 01:25:18
+Total time: 0h 1m 40s

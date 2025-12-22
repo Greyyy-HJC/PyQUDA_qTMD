@@ -1,11 +1,11 @@
  
 >>> PBS_NODEFILE content:
-x4219c4s2b0n0.hsn.cm.aurora.alcf.anl.gov
-x4219c4s3b0n0.hsn.cm.aurora.alcf.anl.gov
-x4219c4s4b0n0.hsn.cm.aurora.alcf.anl.gov
-x4219c4s5b0n0.hsn.cm.aurora.alcf.anl.gov
+x4717c6s0b0n0.hsn.cm.aurora.alcf.anl.gov
+x4717c6s1b0n0.hsn.cm.aurora.alcf.anl.gov
+x4717c6s2b0n0.hsn.cm.aurora.alcf.anl.gov
+x4717c6s4b0n0.hsn.cm.aurora.alcf.anl.gov
 4n*4t
-Start time: 2025-12-21 23:56:35
+Start time: 2025-12-22 01:24:17
 Python 3.10.14
 Python path: /lus/flare/projects/StructNGB/jinchen/env/pyq_venv/bin/python
 PYTHONPATH: /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/dirac_mat:/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD
@@ -65,7 +65,7 @@ Selected device number: 0
   Atomic memory scopes: work_item sub_group work_group device system
 WARNING: Data reordering done on GPU (set with QUDA_REORDER_LOCATION=GPU/CPU)
 Creating context... done
-WARNING: Cache file not found.  All kernels will be re-tuned (if tuning is enabled).
+Loaded 92 sets of cached parameters from .cache/tunecache.tsv
 WARNING: Using device memory pool allocator
 WARNING: Using pinned memory pool allocator
 /lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
@@ -92,103 +92,114 @@ WARNING: Using pinned memory pool allocator
   return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
 /lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
   return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
-Saving 9 sets of cached parameters to .cache/tunecache.tsv
-Saving 23 sets of cached parameters to .cache/tunecache.tsv
-Saving 31 sets of cached parameters to .cache/tunecache.tsv
-PyQUDA DEBUG: Loaded output/rand_noise.npy in 0.135 secs, 0.000 GB/s
+PyQUDA DEBUG: Loaded output/rand_noise.npy in 0.165 secs, 0.000 GB/s
 PyQUDA INFO: 
 PyQUDA INFO: TESTING: dirac.mat(src_point)
-PyQUDA DEBUG: Saved output/S8T8_aurora_mpi_mat_noise.npy in 0.171 secs, 0.000 GB/s
+PyQUDA DEBUG: Saved output/S8T8_aurora_mpi_mat_noise.npy in 0.159 secs, 0.000 GB/s
+BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 1.991889e-11, true = 1.991889e-11 (requested = 1.000000e-10)
+Saving 135 sets of cached parameters to .cache/tunecache.tsv
+PyQUDA INFO: Time = 27.513 secs, Performance = 0.170 GFLOPS
+PyQUDA DEBUG: Saved output/S8T8_aurora_mpi_inv_noise.npy in 0.154 secs, 0.000 GB/s
 PyQUDA INFO: TESTING: dirac.mat(src_point) DONE
 PyQUDA INFO: 
 Arg buf count 10
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-  stream 8 size 2736
-Saving 40 sets of cached parameters to .cache/tunecache.tsv
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
+  stream 8 size 2944
 WARNING: Environment variable QUDA_PROFILE_OUTPUT_BASE not set; writing to profile.tsv and profile_async.tsv
-Saving 37 sets of cached parameters to .cache/profile_0.tsv
+Saving 70 sets of cached parameters to .cache/profile_0.tsv
 Saving 0 sets of cached profiles to .cache/profile_async_0.tsv
 
-               initQuda Total time =     0.035 secs
-                     init     =     0.029 secs ( 82.969%),	 with        2 calls at 1.467e+04 us per call
-        total accounted       =     0.029 secs ( 82.969%)
-        total missing         =     0.006 secs ( 17.031%)
+               initQuda Total time =     0.044 secs
+                     init     =     0.039 secs ( 89.433%),	 with        2 calls at 1.970e+04 us per call
+        total accounted       =     0.039 secs ( 89.433%)
+        total missing         =     0.005 secs ( 10.567%)
 
-          loadGaugeQuda Total time =     0.485 secs
-                 download     =     0.258 secs ( 53.164%),	 with        2 calls at 1.289e+05 us per call
-                     init     =     0.000 secs (  0.034%),	 with       13 calls at 1.269e+01 us per call
-                  compute     =     0.083 secs ( 17.154%),	 with        4 calls at 2.080e+04 us per call
-                    comms     =     0.094 secs ( 19.389%),	 with        1 calls at 9.404e+04 us per call
-                     free     =     0.000 secs (  0.000%),	 with        3 calls at 6.667e-01 us per call
-        total accounted       =     0.435 secs ( 89.741%)
-        total missing         =     0.050 secs ( 10.259%)
+          loadGaugeQuda Total time =     0.154 secs
+                 download     =     0.072 secs ( 46.618%),	 with        2 calls at 3.595e+04 us per call
+                     init     =     0.000 secs (  0.115%),	 with       13 calls at 1.362e+01 us per call
+                  compute     =     0.017 secs ( 10.834%),	 with        4 calls at 4.177e+03 us per call
+                    comms     =     0.002 secs (  1.195%),	 with        1 calls at 1.843e+03 us per call
+                     free     =     0.000 secs (  0.002%),	 with        3 calls at 1.000e+00 us per call
+        total accounted       =     0.091 secs ( 58.764%)
+        total missing         =     0.064 secs ( 41.236%)
 
-         loadCloverQuda Total time =     0.482 secs
-                     init     =     0.000 secs (  0.034%),	 with        6 calls at 2.700e+01 us per call
-                  compute     =     0.221 secs ( 45.906%),	 with        7 calls at 3.162e+04 us per call
-                    comms     =     0.130 secs ( 26.941%),	 with        1 calls at 1.299e+05 us per call
-                     free     =     0.000 secs (  0.001%),	 with        3 calls at 1.000e+00 us per call
-        total accounted       =     0.351 secs ( 72.882%)
-        total missing         =     0.131 secs ( 27.118%)
+         loadCloverQuda Total time =     0.119 secs
+                     init     =     0.000 secs (  0.113%),	 with        4 calls at 3.375e+01 us per call
+                  compute     =     0.049 secs ( 40.863%),	 with        3 calls at 1.626e+04 us per call
+                    comms     =     0.022 secs ( 18.432%),	 with        1 calls at 2.201e+04 us per call
+                     free     =     0.000 secs (  0.002%),	 with        1 calls at 2.000e+00 us per call
+        total accounted       =     0.071 secs ( 59.409%)
+        total missing         =     0.048 secs ( 40.591%)
 
-                endQuda Total time =     0.059 secs
-                     free     =     0.000 secs (  0.005%),	 with        5 calls at 6.000e-01 us per call
-        total accounted       =     0.000 secs (  0.005%)
-        total missing         =     0.059 secs ( 99.995%)
+             invertQuda Total time =    27.512 secs
+                     init     =     0.085 secs (  0.310%),	 with       64 calls at 1.332e+03 us per call
+                 preamble     =    13.548 secs ( 49.243%),	 with       15 calls at 9.032e+05 us per call
+                  compute     =    13.859 secs ( 50.374%),	 with       46 calls at 3.013e+05 us per call
+                 epilogue     =     0.003 secs (  0.012%),	 with        2 calls at 1.665e+03 us per call
+                     free     =     0.000 secs (  0.000%),	 with       38 calls at 1.500e+00 us per call
+        total accounted       =    27.496 secs ( 99.940%)
+        total missing         =     0.017 secs (  0.060%)
 
-       initQuda-endQuda Total time =    31.092 secs
+                endQuda Total time =     0.043 secs
+                     free     =     0.000 secs (  0.009%),	 with        7 calls at 5.714e-01 us per call
+        total accounted       =     0.000 secs (  0.009%)
+        total missing         =     0.043 secs ( 99.991%)
 
-                   QUDA Total time =     1.061 secs
-                 download     =     0.258 secs ( 24.300%),	 with        2 calls at 1.289e+05 us per call
-                     init     =     0.031 secs (  2.900%),	 with       21 calls at 1.465e+03 us per call
-                  compute     =     0.305 secs ( 28.702%),	 with       11 calls at 2.769e+04 us per call
-                    comms     =     0.224 secs ( 21.105%),	 with        2 calls at 1.120e+05 us per call
-                     free     =     0.000 secs (  0.001%),	 with       11 calls at 8.182e-01 us per call
-        total accounted       =     0.817 secs ( 77.007%)
-        total missing         =     0.244 secs ( 22.993%)
+       initQuda-endQuda Total time =    32.772 secs
 
-Device memory used = 6.3 MB
+                   QUDA Total time =    27.872 secs
+                 download     =     0.072 secs (  0.258%),	 with        2 calls at 3.595e+04 us per call
+                     init     =     0.126 secs (  0.453%),	 with       83 calls at 1.520e+03 us per call
+                 preamble     =    13.548 secs ( 48.606%),	 with       15 calls at 9.032e+05 us per call
+                  compute     =    13.925 secs ( 49.958%),	 with       53 calls at 2.627e+05 us per call
+                    comms     =     0.024 secs (  0.086%),	 with        2 calls at 1.192e+04 us per call
+                 epilogue     =     0.003 secs (  0.012%),	 with        2 calls at 1.666e+03 us per call
+                     free     =     0.000 secs (  0.000%),	 with       49 calls at 1.327e+00 us per call
+        total accounted       =    27.698 secs ( 99.373%)
+        total missing         =     0.175 secs (  0.627%)
+
+Device memory used = 6.4 MB
 Pinned device memory used = 0.0 MB
 Managed memory used = 0.0 MB
 Page-locked host memory used = 4.6 MB
 Total host memory used >= 4.7 MB
 
-Intra-node (non peer-to-peer) enabled for rank   4 (gpu=1) with neighbor   0 (gpu=0) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank   4 (gpu=1) with neighbor  12 (gpu=3) dir=1, dim=2
-Intra-node (non peer-to-peer) enabled for rank  10 (gpu=2) with neighbor   2 (gpu=0) dir=0, dim=2
-Intra-node (non peer-to-peer) enabled for rank  10 (gpu=2) with neighbor  14 (gpu=3) dir=1, dim=3
-Intra-node (non peer-to-peer) enabled for rank  13 (gpu=3) with neighbor   5 (gpu=1) dir=0, dim=2
-Intra-node (non peer-to-peer) enabled for rank  13 (gpu=3) with neighbor   9 (gpu=2) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank  12 (gpu=3) with neighbor   4 (gpu=1) dir=0, dim=2
-Intra-node (non peer-to-peer) enabled for rank  12 (gpu=3) with neighbor   8 (gpu=2) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank   6 (gpu=1) with neighbor   2 (gpu=0) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank   6 (gpu=1) with neighbor  14 (gpu=3) dir=1, dim=2
-Intra-node (non peer-to-peer) enabled for rank  14 (gpu=3) with neighbor   6 (gpu=1) dir=0, dim=2
-Intra-node (non peer-to-peer) enabled for rank  14 (gpu=3) with neighbor  10 (gpu=2) dir=0, dim=3
 Intra-node (non peer-to-peer) enabled for rank   8 (gpu=2) with neighbor   0 (gpu=0) dir=0, dim=2
 Intra-node (non peer-to-peer) enabled for rank   8 (gpu=2) with neighbor  12 (gpu=3) dir=1, dim=3
-Intra-node (non peer-to-peer) enabled for rank   5 (gpu=1) with neighbor   1 (gpu=0) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank   5 (gpu=1) with neighbor  13 (gpu=3) dir=1, dim=2
-Intra-node (non peer-to-peer) enabled for rank   7 (gpu=1) with neighbor   3 (gpu=0) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank   7 (gpu=1) with neighbor  15 (gpu=3) dir=1, dim=2
 Intra-node (non peer-to-peer) enabled for rank  15 (gpu=3) with neighbor   7 (gpu=1) dir=0, dim=2
 Intra-node (non peer-to-peer) enabled for rank  15 (gpu=3) with neighbor  11 (gpu=2) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank  11 (gpu=2) with neighbor   3 (gpu=0) dir=0, dim=2
-Intra-node (non peer-to-peer) enabled for rank  11 (gpu=2) with neighbor  15 (gpu=3) dir=1, dim=3
+Intra-node (non peer-to-peer) enabled for rank  10 (gpu=2) with neighbor   2 (gpu=0) dir=0, dim=2
+Intra-node (non peer-to-peer) enabled for rank  10 (gpu=2) with neighbor  14 (gpu=3) dir=1, dim=3
 Intra-node (non peer-to-peer) enabled for rank   3 (gpu=0) with neighbor  11 (gpu=2) dir=1, dim=2
 Intra-node (non peer-to-peer) enabled for rank   3 (gpu=0) with neighbor   7 (gpu=1) dir=1, dim=3
+Intra-node (non peer-to-peer) enabled for rank   4 (gpu=1) with neighbor   0 (gpu=0) dir=0, dim=3
+Intra-node (non peer-to-peer) enabled for rank   4 (gpu=1) with neighbor  12 (gpu=3) dir=1, dim=2
+Intra-node (non peer-to-peer) enabled for rank  11 (gpu=2) with neighbor   3 (gpu=0) dir=0, dim=2
+Intra-node (non peer-to-peer) enabled for rank  11 (gpu=2) with neighbor  15 (gpu=3) dir=1, dim=3
+Intra-node (non peer-to-peer) enabled for rank  14 (gpu=3) with neighbor   6 (gpu=1) dir=0, dim=2
+Intra-node (non peer-to-peer) enabled for rank  14 (gpu=3) with neighbor  10 (gpu=2) dir=0, dim=3
+Intra-node (non peer-to-peer) enabled for rank   6 (gpu=1) with neighbor   2 (gpu=0) dir=0, dim=3
+Intra-node (non peer-to-peer) enabled for rank   6 (gpu=1) with neighbor  14 (gpu=3) dir=1, dim=2
+Intra-node (non peer-to-peer) enabled for rank   5 (gpu=1) with neighbor   1 (gpu=0) dir=0, dim=3
+Intra-node (non peer-to-peer) enabled for rank   5 (gpu=1) with neighbor  13 (gpu=3) dir=1, dim=2
 Intra-node (non peer-to-peer) enabled for rank   9 (gpu=2) with neighbor   1 (gpu=0) dir=0, dim=2
 Intra-node (non peer-to-peer) enabled for rank   9 (gpu=2) with neighbor  13 (gpu=3) dir=1, dim=3
+Intra-node (non peer-to-peer) enabled for rank  13 (gpu=3) with neighbor   5 (gpu=1) dir=0, dim=2
+Intra-node (non peer-to-peer) enabled for rank  13 (gpu=3) with neighbor   9 (gpu=2) dir=0, dim=3
+Intra-node (non peer-to-peer) enabled for rank   7 (gpu=1) with neighbor   3 (gpu=0) dir=0, dim=3
+Intra-node (non peer-to-peer) enabled for rank   7 (gpu=1) with neighbor  15 (gpu=3) dir=1, dim=2
 Intra-node (non peer-to-peer) enabled for rank   1 (gpu=0) with neighbor   9 (gpu=2) dir=1, dim=2
 Intra-node (non peer-to-peer) enabled for rank   1 (gpu=0) with neighbor   5 (gpu=1) dir=1, dim=3
+Intra-node (non peer-to-peer) enabled for rank  12 (gpu=3) with neighbor   4 (gpu=1) dir=0, dim=2
+Intra-node (non peer-to-peer) enabled for rank  12 (gpu=3) with neighbor   8 (gpu=2) dir=0, dim=3
 Intra-node (non peer-to-peer) enabled for rank   2 (gpu=0) with neighbor  10 (gpu=2) dir=1, dim=2
 Intra-node (non peer-to-peer) enabled for rank   2 (gpu=0) with neighbor   6 (gpu=1) dir=1, dim=3
 >>> Running check_numpy.py
@@ -243,7 +254,7 @@ Selected device number: 0
   Atomic memory scopes: work_item sub_group work_group device system
 WARNING: Data reordering done on GPU (set with QUDA_REORDER_LOCATION=GPU/CPU)
 Creating context... done
-Loaded 40 sets of cached parameters from .cache/tunecache.tsv
+Loaded 135 sets of cached parameters from .cache/tunecache.tsv
 WARNING: Using device memory pool allocator
 WARNING: Using pinned memory pool allocator
 /lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
@@ -270,93 +281,112 @@ WARNING: Using pinned memory pool allocator
   return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
 /lus/flare/projects/StructNGB/jinchen/env/pyq_venv/lib/python3.10/site-packages/pyquda_io/nersc.py:15: RuntimeWarning: overflow encountered in scalar add
   return getMPIComm().allreduce(numpy.sum(data.view("<u4"), dtype="<u4"), MPI.SUM)
-PyQUDA DEBUG: Loaded output/rand_noise.npy in 0.122 secs, 0.000 GB/s
+PyQUDA DEBUG: Loaded output/rand_noise.npy in 0.132 secs, 0.000 GB/s
 PyQUDA INFO: 
 PyQUDA INFO: TESTING: dirac.mat(src_point)
-PyQUDA DEBUG: Saved output/S8T8_aurora_mpi_np_mat_noise.npy in 0.197 secs, 0.000 GB/s
+PyQUDA DEBUG: Saved output/S8T8_aurora_mpi_np_mat_noise.npy in 0.150 secs, 0.000 GB/s
+BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 1.991889e-11, true = 1.991889e-11 (requested = 1.000000e-10)
+PyQUDA INFO: Time = 0.043 secs, Performance = 12.067 GFLOPS
+PyQUDA DEBUG: Saved output/S8T8_aurora_mpi_np_inv_noise.npy in 0.157 secs, 0.000 GB/s
 PyQUDA INFO: TESTING: dirac.mat(src_point) DONE
 PyQUDA INFO: 
-Arg buf count 2
+Arg buf count 5
   stream 8 size 2736
   stream 8 size 2736
-Saving 43 sets of cached parameters to .cache/tunecache.tsv
+  stream 8 size 2880
+  stream 8 size 2944
+  stream 8 size 2880
 WARNING: Environment variable QUDA_PROFILE_OUTPUT_BASE not set; writing to profile.tsv and profile_async.tsv
-Saving 40 sets of cached parameters to .cache/profile_0.tsv
+Saving 73 sets of cached parameters to .cache/profile_0.tsv
 Saving 0 sets of cached profiles to .cache/profile_async_0.tsv
 
-               initQuda Total time =     0.023 secs
-                     init     =     0.023 secs ( 99.947%),	 with        2 calls at 1.137e+04 us per call
-        total accounted       =     0.023 secs ( 99.947%)
-        total missing         =     0.000 secs (  0.053%)
+               initQuda Total time =     0.025 secs
+                     init     =     0.025 secs ( 99.951%),	 with        2 calls at 1.227e+04 us per call
+        total accounted       =     0.025 secs ( 99.951%)
+        total missing         =     0.000 secs (  0.049%)
 
-          loadGaugeQuda Total time =     0.009 secs
-                 download     =     0.005 secs ( 52.883%),	 with        2 calls at 2.472e+03 us per call
-                     init     =     0.000 secs (  1.658%),	 with       13 calls at 1.192e+01 us per call
-                  compute     =     0.001 secs (  7.840%),	 with        4 calls at 1.832e+02 us per call
-                    comms     =     0.002 secs ( 21.585%),	 with        1 calls at 2.018e+03 us per call
-                     free     =     0.000 secs (  0.021%),	 with        3 calls at 6.667e-01 us per call
-        total accounted       =     0.008 secs ( 83.988%)
-        total missing         =     0.001 secs ( 16.012%)
+          loadGaugeQuda Total time =     0.008 secs
+                 download     =     0.004 secs ( 49.464%),	 with        2 calls at 2.100e+03 us per call
+                     init     =     0.000 secs (  1.825%),	 with       13 calls at 1.192e+01 us per call
+                  compute     =     0.001 secs (  9.139%),	 with        4 calls at 1.940e+02 us per call
+                    comms     =     0.002 secs ( 22.789%),	 with        1 calls at 1.935e+03 us per call
+                     free     =     0.000 secs (  0.035%),	 with        3 calls at 1.000e+00 us per call
+        total accounted       =     0.007 secs ( 83.253%)
+        total missing         =     0.001 secs ( 16.747%)
 
-         loadCloverQuda Total time =     0.008 secs
-                     init     =     0.000 secs (  1.754%),	 with        4 calls at 3.600e+01 us per call
-                  compute     =     0.003 secs ( 40.400%),	 with        3 calls at 1.105e+03 us per call
-                    comms     =     0.003 secs ( 41.204%),	 with        1 calls at 3.382e+03 us per call
-                     free     =     0.000 secs (  0.012%),	 with        1 calls at 1.000e+00 us per call
-        total accounted       =     0.007 secs ( 83.370%)
-        total missing         =     0.001 secs ( 16.630%)
+         loadCloverQuda Total time =     0.007 secs
+                     init     =     0.000 secs (  2.036%),	 with        4 calls at 3.600e+01 us per call
+                  compute     =     0.002 secs ( 31.830%),	 with        3 calls at 7.503e+02 us per call
+                    comms     =     0.003 secs ( 46.493%),	 with        1 calls at 3.288e+03 us per call
+                     free     =     0.000 secs (  0.014%),	 with        1 calls at 1.000e+00 us per call
+        total accounted       =     0.006 secs ( 80.373%)
+        total missing         =     0.001 secs ( 19.627%)
 
-                endQuda Total time =     0.032 secs
-                     free     =     0.000 secs (  0.009%),	 with        5 calls at 6.000e-01 us per call
-        total accounted       =     0.000 secs (  0.009%)
-        total missing         =     0.032 secs ( 99.991%)
+             invertQuda Total time =     0.043 secs
+                 download     =     0.000 secs (  0.376%),	 with        1 calls at 1.620e+02 us per call
+                   upload     =     0.000 secs (  0.636%),	 with        1 calls at 2.740e+02 us per call
+                     init     =     0.001 secs (  1.533%),	 with       37 calls at 1.786e+01 us per call
+                 preamble     =     0.003 secs (  8.104%),	 with        5 calls at 6.988e+02 us per call
+                  compute     =     0.038 secs ( 88.461%),	 with        2 calls at 1.907e+04 us per call
+                 epilogue     =     0.000 secs (  0.578%),	 with        2 calls at 1.245e+02 us per call
+                     free     =     0.000 secs (  0.005%),	 with       11 calls at 1.818e-01 us per call
+        total accounted       =     0.043 secs ( 99.692%)
+        total missing         =     0.000 secs (  0.308%)
 
-       initQuda-endQuda Total time =     0.613 secs
+                endQuda Total time =     0.020 secs
+                     free     =     0.000 secs (  0.025%),	 with        7 calls at 7.143e-01 us per call
+        total accounted       =     0.000 secs (  0.025%)
+        total missing         =     0.020 secs ( 99.975%)
 
-                   QUDA Total time =     0.072 secs
-                 download     =     0.005 secs (  6.821%),	 with        2 calls at 2.472e+03 us per call
-                     init     =     0.023 secs ( 31.778%),	 with       19 calls at 1.212e+03 us per call
-                  compute     =     0.004 secs (  5.588%),	 with        7 calls at 5.786e+02 us per call
-                    comms     =     0.005 secs (  7.449%),	 with        2 calls at 2.699e+03 us per call
-                     free     =     0.000 secs (  0.008%),	 with        9 calls at 6.667e-01 us per call
-        total accounted       =     0.037 secs ( 51.645%)
-        total missing         =     0.035 secs ( 48.355%)
+       initQuda-endQuda Total time =     0.765 secs
 
-Device memory used = 6.3 MB
+                   QUDA Total time =     0.103 secs
+                 download     =     0.004 secs (  4.233%),	 with        3 calls at 1.454e+03 us per call
+                   upload     =     0.000 secs (  0.266%),	 with        1 calls at 2.740e+02 us per call
+                     init     =     0.025 secs ( 24.744%),	 with       56 calls at 4.553e+02 us per call
+                 preamble     =     0.003 secs (  3.391%),	 with        5 calls at 6.988e+02 us per call
+                  compute     =     0.041 secs ( 39.953%),	 with        9 calls at 4.574e+03 us per call
+                    comms     =     0.005 secs (  5.069%),	 with        2 calls at 2.611e+03 us per call
+                 epilogue     =     0.000 secs (  0.242%),	 with        2 calls at 1.245e+02 us per call
+                     free     =     0.000 secs (  0.011%),	 with       22 calls at 5.000e-01 us per call
+        total accounted       =     0.080 secs ( 77.908%)
+        total missing         =     0.023 secs ( 22.092%)
+
+Device memory used = 6.5 MB
 Pinned device memory used = 0.0 MB
 Managed memory used = 0.0 MB
-Page-locked host memory used = 4.5 MB
+Page-locked host memory used = 4.6 MB
 Total host memory used >= 4.6 MB
 
-Intra-node (non peer-to-peer) enabled for rank   4 (gpu=1) with neighbor   0 (gpu=0) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank   4 (gpu=1) with neighbor  12 (gpu=3) dir=1, dim=2
 Intra-node (non peer-to-peer) enabled for rank   6 (gpu=1) with neighbor   2 (gpu=0) dir=0, dim=3
 Intra-node (non peer-to-peer) enabled for rank   6 (gpu=1) with neighbor  14 (gpu=3) dir=1, dim=2
-Intra-node (non peer-to-peer) enabled for rank   7 (gpu=1) with neighbor   3 (gpu=0) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank   7 (gpu=1) with neighbor  15 (gpu=3) dir=1, dim=2
+Intra-node (non peer-to-peer) enabled for rank   4 (gpu=1) with neighbor   0 (gpu=0) dir=0, dim=3
+Intra-node (non peer-to-peer) enabled for rank   4 (gpu=1) with neighbor  12 (gpu=3) dir=1, dim=2
+Intra-node (non peer-to-peer) enabled for rank  10 (gpu=2) with neighbor   2 (gpu=0) dir=0, dim=2
+Intra-node (non peer-to-peer) enabled for rank  10 (gpu=2) with neighbor  14 (gpu=3) dir=1, dim=3
+Intra-node (non peer-to-peer) enabled for rank   8 (gpu=2) with neighbor   0 (gpu=0) dir=0, dim=2
+Intra-node (non peer-to-peer) enabled for rank   8 (gpu=2) with neighbor  12 (gpu=3) dir=1, dim=3
+Intra-node (non peer-to-peer) enabled for rank   5 (gpu=1) with neighbor   1 (gpu=0) dir=0, dim=3
+Intra-node (non peer-to-peer) enabled for rank   5 (gpu=1) with neighbor  13 (gpu=3) dir=1, dim=2
+Intra-node (non peer-to-peer) enabled for rank  13 (gpu=3) with neighbor   5 (gpu=1) dir=0, dim=2
+Intra-node (non peer-to-peer) enabled for rank  13 (gpu=3) with neighbor   9 (gpu=2) dir=0, dim=3
 Intra-node (non peer-to-peer) enabled for rank  11 (gpu=2) with neighbor   3 (gpu=0) dir=0, dim=2
 Intra-node (non peer-to-peer) enabled for rank  11 (gpu=2) with neighbor  15 (gpu=3) dir=1, dim=3
 Intra-node (non peer-to-peer) enabled for rank  15 (gpu=3) with neighbor   7 (gpu=1) dir=0, dim=2
 Intra-node (non peer-to-peer) enabled for rank  15 (gpu=3) with neighbor  11 (gpu=2) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank  13 (gpu=3) with neighbor   5 (gpu=1) dir=0, dim=2
-Intra-node (non peer-to-peer) enabled for rank  13 (gpu=3) with neighbor   9 (gpu=2) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank  10 (gpu=2) with neighbor   2 (gpu=0) dir=0, dim=2
-Intra-node (non peer-to-peer) enabled for rank  10 (gpu=2) with neighbor  14 (gpu=3) dir=1, dim=3
-Intra-node (non peer-to-peer) enabled for rank  14 (gpu=3) with neighbor   6 (gpu=1) dir=0, dim=2
-Intra-node (non peer-to-peer) enabled for rank  14 (gpu=3) with neighbor  10 (gpu=2) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank   1 (gpu=0) with neighbor   9 (gpu=2) dir=1, dim=2
-Intra-node (non peer-to-peer) enabled for rank   1 (gpu=0) with neighbor   5 (gpu=1) dir=1, dim=3
-Intra-node (non peer-to-peer) enabled for rank   9 (gpu=2) with neighbor   1 (gpu=0) dir=0, dim=2
-Intra-node (non peer-to-peer) enabled for rank   9 (gpu=2) with neighbor  13 (gpu=3) dir=1, dim=3
-Intra-node (non peer-to-peer) enabled for rank   5 (gpu=1) with neighbor   1 (gpu=0) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank   5 (gpu=1) with neighbor  13 (gpu=3) dir=1, dim=2
-Intra-node (non peer-to-peer) enabled for rank  12 (gpu=3) with neighbor   4 (gpu=1) dir=0, dim=2
-Intra-node (non peer-to-peer) enabled for rank  12 (gpu=3) with neighbor   8 (gpu=2) dir=0, dim=3
-Intra-node (non peer-to-peer) enabled for rank   8 (gpu=2) with neighbor   0 (gpu=0) dir=0, dim=2
-Intra-node (non peer-to-peer) enabled for rank   8 (gpu=2) with neighbor  12 (gpu=3) dir=1, dim=3
-Intra-node (non peer-to-peer) enabled for rank   2 (gpu=0) with neighbor  10 (gpu=2) dir=1, dim=2
-Intra-node (non peer-to-peer) enabled for rank   2 (gpu=0) with neighbor   6 (gpu=1) dir=1, dim=3
 Intra-node (non peer-to-peer) enabled for rank   3 (gpu=0) with neighbor  11 (gpu=2) dir=1, dim=2
 Intra-node (non peer-to-peer) enabled for rank   3 (gpu=0) with neighbor   7 (gpu=1) dir=1, dim=3
-End time: 2025-12-21 23:58:49
-Total time: 0h 2m 14s
+Intra-node (non peer-to-peer) enabled for rank  14 (gpu=3) with neighbor   6 (gpu=1) dir=0, dim=2
+Intra-node (non peer-to-peer) enabled for rank  14 (gpu=3) with neighbor  10 (gpu=2) dir=0, dim=3
+Intra-node (non peer-to-peer) enabled for rank   9 (gpu=2) with neighbor   1 (gpu=0) dir=0, dim=2
+Intra-node (non peer-to-peer) enabled for rank   9 (gpu=2) with neighbor  13 (gpu=3) dir=1, dim=3
+Intra-node (non peer-to-peer) enabled for rank  12 (gpu=3) with neighbor   4 (gpu=1) dir=0, dim=2
+Intra-node (non peer-to-peer) enabled for rank  12 (gpu=3) with neighbor   8 (gpu=2) dir=0, dim=3
+Intra-node (non peer-to-peer) enabled for rank   7 (gpu=1) with neighbor   3 (gpu=0) dir=0, dim=3
+Intra-node (non peer-to-peer) enabled for rank   7 (gpu=1) with neighbor  15 (gpu=3) dir=1, dim=2
+Intra-node (non peer-to-peer) enabled for rank   1 (gpu=0) with neighbor   9 (gpu=2) dir=1, dim=2
+Intra-node (non peer-to-peer) enabled for rank   1 (gpu=0) with neighbor   5 (gpu=1) dir=1, dim=3
+Intra-node (non peer-to-peer) enabled for rank   2 (gpu=0) with neighbor  10 (gpu=2) dir=1, dim=2
+Intra-node (non peer-to-peer) enabled for rank   2 (gpu=0) with neighbor   6 (gpu=1) dir=1, dim=3
+End time: 2025-12-22 01:26:04
+Total time: 0h 1m 47s
