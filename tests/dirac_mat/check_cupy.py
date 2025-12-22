@@ -27,8 +27,8 @@ multigrid = None
 core.init(None, [Ls, Ls, Ls, Lt], enable_mps=True, grid_map="shared", backend="cupy", resource_path=".cache")
 latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
 
-# dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, multigrid)
-dirac = core.getWilson(latt_info, mass, 1e-10, 10000, multigrid)
+dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, multigrid)
+# dirac = core.getWilson(latt_info, mass, 1e-10, 10000, multigrid)
 gauge = io.readNERSCGauge(f"../../test_gauge/S8T8_wilson_b6.0")
 dirac.loadGauge(gauge)
 
