@@ -6,7 +6,7 @@
 #PBS -l filesystems=home
 #PBS -q prod
 #PBS -j oe
-#PBS -l walltime=1:00:00
+#PBS -l walltime=0:30:00
 #PBS -o /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/dirac_mat/log/dirac_mat_S8T8_aurora_mpi.log
 
 # switch to the submit directory

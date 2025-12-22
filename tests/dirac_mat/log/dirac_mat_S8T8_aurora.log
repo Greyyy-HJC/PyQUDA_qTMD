@@ -1,8 +1,8 @@
  
 >>> PBS_NODEFILE content:
-x4310c4s7b0n0.hsn.cm.aurora.alcf.anl.gov
+x4114c3s1b0n0.hsn.cm.aurora.alcf.anl.gov
 1n*1t
-Start time: 2025-12-22 02:58:19
+Start time: 2025-12-22 20:12:28
 Python 3.10.14
 Python path: /lus/flare/projects/StructNGB/jinchen/env/pyq_venv/bin/python
 PYTHONPATH: /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/dirac_mat:/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD
@@ -64,148 +64,127 @@ WARNING: Cache file not found.  All kernels will be re-tuned (if tuning is enabl
 WARNING: Using device memory pool allocator
 WARNING: Using pinned memory pool allocator
 Saving 9 sets of cached parameters to .cache/tunecache.tsv
-Saving 16 sets of cached parameters to .cache/tunecache.tsv
-PyQUDA DEBUG: Loaded output/rand_noise.npy in 0.173 secs, 0.004 GB/s
 PyQUDA INFO: 
 PyQUDA INFO: TESTING: dirac.mat(src_point)
-Tuned block=(64,1,1), grid=(32,2,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 338.11 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor11FloatNOrderIdLi4ELi3ELb0ELb0ELb0EEENS1_21SpaceSpinorColorOrderIdLi4ELi3EEESt5tupleIJRNS_16ColorSpinorFieldERKS7_19QudaFieldLocation_sPdPKdEEEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=1,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,to_ukqcd,from_degrand_rossi
-Tuned block=(128,1,2), grid=(16,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 218.35 Gflop/s, 312.97 GB/s for N4quda12WilsonCloverINS_15WilsonCloverArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,comm=0000
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(1,0,0,-1) giving 216.32 Gflop/s, 310.07 GB/s for N4quda12WilsonCloverINS_15WilsonCloverArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
-Tuned block=(16,1,1), grid=(1792,1,2), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 38.17 Gflop/s, 203.58 GB/s for N4quda4blas4axy_IdEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
-Tuned block=(64,1,1), grid=(32,2,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 324.85 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor21SpaceSpinorColorOrderIdLi4ELi3EEENS1_11FloatNOrderIdLi4ELi3ELb0ELb0ELb0EEESt5tupleIJRNS_16ColorSpinorFieldERKS7_19QudaFieldLocation_sPdPKdEEEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=1,to_degrand_rossi,from_ukqcd
-PyQUDA DEBUG: Saved output/S8T8_aurora_mat_noise.npy in 0.131 secs, 0.006 GB/s
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 249.53 GB/s for qudaMemsetAsync with zero,color_spinor_field.cpp,398
-Tuned block=(256,1,1), grid=(64,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 10.32 Gflop/s, 41.28 GB/s for N4quda4blas5Norm2IddEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
-Source: 49255.8
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 106.61 GB/s for qudaMemsetAsync with zero,color_spinor_field.cpp,398
-Tuned block=(16,1,1), grid=(128,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 80.53 Gflop/s, 132.94 GB/s for N4quda6CloverIdLi3EEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
-Tuned block=(256,1,1), grid=(8,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 88.76 Gflop/s, 149.49 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,comm=0000
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(1,0,0,-1) giving 88.51 Gflop/s, 149.07 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
-Tuned block=(256,1,1), grid=(48,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 5.07 Gflop/s, 20.26 GB/s for N4quda4blas5Norm2IddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
-Prepared: source = 2039.92, solution = 0
+Tuned block=(64,1,1), grid=(32,2,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 329.73 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor11FloatNOrderIdLi4ELi3ELb0ELb0ELb0EEENS1_21SpaceSpinorColorOrderIdLi4ELi3EEESt5tupleIJRNS_16ColorSpinorFieldERKS7_19QudaFieldLocation_sPdPKdEEEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=1,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,to_ukqcd,from_degrand_rossi
+Tuned block=(128,1,2), grid=(16,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 166.79 Gflop/s, 280.92 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,comm=0000
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(0,0,0,-1) giving 164.34 Gflop/s, 276.79 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
+Tuned block=(16,1,1), grid=(1792,1,2), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 37.73 Gflop/s, 201.25 GB/s for N4quda4blas4axy_IdEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Tuned block=(64,1,1), grid=(32,2,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 322.78 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor21SpaceSpinorColorOrderIdLi4ELi3EEENS1_11FloatNOrderIdLi4ELi3ELb0ELb0ELb0EEESt5tupleIJRNS_16ColorSpinorFieldERKS7_19QudaFieldLocation_sPdPKdEEEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=1,to_degrand_rossi,from_ukqcd
+PyQUDA DEBUG: Saved output/S8T8_aurora_mat_noise.npy in 0.177 secs, 0.004 GB/s
+Tuned block=(64,1,5), grid=(32,1,2), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 529.64 GB/s for N4quda9CopyGaugeINS_12CopyGaugeArgIddLi18ELb0ENS_5gauge11FloatNOrderIdLi18EL21QudaReconstructType_s8EL20QudaStaggeredPhase_s0ELb1EL19QudaGhostExchange_sn2147483648ELb0EEENS3_IdLi18ELS4_12ELS5_0ELb1ELS6_n2147483648ELb0EEEEEEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,stride=2304,precision=8,geometry=4,Nc=3,order=0,N=2,vol=4096,stride=2304,precision=8,geometry=4,Nc=3,order=0,N=2
+Tuned block=(16,1,7), grid=(16,1,2), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 41.96 GB/s for N4quda9CopyGaugeINS_12CopyGaugeArgIddLi18ELb0ENS_5gauge11FloatNOrderIdLi18EL21QudaReconstructType_s8EL20QudaStaggeredPhase_s0ELb1EL19QudaGhostExchange_sn2147483648ELb0EEENS3_IdLi18ELS4_12ELS5_0ELb1ELS6_n2147483648ELb0EEEEEEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,stride=2304,precision=8,geometry=4,Nc=3,order=0,N=2,vol=4096,stride=2304,precision=8,geometry=4,Nc=3,order=0,N=2,ghost
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 253.52 GB/s for qudaMemsetAsync with zero,color_spinor_field.cpp,398
+Tuned block=(256,1,1), grid=(64,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 10.23 Gflop/s, 40.91 GB/s for N4quda4blas5Norm2IddEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Source: 1
+Tuned block=(256,1,1), grid=(8,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 87.84 Gflop/s, 147.96 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,comm=0000
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(1,0,0,-1) giving 87.65 Gflop/s, 147.63 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
+Tuned block=(256,1,1), grid=(48,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 4.93 Gflop/s, 19.71 GB/s for N4quda4blas5Norm2IddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Prepared: source = 0.0637332, solution = 0
 Creating a BiCGstab solver
-Tuned block=(128,1,1), grid=(16,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 138.54 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor11FloatNOrderIdLi4ELi3ELb0ELb0ELb0EEES3_St5tupleIJRNS_16ColorSpinorFieldERKS5_19QudaFieldLocation_sPdPKdEEEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2
-Tuned block=(32,1,1), grid=(64,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 94.17 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor11FloatNOrderIsLi4ELi3ELb0ELb0ELb0EEENS2_IdLi4ELi3ELb0ELb0ELb0EEESt5tupleIJRNS_16ColorSpinorFieldERKS6_19QudaFieldLocation_sPsPKdEEEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8
-BiCGstab:     0 iterations, <r,r> = 2.039919e+03, |r|/|b| = 1.000000e+00
-Tuned block=(32,1,1), grid=(64,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 42.43 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor11FloatNOrderIsLi4ELi3ELb0ELb0ELb0EEES3_St5tupleIJRNS_16ColorSpinorFieldERKS5_19QudaFieldLocation_sPsPKsEEEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 17.78 GB/s for qudaMemsetAsync with zero,color_spinor_field.cpp,398
-Tuned block=(320,1,1), grid=(7,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 105.82 Gflop/s, 37.08 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIsLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,commDim=0000,n_rhs=1,n_rhs_tile=1,comm=0000
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(1,0,0,-1) giving 105.16 Gflop/s, 36.85 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIsLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,commDim=0000,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
-Tuned block=(240,1,1), grid=(9,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 107.49 Gflop/s, 36.73 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIsLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,comm=0000
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(1,0,0,-1) giving 108.08 Gflop/s, 36.93 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIsLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
-Tuned block=(256,1,1), grid=(8,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 8.51 Gflop/s, 9.22 GB/s for N4quda4blas4CdotIdfEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,n_rhs=1
-Tuned block=(512,1,1), grid=(1792,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 4.18 Gflop/s, 6.79 GB/s for N4quda4blas6caxpy_IfEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,n_rhs=1
-Tuned block=(256,1,1), grid=(8,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 16.54 Gflop/s, 8.96 GB/s for N4quda4blas10CdotNormABIdfEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,n_rhs=1
-Tuned block=(256,1,1), grid=(8,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 22.72 Gflop/s, 33.87 GB/s for N4quda4blas31caxpbypzYmbwcDotProductUYNormY_IddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
-BiCGstab:     1 iterations, <r,r> = 3.558764e+01, |r|/|b| = 1.320818e-01
-Tuned block=(256,1,1), grid=(1792,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 9.40 Gflop/s, 9.05 GB/s for N4quda4blas9cxpaypbz_IfEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,n_rhs=1
-Tuned block=(16,1,1), grid=(1792,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 21.37 Gflop/s, 170.97 GB/s for N4quda4blas7axpbyz_IdEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
-Tuned block=(224,1,1), grid=(10,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 104.98 Gflop/s, 154.32 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,n_rhs=1,n_rhs_tile=1,comm=0000
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(0,0,0,-1) giving 105.08 Gflop/s, 154.47 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
-Tuned block=(240,1,1), grid=(9,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 102.06 Gflop/s, 146.29 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,comm=0000
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(1,0,0,-1) giving 101.65 Gflop/s, 145.70 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
-Tuned block=(512,1,1), grid=(48,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 18.40 Gflop/s, 55.21 GB/s for N4quda4blas10caxpyNorm2IddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
-BiCGstab:     2 iterations, <r,r> = 1.201290e+01, |r|/|b| = 7.673925e-02
-BiCGstab:     3 iterations, <r,r> = 5.044833e-01, |r|/|b| = 1.572595e-02
-BiCGstab:     4 iterations, <r,r> = 8.271785e-02, |r|/|b| = 6.367855e-03
-BiCGstab:     5 iterations, <r,r> = 1.623787e-02, |r|/|b| = 2.821357e-03
-BiCGstab:     6 iterations, <r,r> = 1.811978e-03, |r|/|b| = 9.424754e-04
-BiCGstab:     7 iterations, <r,r> = 8.337866e-05, |r|/|b| = 2.021720e-04
-BiCGstab:     8 iterations, <r,r> = 1.069939e-05, |r|/|b| = 7.242243e-05
-BiCGstab:     9 iterations, <r,r> = 1.985157e-06, |r|/|b| = 3.119543e-05
-BiCGstab:    10 iterations, <r,r> = 2.700618e-07, |r|/|b| = 1.150602e-05
-BiCGstab:    11 iterations, <r,r> = 5.021073e-08, |r|/|b| = 4.961258e-06
-BiCGstab:    12 iterations, <r,r> = 1.315854e-08, |r|/|b| = 2.539788e-06
-BiCGstab:    13 iterations, <r,r> = 7.059681e-09, |r|/|b| = 1.860313e-06
-BiCGstab:    14 iterations, <r,r> = 7.008906e-10, |r|/|b| = 5.861634e-07
-BiCGstab:    15 iterations, <r,r> = 1.108879e-10, |r|/|b| = 2.331501e-07
-BiCGstab:    16 iterations, <r,r> = 1.689227e-11, |r|/|b| = 9.099919e-08
-BiCGstab:    17 iterations, <r,r> = 9.530572e-13, |r|/|b| = 2.161489e-08
-BiCGstab:    18 iterations, <r,r> = 9.843589e-14, |r|/|b| = 6.946568e-09
-BiCGstab:    19 iterations, <r,r> = 1.041827e-14, |r|/|b| = 2.259911e-09
-BiCGstab:    20 iterations, <r,r> = 2.287680e-15, |r|/|b| = 1.058988e-09
-BiCGstab:    21 iterations, <r,r> = 2.938081e-16, |r|/|b| = 3.795119e-10
-BiCGstab:    22 iterations, <r,r> = 1.016331e-16, |r|/|b| = 2.232087e-10
-BiCGstab:    23 iterations, <r,r> = 2.758394e-17, |r|/|b| = 1.162845e-10
-BiCGstab:    24 iterations, <r,r> = 8.677360e-19, |r|/|b| = 2.062469e-11
+Tuned block=(16,1,1), grid=(128,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 138.54 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor11FloatNOrderIdLi4ELi3ELb0ELb0ELb0EEES3_St5tupleIJRNS_16ColorSpinorFieldERKS5_19QudaFieldLocation_sPdPKdEEEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 110.00 GB/s for qudaMemsetAsync with zero,color_spinor_field.cpp,398
+BiCGstab:     0 iterations, <r,r> = 6.373320e-02, |r|/|b| = 1.000000e+00
+Tuned block=(256,1,1), grid=(8,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 66.92 Gflop/s, 103.83 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,n_rhs=1,n_rhs_tile=1,comm=0000
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(1,0,0,-1) giving 66.84 Gflop/s, 103.70 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
+Tuned block=(256,1,1), grid=(8,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 67.05 Gflop/s, 100.38 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,comm=0000
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(1,0,0,-1) giving 67.41 Gflop/s, 100.93 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
+Tuned block=(128,1,1), grid=(64,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 9.02 Gflop/s, 36.07 GB/s for N4quda4blas4CdotIddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Tuned block=(16,1,1), grid=(1792,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 28.60 Gflop/s, 171.58 GB/s for N4quda4blas6caxpy_IdEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Tuned block=(256,1,1), grid=(48,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 18.37 Gflop/s, 36.75 GB/s for N4quda4blas10CdotNormABIddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Tuned block=(128,1,1), grid=(64,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 35.34 Gflop/s, 109.96 GB/s for N4quda4blas31caxpbypzYmbwcDotProductUYNormY_IddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+BiCGstab:     1 iterations, <r,r> = 6.924140e-04, |r|/|b| = 1.042318e-01
+Tuned block=(16,1,1), grid=(1792,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 60.73 Gflop/s, 215.92 GB/s for N4quda4blas9cxpaypbz_IdEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Tuned block=(32,1,1), grid=(1792,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 21.09 Gflop/s, 168.72 GB/s for N4quda4blas7axpbyz_IdEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Tuned block=(240,1,1), grid=(9,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 89.04 Gflop/s, 155.42 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,n_rhs=1,n_rhs_tile=1,comm=0000
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(0,0,0,-1) giving 88.57 Gflop/s, 154.59 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
+Tuned block=(512,1,1), grid=(48,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 18.94 Gflop/s, 56.83 GB/s for N4quda4blas10caxpyNorm2IddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+BiCGstab:     2 iterations, <r,r> = 4.702818e-05, |r|/|b| = 2.716416e-02
+BiCGstab:     3 iterations, <r,r> = 3.711346e-06, |r|/|b| = 7.631025e-03
+BiCGstab:     4 iterations, <r,r> = 6.382389e-07, |r|/|b| = 3.164527e-03
+BiCGstab:     5 iterations, <r,r> = 2.191668e-08, |r|/|b| = 5.864142e-04
+BiCGstab:     6 iterations, <r,r> = 1.245252e-09, |r|/|b| = 1.397802e-04
+BiCGstab:     7 iterations, <r,r> = 3.177882e-10, |r|/|b| = 7.061322e-05
+BiCGstab:     8 iterations, <r,r> = 1.786623e-11, |r|/|b| = 1.674301e-05
+BiCGstab:     9 iterations, <r,r> = 5.401499e-12, |r|/|b| = 9.206070e-06
+BiCGstab:    10 iterations, <r,r> = 2.503625e-12, |r|/|b| = 6.267607e-06
+BiCGstab:    11 iterations, <r,r> = 9.831549e-14, |r|/|b| = 1.242019e-06
+BiCGstab:    12 iterations, <r,r> = 3.355633e-15, |r|/|b| = 2.294586e-07
+BiCGstab:    13 iterations, <r,r> = 9.042362e-16, |r|/|b| = 1.191127e-07
+BiCGstab:    14 iterations, <r,r> = 1.405427e-17, |r|/|b| = 1.484982e-08
+BiCGstab:    15 iterations, <r,r> = 2.742054e-18, |r|/|b| = 6.559264e-09
+BiCGstab:    16 iterations, <r,r> = 3.790153e-19, |r|/|b| = 2.438628e-09
+BiCGstab:    17 iterations, <r,r> = 3.675991e-20, |r|/|b| = 7.594590e-10
+BiCGstab:    18 iterations, <r,r> = 2.951709e-21, |r|/|b| = 2.152058e-10
+BiCGstab:    19 iterations, <r,r> = 7.092914e-22, |r|/|b| = 1.054944e-10
+BiCGstab:    20 iterations, <r,r> = 1.586675e-23, |r|/|b| = 1.577833e-11
 BiCGstab: Reliable updates = 8
-BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 2.062469e-11, true = 2.062469e-11 (requested = 1.000000e-10)
-Solution = 2303.89
-Reconstructed Solution = 4621.76
-Saving 47 sets of cached parameters to .cache/tunecache.tsv
-PyQUDA INFO: Time = 0.742 secs, Performance = 19.257 GFLOPS
-PyQUDA DEBUG: Saved output/S8T8_aurora_inv_noise.npy in 0.141 secs, 0.005 GB/s
+BiCGstab: Convergence at 20 iterations, L2 relative residual: iterated = 1.577833e-11, true = 1.577833e-11 (requested = 1.000000e-10)
+Solution = 0.0672606
+Reconstructed Solution = 0.0863776
+Saving 37 sets of cached parameters to .cache/tunecache.tsv
+PyQUDA INFO: Time = 0.617 secs, Performance = 15.993 GFLOPS
+PyQUDA DEBUG: Saved output/S8T8_aurora_inv_noise.npy in 0.166 secs, 0.004 GB/s
 PyQUDA INFO: TESTING: dirac.mat(src_point) DONE
 PyQUDA INFO: 
 Arg buf count 10
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
 WARNING: Environment variable QUDA_PROFILE_OUTPUT_BASE not set; writing to profile.tsv and profile_async.tsv
-Saving 46 sets of cached parameters to .cache/profile_0.tsv
+Saving 36 sets of cached parameters to .cache/profile_0.tsv
 Saving 0 sets of cached profiles to .cache/profile_async_0.tsv
 
                initQuda Total time =     0.026 secs
-                     init     =     0.022 secs ( 85.875%),	 with        2 calls at 1.108e+04 us per call
-        total accounted       =     0.022 secs ( 85.875%)
-        total missing         =     0.004 secs ( 14.125%)
+                     init     =     0.022 secs ( 82.272%),	 with        2 calls at 1.079e+04 us per call
+        total accounted       =     0.022 secs ( 82.272%)
+        total missing         =     0.005 secs ( 17.728%)
 
-          loadGaugeQuda Total time =     0.277 secs
-                 download     =     0.183 secs ( 66.294%),	 with        2 calls at 9.172e+04 us per call
-                     init     =     0.000 secs (  0.038%),	 with       13 calls at 8.154e+00 us per call
-                  compute     =     0.076 secs ( 27.622%),	 with        4 calls at 1.911e+04 us per call
-                    comms     =     0.000 secs (  0.004%),	 with        1 calls at 1.200e+01 us per call
-                     free     =     0.000 secs (  0.001%),	 with        3 calls at 6.667e-01 us per call
-        total accounted       =     0.260 secs ( 93.960%)
-        total missing         =     0.017 secs (  6.040%)
+          loadGaugeQuda Total time =     0.285 secs
+                 download     =     0.192 secs ( 67.497%),	 with        1 calls at 1.921e+05 us per call
+                     init     =     0.000 secs (  0.036%),	 with        6 calls at 1.700e+01 us per call
+                  compute     =     0.076 secs ( 26.544%),	 with        2 calls at 3.777e+04 us per call
+        total accounted       =     0.268 secs ( 94.077%)
+        total missing         =     0.017 secs (  5.923%)
 
-         loadCloverQuda Total time =     0.392 secs
-                     init     =     0.000 secs (  0.045%),	 with        6 calls at 2.933e+01 us per call
-                  compute     =     0.241 secs ( 61.555%),	 with        7 calls at 3.449e+04 us per call
-                    comms     =     0.000 secs (  0.004%),	 with        1 calls at 1.400e+01 us per call
-                     free     =     0.000 secs (  0.001%),	 with        3 calls at 1.000e+00 us per call
-        total accounted       =     0.242 secs ( 61.605%)
-        total missing         =     0.151 secs ( 38.395%)
+             invertQuda Total time =     0.617 secs
+                     init     =     0.024 secs (  3.964%),	 with       44 calls at 5.556e+02 us per call
+                 preamble     =     0.124 secs ( 20.177%),	 with        4 calls at 3.111e+04 us per call
+                  compute     =     0.398 secs ( 64.479%),	 with       14 calls at 2.840e+04 us per call
+                 epilogue     =     0.000 secs (  0.011%),	 with        2 calls at 3.500e+01 us per call
+                     free     =     0.000 secs (  0.003%),	 with       16 calls at 1.250e+00 us per call
+        total accounted       =     0.547 secs ( 88.635%)
+        total missing         =     0.070 secs ( 11.365%)
 
-             invertQuda Total time =     0.742 secs
-                     init     =     0.054 secs (  7.238%),	 with       44 calls at 1.221e+03 us per call
-                 preamble     =     0.162 secs ( 21.844%),	 with        7 calls at 2.315e+04 us per call
-                  compute     =     0.511 secs ( 68.815%),	 with       14 calls at 3.647e+04 us per call
-                 epilogue     =     0.000 secs (  0.012%),	 with        2 calls at 4.550e+01 us per call
-                     free     =     0.000 secs (  0.002%),	 with       18 calls at 8.333e-01 us per call
-        total accounted       =     0.727 secs ( 97.912%)
-        total missing         =     0.015 secs (  2.088%)
+                endQuda Total time =     0.013 secs
+                     free     =     0.000 secs (  0.022%),	 with        4 calls at 7.500e-01 us per call
+        total accounted       =     0.000 secs (  0.022%)
+        total missing         =     0.013 secs ( 99.978%)
 
-                endQuda Total time =     0.046 secs
-                     free     =     0.000 secs (  0.009%),	 with        7 calls at 5.714e-01 us per call
-        total accounted       =     0.000 secs (  0.009%)
-        total missing         =     0.046 secs ( 99.991%)
+       initQuda-endQuda Total time =     7.510 secs
 
-       initQuda-endQuda Total time =     6.845 secs
+                   QUDA Total time =     0.941 secs
+                 download     =     0.192 secs ( 20.417%),	 with        1 calls at 1.921e+05 us per call
+                     init     =     0.048 secs (  5.057%),	 with       52 calls at 9.149e+02 us per call
+                 preamble     =     0.124 secs ( 13.224%),	 with        4 calls at 3.111e+04 us per call
+                  compute     =     0.473 secs ( 50.290%),	 with       16 calls at 2.957e+04 us per call
+                 epilogue     =     0.000 secs (  0.007%),	 with        2 calls at 3.500e+01 us per call
+                     free     =     0.000 secs (  0.003%),	 with       20 calls at 1.200e+00 us per call
+        total accounted       =     0.837 secs ( 88.999%)
+        total missing         =     0.104 secs ( 11.001%)
 
-                   QUDA Total time =     1.482 secs
-                 download     =     0.183 secs ( 12.376%),	 with        2 calls at 9.172e+04 us per call
-                     init     =     0.077 secs (  5.202%),	 with       65 calls at 1.186e+03 us per call
-                 preamble     =     0.162 secs ( 10.935%),	 with        7 calls at 2.315e+04 us per call
-                  compute     =     0.828 secs ( 55.893%),	 with       25 calls at 3.314e+04 us per call
-                    comms     =     0.000 secs (  0.002%),	 with        2 calls at 1.300e+01 us per call
-                 epilogue     =     0.000 secs (  0.006%),	 with        2 calls at 4.500e+01 us per call
-                     free     =     0.000 secs (  0.002%),	 with       31 calls at 7.419e-01 us per call
-        total accounted       =     1.251 secs ( 84.415%)
-        total missing         =     0.231 secs ( 15.585%)
-
-Device memory used = 13.3 MB
+Device memory used = 8.3 MB
 Pinned device memory used = 0.0 MB
 Managed memory used = 0.0 MB
 Page-locked host memory used = 0.8 MB
-Total host memory used >= 4.3 MB
+Total host memory used >= 1.7 MB
 
 >>> Running check_numpy.py
 PyQUDA INFO: Using grid size (1, 1, 1, 1)
@@ -261,157 +240,134 @@ WARNING: Cache file not found.  All kernels will be re-tuned (if tuning is enabl
 WARNING: Using device memory pool allocator
 WARNING: Using pinned memory pool allocator
 Saving 9 sets of cached parameters to .cache/tunecache.tsv
-Saving 16 sets of cached parameters to .cache/tunecache.tsv
-PyQUDA DEBUG: Loaded output/rand_noise.npy in 0.474 secs, 0.002 GB/s
 PyQUDA INFO: 
 PyQUDA INFO: TESTING: dirac.mat(src_point)
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 11.40 GB/s for qudaMemcpyDefault with copy,color_spinor_field.cpp,439
-WARNING: Unexpected regression when tuning candidates for qudaMemcpyDefault: (6.89937e-05 > 1.1 * 5.408e-05)
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 250.43 GB/s for qudaMemsetAsync with copy,color_spinor_field.cpp,446
-Tuned block=(64,1,1), grid=(32,2,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 340.56 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor11FloatNOrderIdLi4ELi3ELb0ELb0ELb0EEENS1_21SpaceSpinorColorOrderIdLi4ELi3EEESt5tupleIJRNS_16ColorSpinorFieldERKS7_19QudaFieldLocation_sPdPKdEEEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=1,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,to_ukqcd,from_degrand_rossi
-Tuned block=(128,1,2), grid=(16,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 224.47 Gflop/s, 321.75 GB/s for N4quda12WilsonCloverINS_15WilsonCloverArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,comm=0000
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(0,0,0,-1) giving 224.30 Gflop/s, 321.50 GB/s for N4quda12WilsonCloverINS_15WilsonCloverArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
-Tuned block=(16,1,1), grid=(1792,1,2), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 38.37 Gflop/s, 204.61 GB/s for N4quda4blas4axy_IdEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
-Tuned block=(32,1,1), grid=(64,2,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 326.18 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor21SpaceSpinorColorOrderIdLi4ELi3EEENS1_11FloatNOrderIdLi4ELi3ELb0ELb0ELb0EEESt5tupleIJRNS_16ColorSpinorFieldERKS7_19QudaFieldLocation_sPdPKdEEEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=1,to_degrand_rossi,from_ukqcd
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 11.72 GB/s for qudaMemcpyDefault with copy,color_spinor_field.cpp,482
-PyQUDA DEBUG: Saved output/S8T8_aurora_np_mat_noise.npy in 0.572 secs, 0.001 GB/s
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 248.49 GB/s for qudaMemsetAsync with zero,color_spinor_field.cpp,398
-Tuned block=(256,1,1), grid=(64,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 10.44 Gflop/s, 41.75 GB/s for N4quda4blas5Norm2IddEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
-Source: 49255.8
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 107.87 GB/s for qudaMemsetAsync with zero,color_spinor_field.cpp,398
-Tuned block=(16,1,1), grid=(128,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 81.73 Gflop/s, 134.92 GB/s for N4quda6CloverIdLi3EEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
-Tuned block=(224,1,1), grid=(10,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 92.34 Gflop/s, 155.52 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,comm=0000
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(1,0,0,-1) giving 92.30 Gflop/s, 155.46 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
-Tuned block=(256,1,1), grid=(32,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 4.83 Gflop/s, 19.32 GB/s for N4quda4blas5Norm2IddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
-Prepared: source = 2039.92, solution = 0
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 10.37 GB/s for qudaMemcpyDefault with copy,color_spinor_field.cpp,439
+WARNING: Unexpected regression when tuning candidates for qudaMemcpyDefault: (7.581e-05 > 1.1 * 6.256e-05)
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 253.72 GB/s for qudaMemsetAsync with copy,color_spinor_field.cpp,446
+Tuned block=(64,1,1), grid=(32,2,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 336.56 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor11FloatNOrderIdLi4ELi3ELb0ELb0ELb0EEENS1_21SpaceSpinorColorOrderIdLi4ELi3EEESt5tupleIJRNS_16ColorSpinorFieldERKS7_19QudaFieldLocation_sPdPKdEEEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=1,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,to_ukqcd,from_degrand_rossi
+Tuned block=(128,1,2), grid=(16,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 171.09 Gflop/s, 288.16 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,comm=0000
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(1,0,0,-1) giving 171.64 Gflop/s, 289.09 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
+Tuned block=(16,1,1), grid=(1792,1,2), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 37.54 Gflop/s, 200.24 GB/s for N4quda4blas4axy_IdEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Tuned block=(32,1,1), grid=(64,2,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 323.12 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor21SpaceSpinorColorOrderIdLi4ELi3EEENS1_11FloatNOrderIdLi4ELi3ELb0ELb0ELb0EEESt5tupleIJRNS_16ColorSpinorFieldERKS7_19QudaFieldLocation_sPdPKdEEEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=1,to_degrand_rossi,from_ukqcd
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 10.05 GB/s for qudaMemcpyDefault with copy,color_spinor_field.cpp,482
+PyQUDA DEBUG: Saved output/S8T8_aurora_np_mat_noise.npy in 0.174 secs, 0.004 GB/s
+Tuned block=(64,1,5), grid=(32,1,2), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 532.37 GB/s for N4quda9CopyGaugeINS_12CopyGaugeArgIddLi18ELb0ENS_5gauge11FloatNOrderIdLi18EL21QudaReconstructType_s8EL20QudaStaggeredPhase_s0ELb1EL19QudaGhostExchange_sn2147483648ELb0EEENS3_IdLi18ELS4_12ELS5_0ELb1ELS6_n2147483648ELb0EEEEEEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,stride=2304,precision=8,geometry=4,Nc=3,order=0,N=2,vol=4096,stride=2304,precision=8,geometry=4,Nc=3,order=0,N=2
+Tuned block=(32,1,6), grid=(8,1,2), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 42.40 GB/s for N4quda9CopyGaugeINS_12CopyGaugeArgIddLi18ELb0ENS_5gauge11FloatNOrderIdLi18EL21QudaReconstructType_s8EL20QudaStaggeredPhase_s0ELb1EL19QudaGhostExchange_sn2147483648ELb0EEENS3_IdLi18ELS4_12ELS5_0ELb1ELS6_n2147483648ELb0EEEEEEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,stride=2304,precision=8,geometry=4,Nc=3,order=0,N=2,vol=4096,stride=2304,precision=8,geometry=4,Nc=3,order=0,N=2,ghost
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 243.24 GB/s for qudaMemsetAsync with zero,color_spinor_field.cpp,398
+Tuned block=(256,1,1), grid=(64,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 10.44 Gflop/s, 41.74 GB/s for N4quda4blas5Norm2IddEE with GPU-offline,kernel_arg_threshold=2040,vol=4096,parity=2,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Source: 1
+Tuned block=(224,1,1), grid=(10,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 90.19 Gflop/s, 151.90 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,comm=0000
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(0,0,0,-1) giving 89.47 Gflop/s, 150.69 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
+Tuned block=(256,1,1), grid=(52,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 4.95 Gflop/s, 19.81 GB/s for N4quda4blas5Norm2IddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Prepared: source = 0.0637332, solution = 0
 Creating a BiCGstab solver
-Tuned block=(128,1,1), grid=(16,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 138.54 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor11FloatNOrderIdLi4ELi3ELb0ELb0ELb0EEES3_St5tupleIJRNS_16ColorSpinorFieldERKS5_19QudaFieldLocation_sPdPKdEEEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2
-Tuned block=(16,1,1), grid=(128,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 95.29 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor11FloatNOrderIsLi4ELi3ELb0ELb0ELb0EEENS2_IdLi4ELi3ELb0ELb0ELb0EEESt5tupleIJRNS_16ColorSpinorFieldERKS6_19QudaFieldLocation_sPsPKdEEEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8
-BiCGstab:     0 iterations, <r,r> = 2.039919e+03, |r|/|b| = 1.000000e+00
-Tuned block=(64,1,1), grid=(32,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 42.79 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor11FloatNOrderIsLi4ELi3ELb0ELb0ELb0EEES3_St5tupleIJRNS_16ColorSpinorFieldERKS5_19QudaFieldLocation_sPsPKsEEEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 18.08 GB/s for qudaMemsetAsync with zero,color_spinor_field.cpp,398
-Tuned block=(208,1,1), grid=(10,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 106.50 Gflop/s, 37.32 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIsLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,commDim=0000,n_rhs=1,n_rhs_tile=1,comm=0000
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(1,0,0,-1) giving 106.85 Gflop/s, 37.44 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIsLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,commDim=0000,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
-Tuned block=(336,1,1), grid=(7,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 109.37 Gflop/s, 37.37 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIsLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,comm=0000
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(0,0,0,-1) giving 108.94 Gflop/s, 37.22 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIsLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
-Tuned block=(256,1,1), grid=(8,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 8.79 Gflop/s, 9.53 GB/s for N4quda4blas4CdotIdfEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,n_rhs=1
-Tuned block=(512,1,1), grid=(1792,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 5.06 Gflop/s, 8.23 GB/s for N4quda4blas6caxpy_IfEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,n_rhs=1
-WARNING: Unexpected regression when tuning candidates for N4quda4blas6caxpy_IfEE: (3.88411e-05 > 1.1 * 2.76e-05)
-Tuned block=(256,1,1), grid=(8,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 16.77 Gflop/s, 9.09 GB/s for N4quda4blas10CdotNormABIdfEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,n_rhs=1
-Tuned block=(256,1,1), grid=(16,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 22.78 Gflop/s, 33.96 GB/s for N4quda4blas31caxpbypzYmbwcDotProductUYNormY_IddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
-BiCGstab:     1 iterations, <r,r> = 3.558764e+01, |r|/|b| = 1.320818e-01
-Tuned block=(512,1,1), grid=(1792,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 11.08 Gflop/s, 10.67 GB/s for N4quda4blas9cxpaypbz_IfEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=2,Ns=4,Nc=3,order=0,N=8,n_rhs=1
-WARNING: Unexpected regression when tuning candidates for N4quda4blas9cxpaypbz_IfEE: (3.99289e-05 > 1.1 * 2.816e-05)
-Tuned block=(16,1,1), grid=(1792,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 21.16 Gflop/s, 169.24 GB/s for N4quda4blas7axpbyz_IdEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
-Tuned block=(224,1,1), grid=(10,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 107.42 Gflop/s, 157.91 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,n_rhs=1,n_rhs_tile=1,comm=0000
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(0,0,0,-1) giving 107.18 Gflop/s, 157.56 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
-Tuned block=(240,1,1), grid=(9,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 103.01 Gflop/s, 147.65 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,comm=0000
-Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(0,0,0,-1) giving 103.01 Gflop/s, 147.65 GB/s for N4quda26WilsonCloverPreconditionedINS_15WilsonCloverArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
-Tuned block=(512,1,1), grid=(48,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 19.03 Gflop/s, 57.08 GB/s for N4quda4blas10caxpyNorm2IddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
-BiCGstab:     2 iterations, <r,r> = 1.201290e+01, |r|/|b| = 7.673925e-02
-BiCGstab:     3 iterations, <r,r> = 5.044833e-01, |r|/|b| = 1.572595e-02
-BiCGstab:     4 iterations, <r,r> = 8.271785e-02, |r|/|b| = 6.367855e-03
-BiCGstab:     5 iterations, <r,r> = 1.623787e-02, |r|/|b| = 2.821357e-03
-BiCGstab:     6 iterations, <r,r> = 1.811978e-03, |r|/|b| = 9.424754e-04
-BiCGstab:     7 iterations, <r,r> = 8.337866e-05, |r|/|b| = 2.021720e-04
-BiCGstab:     8 iterations, <r,r> = 1.069939e-05, |r|/|b| = 7.242243e-05
-BiCGstab:     9 iterations, <r,r> = 1.985157e-06, |r|/|b| = 3.119543e-05
-BiCGstab:    10 iterations, <r,r> = 2.700618e-07, |r|/|b| = 1.150602e-05
-BiCGstab:    11 iterations, <r,r> = 5.021073e-08, |r|/|b| = 4.961258e-06
-BiCGstab:    12 iterations, <r,r> = 1.315854e-08, |r|/|b| = 2.539788e-06
-BiCGstab:    13 iterations, <r,r> = 7.059681e-09, |r|/|b| = 1.860313e-06
-BiCGstab:    14 iterations, <r,r> = 7.008906e-10, |r|/|b| = 5.861634e-07
-BiCGstab:    15 iterations, <r,r> = 1.108879e-10, |r|/|b| = 2.331501e-07
-BiCGstab:    16 iterations, <r,r> = 1.689227e-11, |r|/|b| = 9.099919e-08
-BiCGstab:    17 iterations, <r,r> = 9.530572e-13, |r|/|b| = 2.161489e-08
-BiCGstab:    18 iterations, <r,r> = 9.843589e-14, |r|/|b| = 6.946568e-09
-BiCGstab:    19 iterations, <r,r> = 1.041827e-14, |r|/|b| = 2.259911e-09
-BiCGstab:    20 iterations, <r,r> = 2.287680e-15, |r|/|b| = 1.058988e-09
-BiCGstab:    21 iterations, <r,r> = 2.938081e-16, |r|/|b| = 3.795119e-10
-BiCGstab:    22 iterations, <r,r> = 1.016331e-16, |r|/|b| = 2.232087e-10
-BiCGstab:    23 iterations, <r,r> = 2.758394e-17, |r|/|b| = 1.162845e-10
-BiCGstab:    24 iterations, <r,r> = 8.677360e-19, |r|/|b| = 2.062469e-11
+Tuned block=(64,1,1), grid=(32,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 136.77 GB/s for N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor11FloatNOrderIdLi4ELi3ELb0ELb0ELb0EEES3_St5tupleIJRNS_16ColorSpinorFieldERKS5_19QudaFieldLocation_sPdPKdEEEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 0.00 Gflop/s, 108.13 GB/s for qudaMemsetAsync with zero,color_spinor_field.cpp,398
+BiCGstab:     0 iterations, <r,r> = 6.373320e-02, |r|/|b| = 1.000000e+00
+Tuned block=(256,1,1), grid=(8,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 67.80 Gflop/s, 105.19 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,n_rhs=1,n_rhs_tile=1,comm=0000
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(0,0,0,-1) giving 67.57 Gflop/s, 104.84 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
+Tuned block=(256,1,1), grid=(8,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 67.60 Gflop/s, 101.20 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,comm=0000
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(0,0,0,-1) giving 67.82 Gflop/s, 101.53 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s8ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,xpay,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
+Tuned block=(256,1,1), grid=(48,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 9.06 Gflop/s, 36.24 GB/s for N4quda4blas4CdotIddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Tuned block=(16,1,1), grid=(1792,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 28.52 Gflop/s, 171.12 GB/s for N4quda4blas6caxpy_IdEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Tuned block=(256,1,1), grid=(32,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 18.37 Gflop/s, 36.75 GB/s for N4quda4blas10CdotNormABIddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Tuned block=(64,1,1), grid=(128,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 35.96 Gflop/s, 111.86 GB/s for N4quda4blas31caxpbypzYmbwcDotProductUYNormY_IddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+BiCGstab:     1 iterations, <r,r> = 6.924140e-04, |r|/|b| = 1.042318e-01
+Tuned block=(16,1,1), grid=(1792,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 60.74 Gflop/s, 215.95 GB/s for N4quda4blas9cxpaypbz_IdEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Tuned block=(32,1,1), grid=(1792,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 20.99 Gflop/s, 167.94 GB/s for N4quda4blas7axpbyz_IdEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+Tuned block=(240,1,1), grid=(9,1,1), shared_bytes=0, shared_carve_out=100, aux=(-1,-1,-1,-1) giving 88.80 Gflop/s, 154.99 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy_kernel=interior,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,n_rhs=1,n_rhs_tile=1,comm=0000
+Tuned block=(16,1,1), grid=(1,1,1), shared_bytes=0, shared_carve_out=0, aux=(1,0,0,-1) giving 89.18 Gflop/s, 155.66 GB/s for N4quda6WilsonINS_9WilsonArgIdLi3ELi4ENS_4DDNoEL21QudaReconstructType_s12ELb0EEEEE with policy,GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,commDim=0000,n_rhs=1,n_rhs_tile=1,topo=1111,order=level_zero:gpu,p2p=0,gdr=0,nvshmem=0,pol=110000000000000000
+Tuned block=(256,1,1), grid=(104,1,1), shared_bytes=0, shared_carve_out=0, aux=(-1,-1,-1,-1) giving 18.27 Gflop/s, 54.82 GB/s for N4quda4blas10caxpyNorm2IddEE with GPU-offline,kernel_arg_threshold=2040,vol=2048,parity=1,precision=8,Ns=4,Nc=3,order=0,N=2,n_rhs=1
+BiCGstab:     2 iterations, <r,r> = 4.702818e-05, |r|/|b| = 2.716416e-02
+BiCGstab:     3 iterations, <r,r> = 3.711346e-06, |r|/|b| = 7.631025e-03
+BiCGstab:     4 iterations, <r,r> = 6.382389e-07, |r|/|b| = 3.164527e-03
+BiCGstab:     5 iterations, <r,r> = 2.191668e-08, |r|/|b| = 5.864142e-04
+BiCGstab:     6 iterations, <r,r> = 1.245252e-09, |r|/|b| = 1.397802e-04
+BiCGstab:     7 iterations, <r,r> = 3.177882e-10, |r|/|b| = 7.061322e-05
+BiCGstab:     8 iterations, <r,r> = 1.786623e-11, |r|/|b| = 1.674301e-05
+BiCGstab:     9 iterations, <r,r> = 5.401499e-12, |r|/|b| = 9.206070e-06
+BiCGstab:    10 iterations, <r,r> = 2.503625e-12, |r|/|b| = 6.267607e-06
+BiCGstab:    11 iterations, <r,r> = 9.831549e-14, |r|/|b| = 1.242019e-06
+BiCGstab:    12 iterations, <r,r> = 3.355633e-15, |r|/|b| = 2.294586e-07
+BiCGstab:    13 iterations, <r,r> = 9.042362e-16, |r|/|b| = 1.191127e-07
+BiCGstab:    14 iterations, <r,r> = 1.405427e-17, |r|/|b| = 1.484982e-08
+BiCGstab:    15 iterations, <r,r> = 2.742053e-18, |r|/|b| = 6.559264e-09
+BiCGstab:    16 iterations, <r,r> = 3.790150e-19, |r|/|b| = 2.438627e-09
+BiCGstab:    17 iterations, <r,r> = 3.675991e-20, |r|/|b| = 7.594590e-10
+BiCGstab:    18 iterations, <r,r> = 2.951698e-21, |r|/|b| = 2.152054e-10
+BiCGstab:    19 iterations, <r,r> = 7.092841e-22, |r|/|b| = 1.054939e-10
+BiCGstab:    20 iterations, <r,r> = 1.586650e-23, |r|/|b| = 1.577821e-11
 BiCGstab: Reliable updates = 8
-BiCGstab: Convergence at 24 iterations, L2 relative residual: iterated = 2.062469e-11, true = 2.062469e-11 (requested = 1.000000e-10)
-Solution = 2303.89
-Reconstructed Solution = 4621.76
-Saving 50 sets of cached parameters to .cache/tunecache.tsv
-PyQUDA INFO: Time = 0.510 secs, Performance = 28.380 GFLOPS
-PyQUDA DEBUG: Saved output/S8T8_aurora_np_inv_noise.npy in 0.485 secs, 0.002 GB/s
+BiCGstab: Convergence at 20 iterations, L2 relative residual: iterated = 1.577821e-11, true = 1.577821e-11 (requested = 1.000000e-10)
+Solution = 0.0672606
+Reconstructed Solution = 0.0863776
+Saving 40 sets of cached parameters to .cache/tunecache.tsv
+PyQUDA INFO: Time = 0.467 secs, Performance = 21.151 GFLOPS
+PyQUDA DEBUG: Saved output/S8T8_aurora_np_inv_noise.npy in 0.162 secs, 0.005 GB/s
 PyQUDA INFO: TESTING: dirac.mat(src_point) DONE
 PyQUDA INFO: 
 Arg buf count 10
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
-  stream 8 size 2944
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
+  stream 8 size 2672
 WARNING: Environment variable QUDA_PROFILE_OUTPUT_BASE not set; writing to profile.tsv and profile_async.tsv
-Saving 49 sets of cached parameters to .cache/profile_0.tsv
+Saving 39 sets of cached parameters to .cache/profile_0.tsv
 Saving 0 sets of cached profiles to .cache/profile_async_0.tsv
 
-               initQuda Total time =     0.020 secs
-                     init     =     0.020 secs ( 99.955%),	 with        2 calls at 1.008e+04 us per call
-        total accounted       =     0.020 secs ( 99.955%)
-        total missing         =     0.000 secs (  0.045%)
+               initQuda Total time =     0.019 secs
+                     init     =     0.019 secs ( 99.963%),	 with        2 calls at 9.341e+03 us per call
+        total accounted       =     0.019 secs ( 99.963%)
+        total missing         =     0.000 secs (  0.037%)
 
           loadGaugeQuda Total time =     0.134 secs
-                 download     =     0.082 secs ( 61.008%),	 with        2 calls at 4.090e+04 us per call
-                     init     =     0.000 secs (  0.068%),	 with       13 calls at 7.000e+00 us per call
-                  compute     =     0.051 secs ( 37.985%),	 with        4 calls at 1.273e+04 us per call
-                    comms     =     0.000 secs (  0.009%),	 with        1 calls at 1.200e+01 us per call
-                     free     =     0.000 secs (  0.001%),	 with        3 calls at 6.667e-01 us per call
-        total accounted       =     0.133 secs ( 99.071%)
-        total missing         =     0.001 secs (  0.929%)
+                 download     =     0.082 secs ( 61.277%),	 with        1 calls at 8.218e+04 us per call
+                     init     =     0.000 secs (  0.069%),	 with        6 calls at 1.550e+01 us per call
+                  compute     =     0.051 secs ( 37.905%),	 with        2 calls at 2.542e+04 us per call
+        total accounted       =     0.133 secs ( 99.251%)
+        total missing         =     0.001 secs (  0.749%)
 
-         loadCloverQuda Total time =     0.279 secs
-                     init     =     0.000 secs (  0.058%),	 with        6 calls at 2.717e+01 us per call
-                  compute     =     0.198 secs ( 71.147%),	 with        7 calls at 2.833e+04 us per call
-                    comms     =     0.000 secs (  0.005%),	 with        1 calls at 1.400e+01 us per call
-                     free     =     0.000 secs (  0.001%),	 with        3 calls at 6.667e-01 us per call
-        total accounted       =     0.198 secs ( 71.211%)
-        total missing         =     0.080 secs ( 28.789%)
+             invertQuda Total time =     0.467 secs
+                 download     =     0.000 secs (  0.040%),	 with        1 calls at 1.890e+02 us per call
+                   upload     =     0.000 secs (  0.027%),	 with        1 calls at 1.260e+02 us per call
+                     init     =     0.017 secs (  3.612%),	 with       44 calls at 3.837e+02 us per call
+                 preamble     =     0.098 secs ( 20.871%),	 with        4 calls at 2.439e+04 us per call
+                  compute     =     0.300 secs ( 64.240%),	 with       14 calls at 2.145e+04 us per call
+                 epilogue     =     0.000 secs (  0.014%),	 with        2 calls at 3.250e+01 us per call
+                     free     =     0.000 secs (  0.003%),	 with       16 calls at 1.000e+00 us per call
+        total accounted       =     0.415 secs ( 88.807%)
+        total missing         =     0.052 secs ( 11.193%)
 
-             invertQuda Total time =     0.510 secs
-                 download     =     0.000 secs (  0.057%),	 with        1 calls at 2.910e+02 us per call
-                   upload     =     0.000 secs (  0.044%),	 with        1 calls at 2.240e+02 us per call
-                     init     =     0.032 secs (  6.184%),	 with       44 calls at 7.164e+02 us per call
-                 preamble     =     0.115 secs ( 22.616%),	 with        7 calls at 1.647e+04 us per call
-                  compute     =     0.361 secs ( 70.868%),	 with       14 calls at 2.580e+04 us per call
-                 epilogue     =     0.000 secs (  0.017%),	 with        2 calls at 4.300e+01 us per call
-                     free     =     0.000 secs (  0.003%),	 with       18 calls at 8.333e-01 us per call
-        total accounted       =     0.509 secs ( 99.789%)
-        total missing         =     0.001 secs (  0.211%)
+                endQuda Total time =     0.013 secs
+                     free     =     0.000 secs (  0.023%),	 with        4 calls at 7.500e-01 us per call
+        total accounted       =     0.000 secs (  0.023%)
+        total missing         =     0.013 secs ( 99.977%)
 
-                endQuda Total time =     0.086 secs
-                     free     =     0.000 secs (  0.006%),	 with        7 calls at 7.143e-01 us per call
-        total accounted       =     0.000 secs (  0.006%)
-        total missing         =     0.086 secs ( 99.994%)
+       initQuda-endQuda Total time =     1.293 secs
 
-       initQuda-endQuda Total time =     3.395 secs
+                   QUDA Total time =     0.633 secs
+                 download     =     0.082 secs ( 13.010%),	 with        2 calls at 4.118e+04 us per call
+                   upload     =     0.000 secs (  0.020%),	 with        1 calls at 1.260e+02 us per call
+                     init     =     0.036 secs (  5.633%),	 with       52 calls at 6.858e+02 us per call
+                 preamble     =     0.098 secs ( 15.410%),	 with        4 calls at 2.439e+04 us per call
+                  compute     =     0.351 secs ( 55.461%),	 with       16 calls at 2.194e+04 us per call
+                 epilogue     =     0.000 secs (  0.010%),	 with        2 calls at 3.250e+01 us per call
+                     free     =     0.000 secs (  0.003%),	 with       20 calls at 9.500e-01 us per call
+        total accounted       =     0.567 secs ( 89.547%)
+        total missing         =     0.066 secs ( 10.453%)
 
-                   QUDA Total time =     1.028 secs
-                 download     =     0.082 secs (  7.983%),	 with        3 calls at 2.736e+04 us per call
-                   upload     =     0.000 secs (  0.022%),	 with        1 calls at 2.250e+02 us per call
-                     init     =     0.052 secs (  5.050%),	 with       65 calls at 7.989e+02 us per call
-                 preamble     =     0.115 secs ( 11.210%),	 with        7 calls at 1.647e+04 us per call
-                  compute     =     0.610 secs ( 59.366%),	 with       25 calls at 2.442e+04 us per call
-                    comms     =     0.000 secs (  0.003%),	 with        2 calls at 1.300e+01 us per call
-                 epilogue     =     0.000 secs (  0.008%),	 with        2 calls at 4.300e+01 us per call
-                     free     =     0.000 secs (  0.002%),	 with       31 calls at 8.065e-01 us per call
-        total accounted       =     0.860 secs ( 83.645%)
-        total missing         =     0.168 secs ( 16.355%)
-
-Device memory used = 13.9 MB
+Device memory used = 8.5 MB
 Pinned device memory used = 0.0 MB
 Managed memory used = 0.0 MB
 Page-locked host memory used = 0.8 MB
-Total host memory used >= 4.3 MB
+Total host memory used >= 1.7 MB
 
-End time: 2025-12-22 03:01:04
-Total time: 0h 2m 45s
+End time: 2025-12-22 20:14:14
+Total time: 0h 1m 46s

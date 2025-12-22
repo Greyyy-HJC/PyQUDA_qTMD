@@ -43,3 +43,11 @@ if __name__ == "__main__":
     print("Top 10 largest absolute differences (IMAG part, comparing |val|):")
     for idx in top_indices_imag:
         print(f"  idx {idx}: abs_diff={abs_diff_imag[idx]:.16e}, rel_diff={rel_diff_imag[idx]:.16e}, val1={imag1[idx]:.16e}, val2={imag2[idx]:.16e}")
+    
+    print()
+    
+    # Print L2 norm of differences
+    l2_norm_real = np.linalg.norm(real1 - real2)
+    l2_norm_imag = np.linalg.norm(imag1 - imag2)
+    print(f"L2 norm of (real1 - real2): {l2_norm_real:.16e}")
+    print(f"L2 norm of (imag1 - imag2): {l2_norm_imag:.16e}")
