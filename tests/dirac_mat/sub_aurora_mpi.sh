@@ -7,7 +7,7 @@
 #PBS -q prod
 #PBS -j oe
 #PBS -l walltime=1:00:00
-#PBS -o /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/dirac_mat/logs/dirac_mat_S8T8_aurora_mpi.log
+#PBS -o /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/dirac_mat/log/dirac_mat_S8T8_aurora_mpi.log
 
 # switch to the submit directory
 WORKDIR=/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/dirac_mat
@@ -53,9 +53,9 @@ ls -l $PYQ_LIB_PATH/libur_loader.so* 2>/dev/null || echo "Not found in $PYQ_LIB_
 
 
 echo ">>> Running check_dpnp.py"
-mpirun -n 16 python3 check_dpnp.py S8T8_aurora
+mpirun -n 16 python3 check_dpnp.py S8T8_aurora_mpi
 echo ">>> Running check_numpy.py"
-mpirun -n 16 python3 check_numpy.py S8T8_aurora_np
+mpirun -n 16 python3 check_numpy.py S8T8_aurora_mpi_np
 
 # calculate total time
 end_time=$(date +"%Y-%m-%d %H:%M:%S")

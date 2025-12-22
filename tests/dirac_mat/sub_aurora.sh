@@ -7,7 +7,7 @@
 #PBS -q debug
 #PBS -j oe
 #PBS -l walltime=1:00:00
-#PBS -o /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/dirac_mat/logs/dirac_mat_S8T8_aurora.log
+#PBS -o /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/dirac_mat/log/dirac_mat_S8T8_aurora.log
 
 # switch to the submit directory
 WORKDIR=/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/dirac_mat
