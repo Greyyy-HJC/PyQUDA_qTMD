@@ -1,18 +1,15 @@
 # load python modules
 import os
-from typing import Sequence
-from math import pi
 
 import h5py
 import numpy as np
 
 from pyquda import init
-from pyquda.field import Ns, Nc
-from pyquda.field import LatticeInfo, LatticeFermion, LatticePropagator, LatticeComplex
-from pyquda_comm import getMPIRank, getCoordFromRank
 from pyquda_utils import core, gamma, io, source
 from pyquda_utils.phase import MomentumPhase
-from pyquda_utils.fft import fft, ifft
+
+# Import boosted smearing from local module
+from boosted_smearing_pyquda import boosted_smearing
 
 # Create .cache directory for QUDA tuning parameters
 if not os.path.exists(".cache"):
@@ -28,15 +25,6 @@ def _get_xp_from_array(a):
         return np
     base = type(a).__module__.split('.')[0]
     return __import__(base)
-
-
-def _ensure_backend(x, xp):
-    """Move x to the same backend as xp if needed."""
-    if type(x).__module__.split('.')[0] == xp.__name__:
-        return x
-    if hasattr(xp, "asarray"):
-        return xp.asarray(x)
-    return xp.array(x)
 
 
 def _asarray_on_queue(val, xp, ref_arr):
@@ -91,102 +79,6 @@ def save_proton_c2pt_hdf5(corr, tag, gammalist, plist):
             dataset_tag = "PX" + str(p[0]) + "PY" + str(p[1]) + "PZ" + str(p[2])
             g.create_dataset(dataset_tag, data=np.roll(corr[ig][ip], roll, axis=0))
     f.close()
-
-
-# --------------------------
-# Boosted smearing
-# --------------------------
-
-def _exp_complex(xp, real, imag):
-    if xp.__name__ == "torch":
-        return xp.exp(real) * (xp.cos(imag) + 1j * xp.sin(imag))
-    return xp.exp(real + 1j * imag)
-
-
-def _get_global_grid_coords(xp, latt_info: LatticeInfo):
-    """Generate the global coordinates of the MPI Rank."""
-    Lx, Ly, Lz, Lt = latt_info.size
-    Gx, Gy, Gz, Gt = latt_info.global_size
-
-    rank = getMPIRank()
-    coords = getCoordFromRank(rank)
-
-    off_t = coords[3] * Lt
-    off_z = coords[2] * Lz
-    off_y = coords[1] * Ly
-    off_x = coords[0] * Lx
-
-    rx_local = xp.arange(Lx, dtype=xp.float64)
-    ry_local = xp.arange(Ly, dtype=xp.float64)
-    rz_local = xp.arange(Lz, dtype=xp.float64)
-
-    rx = (rx_local + off_x + Gx / 2) % Gx - Gx / 2
-    ry = (ry_local + off_y + Gy / 2) % Gy - Gy / 2
-    rz = (rz_local + off_z + Gz / 2) % Gz - Gz / 2
-
-    return rx, ry, rz
-
-
-def _build_kernel_realspace_distributed(xp, latt_info: LatticeInfo, w: float, boost: Sequence[float]):
-    """Build the distributed real space Gaussian kernel."""
-    rx, ry, rz = _get_global_grid_coords(xp, latt_info)
-    Lx, Ly, Lz, Lt = latt_info.size
-    Gx, Gy, Gz, Gt = latt_info.global_size
-
-    kx, ky, kz = boost
-
-    rx = rx[None, None, :]
-    ry = ry[None, :, None]
-    rz = rz[:, None, None]
-
-    real = (-0.5 / (w * w)) * (rx ** 2 + ry ** 2 + rz ** 2)
-    imag = 2 * pi * ((kx / Gx) * rx + (ky / Gy) * ry + (kz / Gz) * rz)
-
-    k_xyz = _exp_complex(xp, real, imag)
-
-    kernel_field = LatticeComplex(latt_info)
-    k_full_local = xp.zeros((Lt, Lz, Ly, Lx), dtype=xp.complex128)
-    k_full_local[:] = k_xyz[None, ...]
-
-    if xp.__name__ == "numpy":
-        k_full_local_cpu = k_full_local
-    else:
-        k_full_local_cpu = xp.asnumpy(k_full_local)
-    cb_data = latt_info.evenodd(k_full_local_cpu, False)
-
-    kernel_field.data = _ensure_backend(cb_data, xp)
-
-    return kernel_field
-
-
-def _boosted_smearing_fermion(src: LatticeFermion, *, w: float, boost: Sequence[float]):
-    """Core implementation of boosted smearing for a single fermion."""
-    latt_info: LatticeInfo = src.latt_info
-    xp = _get_xp_from_array(src.data)
-
-    psi_p = fft(src, fft3d=True, backend="cupy" if xp.__name__ == "cupy" else "numpy")
-
-    K_xyz = _build_kernel_realspace_distributed(xp, latt_info, w, boost)
-    K_p = fft(K_xyz, fft3d=True, backend="cupy" if xp.__name__ == "cupy" else "numpy")
-
-    psi_p.data = psi_p.data * K_p.data[..., None, None]
-
-    psi_smeared = ifft(psi_p, fft3d=True, backend="cupy" if xp.__name__ == "cupy" else "numpy")
-
-    return psi_smeared
-
-
-def boosted_smearing(src, *, w: float, boost: Sequence[float]):
-    if isinstance(src, LatticeFermion):
-        return _boosted_smearing_fermion(src, w=w, boost=boost)
-    if isinstance(src, LatticePropagator):
-        out = LatticePropagator(src.latt_info)
-        for s in range(Ns):
-            for c in range(Nc):
-                f_sm = _boosted_smearing_fermion(src.getFermion(s, c), w=w, boost=boost)
-                out.setFermion(f_sm, s, c)
-        return out
-    raise TypeError(f"boosted_smearing: unsupported src type: {type(src)}")
 
 
 # --------------------------
@@ -373,11 +265,9 @@ src_production = src_positions[0:1]
 
 for ipos, pos in enumerate(src_production):
     srcD = source.propagator(latt_info, "point", pos)
-    srcD.save(f"data/propag/{lat_tag}_propag.npy")
     srcDp = boosted_smearing(srcD, w=parameters["width"], boost=parameters["boost_in"])
     dirac.loadGauge(gauge)
     propag = core.invertPropagator(dirac, srcDp, 1, 0)
-    propag.save(f"data/propag/{lat_tag}_propag_bsm.npy")
 
     # Contract 2pt TMD
     tag = get_c2pt_file_tag(data_dir, lat_tag, conf, "ex", pos, sm_tag)
