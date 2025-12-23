@@ -130,7 +130,7 @@ class proton_TMD:
 # ==========================
 
 # Global parameters
-data_dir = "tests/pyq_vs_gpt/data"
+data_dir = "data"
 lat_tag = "S8T8_gpt_local"
 interpolation = "T5"
 sm_tag = "1HYP_GSRC_W90_k3_" + interpolation
@@ -210,11 +210,12 @@ src_production = src_positions[0:1]
 for ipos, pos in enumerate(src_production):
     srcDp = Measurement.create_src_2pt(pos, trafo, U[0].grid)
     b = gpt.LatticePropagatorGPT(srcDp, GEN_SIMD_WIDTH)
-    b.toDevice()
 
     # Get forward propagator: smeared-point
     dirac.loadGauge(gauge)
     propag = core.invertPropagator(dirac, b, 1, 0)
+    propag.save(f"data/propag/{lat_tag}_propag_bsm.npy")
+    
     prop_exact_f = g.mspincolor(grid)
     gpt.LatticePropagatorGPT(prop_exact_f, GEN_SIMD_WIDTH, propag)
 
