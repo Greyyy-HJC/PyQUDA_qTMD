@@ -1,1 +1,1 @@
-python compare_npy.py /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_pyquda_local_propag_bsm.npy /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_gpt_local_propag_bsm.npy > diff_propag_bsm.npy
+python compare_npy.py /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_pyquda_local_propag_bsm.npy /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_gpt_local_propag_bsm.npy > diff_propag_bsm.txt
