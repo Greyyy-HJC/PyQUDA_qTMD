@@ -2,19 +2,19 @@
 # load python modules
 import numpy as np
 
+# load gpt modules
+import gpt as g 
+from tests.pyq_vs_gpt.PyQUDA_proton_qTMD_draft import proton_TMD, pyq_gamma_order #! import pyquda_gamma_ls and pyq_gamma_order for 3pt
+from tests.pyq_vs_gpt.tools import *
+from tests.pyq_vs_gpt.io_corr import *
+
+# load pyquda modules
 from pyquda import init
-from pyquda_utils import core, io, source
-from pyquda_utils.phase import MomentumPhase
-
-from utils.boosted_smearing_pyquda import boosted_smearing
-from utils.proton_qTMD_pyquda import proton_TMD
-from utils.io_corr import get_c2pt_file_tag
-from utils.tools import srcLoc_distri_eq
-
+from pyquda_utils import core, gpt
 
 # Global parameters
 data_dir="tests/pyq_vs_gpt/data" # NOTE
-lat_tag = "S8T8_pyquda_local" # NOTE
+lat_tag = "S8T8_gpt_local" # NOTE
 interpolation = "T5" # NOTE, new interpolation operator
 sm_tag = "1HYP_GSRC_W90_k3_"+interpolation # NOTE
 GEN_SIMD_WIDTH = 64
@@ -70,7 +70,13 @@ multigrid = None
 latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
 dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, multigrid)
 dirac.setPrecision(sloppy=8)
-gauge = io.readNERSCGauge(f"/home/jinchen/git/lat-software/PyQUDA_qTMD/test_gauge/S8T8_wilson_b6.0")
+grid = g.grid([Ls,Ls,Ls,Lt], g.double)
+U = g.convert( g.load(f"/home/jinchen/git/lat-software/PyQUDA_qTMD/test_gauge/S8T8_wilson_b6.0"), g.double )
+U_prime, trafo = g.gauge_fix(U, maxiter=500, prec=1e-2) # CG fix, to get trafo
+del U_prime
+trafo = g.identity(trafo)
+U_hyp = U
+gauge = gpt.LatticeGaugeGPT(U_hyp, GEN_SIMD_WIDTH)
 
 ###################### setup source positions ######################
 src_shift = np.array([0,0,0,0]) + np.array([7,11,13,23])
@@ -99,15 +105,17 @@ src_production = src_positions[0:1] # take the number of sources needed for this
 #! Measurement
 ###################### loop over sources ######################
 for ipos, pos in enumerate(src_production):
+    
+    srcDp = Measurement.create_src_2pt(pos, trafo, U[0].grid)
+    b = gpt.LatticePropagatorGPT(srcDp, GEN_SIMD_WIDTH)
+    b.toDevice()
+    # get forward propagator: smeared-point
+    propag = core.invertPropagator(dirac, b, 1, 0) # NOTE or "propag = core.invertPropagator(dirac, b, 0)" depends on the quda version
+    prop_exact_f = g.mspincolor(grid)
+    gpt.LatticePropagatorGPT(prop_exact_f, GEN_SIMD_WIDTH, propag)
 
-    srcD = source.propagator(latt_info, "point", pos)
-    srcDp = boosted_smearing(srcD, w=parameters["width"], boost=parameters["boost_in"])
-    dirac.loadGauge(gauge) #TODO: debug
-    propag = core.invertPropagator(dirac, srcDp, 1, 0) # NOTE or "propag = core.invertPropagator(dirac, b, 0)" depends on the quda version
-    
-    #! PyQUDA: contract 2pt TMD
+    #! GPT: contract 2pt TMD
     tag = get_c2pt_file_tag(data_dir, lat_tag, conf, "ex", pos, sm_tag)
-    p_2pt_xyz = [[-v[0], -v[1], -v[2]] for v in parameters["p_2pt"]]
-    phases_2pt = MomentumPhase(latt_info).getPhases(p_2pt_xyz, x0=pos)
+    phases_2pt = Measurement.make_mom_phases_2pt(U[0].grid, pos)
+    Measurement.contract_2pt_TMD(prop_exact_f, phases_2pt, trafo, tag, interpolation) # NOTE, new interpolation operator
     
-    Measurement.contract_2pt_TMD(latt_info, propag, phases_2pt, tag, interpolation)
