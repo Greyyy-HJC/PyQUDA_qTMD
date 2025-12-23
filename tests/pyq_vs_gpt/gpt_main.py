@@ -177,243 +177,243 @@ for ipos, pos in enumerate(src_production):
     cp.cuda.runtime.deviceSynchronize()
     g.message("TIME GPT: Contraction 2pt (includes sink smearing)", time.time() - t0)
     
-    #! PyQUDA: get backward propagator through sequential source for U and D
-    cp.cuda.runtime.deviceSynchronize()
-    t0 = time.time()
-    sequential_bw_prop_down_pyq = Measurement.create_bw_seq_Pyquda_pyquda(dirac, prop_exact_f, trafo, 2, pos, interpolation) # NOTE, this is a list of propagators for each proton polarization
-    sequential_bw_prop_up_pyq = Measurement.create_bw_seq_Pyquda_pyquda(dirac, prop_exact_f, trafo, 1, pos, interpolation) # NOTE, this is a list of propagators for each proton polarization
-    cp.cuda.runtime.deviceSynchronize()
-    g.message("TIME GPT-->Pyquda: Backward propagator through sequential source for U and D", time.time() - t0)
+    # #! PyQUDA: get backward propagator through sequential source for U and D
+    # cp.cuda.runtime.deviceSynchronize()
+    # t0 = time.time()
+    # sequential_bw_prop_down_pyq = Measurement.create_bw_seq_Pyquda_pyquda(dirac, prop_exact_f, trafo, 2, pos, interpolation) # NOTE, this is a list of propagators for each proton polarization
+    # sequential_bw_prop_up_pyq = Measurement.create_bw_seq_Pyquda_pyquda(dirac, prop_exact_f, trafo, 1, pos, interpolation) # NOTE, this is a list of propagators for each proton polarization
+    # cp.cuda.runtime.deviceSynchronize()
+    # g.message("TIME GPT-->Pyquda: Backward propagator through sequential source for U and D", time.time() - t0)
 
-    #! PyQUDA: prepare phases for qext
-    qext_xyz = [[v[0], v[1], v[2]] for v in parameters["qext"]]
-    phases_3pt_pyq = phase.MomentumPhase(latt_info).getPhases(qext_xyz, pos)
+    # #! PyQUDA: prepare phases for qext
+    # qext_xyz = [[v[0], v[1], v[2]] for v in parameters["qext"]]
+    # phases_3pt_pyq = phase.MomentumPhase(latt_info).getPhases(qext_xyz, pos)
 
-    phases_PDF = Measurement.make_mom_phases_PDF(U[0].grid, pos)
+    # phases_PDF = Measurement.make_mom_phases_PDF(U[0].grid, pos)
 
 
 
-    #>>>>>>>>>>>>>>>>>>>>>>>>> CG TMD <<<<<<<<<<<<<<<<<<<<<<<<<<#
+    # #>>>>>>>>>>>>>>>>>>>>>>>>> CG TMD <<<<<<<<<<<<<<<<<<<<<<<<<<#
 
-    # prepare the TMD separate indices for CG
-    W_index_list_CG_dir0, W_index_list_CG_dir1 = Measurement.create_TMD_Wilsonline_index_list_CG_pyquda()
-    W_index_list_CG = W_index_list_CG_dir0 + W_index_list_CG_dir1
+    # # prepare the TMD separate indices for CG
+    # W_index_list_CG_dir0, W_index_list_CG_dir1 = Measurement.create_TMD_Wilsonline_index_list_CG_pyquda()
+    # W_index_list_CG = W_index_list_CG_dir0 + W_index_list_CG_dir1
     
-    #! PyQUDA: contract TMD
-    g.message("contract_TMD loop: CG no links")
-    t0_contract = time.time()
-    cp.cuda.runtime.deviceSynchronize()
-    t0 = time.time()
-    proton_TMDs_down = [] # [WL_indices][pol][qext][gammalist][tau]
-    proton_TMDs_up = []
+    # #! PyQUDA: contract TMD
+    # g.message("contract_TMD loop: CG no links")
+    # t0_contract = time.time()
+    # cp.cuda.runtime.deviceSynchronize()
+    # t0 = time.time()
+    # proton_TMDs_down = [] # [WL_indices][pol][qext][gammalist][tau]
+    # proton_TMDs_up = []
     
-    sequential_bw_prop_down_contracted_pyq = contract(
-                "ij, pwtzyxilab, kl -> pwtzyxkjba",
-                G5, sequential_bw_prop_down_pyq.conj(), G5
-            )
+    # sequential_bw_prop_down_contracted_pyq = contract(
+    #             "ij, pwtzyxilab, kl -> pwtzyxkjba",
+    #             G5, sequential_bw_prop_down_pyq.conj(), G5
+    #         )
 
-    sequential_bw_prop_up_contracted_pyq = contract(
-                "ij, pwtzyxilab, kl -> pwtzyxkjba",
-                G5, sequential_bw_prop_up_pyq.conj(), G5
-            )
+    # sequential_bw_prop_up_contracted_pyq = contract(
+    #             "ij, pwtzyxilab, kl -> pwtzyxkjba",
+    #             G5, sequential_bw_prop_up_pyq.conj(), G5
+    #         )
     
-    cp.cuda.runtime.deviceSynchronize()
-    g.message(f"TIME PyQUDA: contract bw prop with gamma_ls for U and D", time.time() - t0)
+    # cp.cuda.runtime.deviceSynchronize()
+    # g.message(f"TIME PyQUDA: contract bw prop with gamma_ls for U and D", time.time() - t0)
    
-    #! PyQUDA: contract TMD +X direction
-    tmd_forward_prop_dir0 = propag.copy()
-    for iW, WL_indices in enumerate(W_index_list_CG_dir0):
-        cp.cuda.runtime.deviceSynchronize()
-        t0 = time.time()
-        g.message(f"TIME PyQUDA: contract TMD {iW+1}/{len(W_index_list_CG)} {WL_indices}")
-        if iW == 0:
-            WL_indices_previous = [0, 0, 0, 0]
-        else:
-            WL_indices_previous = W_index_list_CG_dir0[iW - 1]
+    # #! PyQUDA: contract TMD +X direction
+    # tmd_forward_prop_dir0 = propag.copy()
+    # for iW, WL_indices in enumerate(W_index_list_CG_dir0):
+    #     cp.cuda.runtime.deviceSynchronize()
+    #     t0 = time.time()
+    #     g.message(f"TIME PyQUDA: contract TMD {iW+1}/{len(W_index_list_CG)} {WL_indices}")
+    #     if iW == 0:
+    #         WL_indices_previous = [0, 0, 0, 0]
+    #     else:
+    #         WL_indices_previous = W_index_list_CG_dir0[iW - 1]
             
-        tmd_forward_prop_dir0 = Measurement.create_fw_prop_TMD_CG_pyquda(tmd_forward_prop_dir0, WL_indices, WL_indices_previous) #! note here [WL_indices] is changed to WL_indices for PyQUDA, and prop_exact_f is changed to propag
-        cp.cuda.runtime.deviceSynchronize()
-        g.message(f"TIME PyQUDA: cshift", time.time() - t0)
-        cp.cuda.runtime.deviceSynchronize()
-        t0 = time.time()
-        temp_down = []
-        for seq in sequential_bw_prop_down_contracted_pyq:
-            temp1 = pycontract.mesonAllSinkTwoPoint(tmd_forward_prop_dir0, core.LatticePropagator(latt_info, seq), gamma.Gamma(0)).data # loop over 16 gamma structure
-            temp2 = core.gatherLattice(contract("qwtzyx, gwtzyx -> qgt", phases_3pt_pyq, temp1).get(), [2, -1, -1, -1])
-            temp_down.append(temp2)
-        proton_TMDs_down.append(temp_down)
+    #     tmd_forward_prop_dir0 = Measurement.create_fw_prop_TMD_CG_pyquda(tmd_forward_prop_dir0, WL_indices, WL_indices_previous) #! note here [WL_indices] is changed to WL_indices for PyQUDA, and prop_exact_f is changed to propag
+    #     cp.cuda.runtime.deviceSynchronize()
+    #     g.message(f"TIME PyQUDA: cshift", time.time() - t0)
+    #     cp.cuda.runtime.deviceSynchronize()
+    #     t0 = time.time()
+    #     temp_down = []
+    #     for seq in sequential_bw_prop_down_contracted_pyq:
+    #         temp1 = pycontract.mesonAllSinkTwoPoint(tmd_forward_prop_dir0, core.LatticePropagator(latt_info, seq), gamma.Gamma(0)).data # loop over 16 gamma structure
+    #         temp2 = core.gatherLattice(contract("qwtzyx, gwtzyx -> qgt", phases_3pt_pyq, temp1).get(), [2, -1, -1, -1])
+    #         temp_down.append(temp2)
+    #     proton_TMDs_down.append(temp_down)
         
-        temp_up = []
-        for seq in sequential_bw_prop_up_contracted_pyq:
-            temp1 = pycontract.mesonAllSinkTwoPoint(tmd_forward_prop_dir0, core.LatticePropagator(latt_info, seq), gamma.Gamma(0)).data # loop over 16 gamma structure
-            temp2 = core.gatherLattice(contract("qwtzyx, gwtzyx -> qgt", phases_3pt_pyq, temp1).get(), [2, -1, -1, -1])
-            temp_up.append(temp2)
-        proton_TMDs_up.append(temp_up)
-        cp.cuda.runtime.deviceSynchronize()
-        g.message(f"TIME PyQUDA: contract TMD for U and D", time.time() - t0)
-    del tmd_forward_prop_dir0
+    #     temp_up = []
+    #     for seq in sequential_bw_prop_up_contracted_pyq:
+    #         temp1 = pycontract.mesonAllSinkTwoPoint(tmd_forward_prop_dir0, core.LatticePropagator(latt_info, seq), gamma.Gamma(0)).data # loop over 16 gamma structure
+    #         temp2 = core.gatherLattice(contract("qwtzyx, gwtzyx -> qgt", phases_3pt_pyq, temp1).get(), [2, -1, -1, -1])
+    #         temp_up.append(temp2)
+    #     proton_TMDs_up.append(temp_up)
+    #     cp.cuda.runtime.deviceSynchronize()
+    #     g.message(f"TIME PyQUDA: contract TMD for U and D", time.time() - t0)
+    # del tmd_forward_prop_dir0
         
-    #! PyQUDA: contract TMD +Y direction
-    tmd_forward_prop_dir1 = propag.copy()
-    for iW, WL_indices in enumerate(W_index_list_CG_dir1):
-        cp.cuda.runtime.deviceSynchronize()
-        t0 = time.time()
-        g.message(f"TIME PyQUDA: contract TMD {iW+1+len(W_index_list_CG_dir0)}/{len(W_index_list_CG)} {WL_indices}")
-        if iW == 0:
-            WL_indices_previous = [0, 0, 0, 0]
-        else:
-            WL_indices_previous = W_index_list_CG_dir1[iW - 1]
-        tmd_forward_prop_dir1 = Measurement.create_fw_prop_TMD_CG_pyquda(tmd_forward_prop_dir1, WL_indices, WL_indices_previous) #! note here [WL_indices] is changed to WL_indices for PyQUDA, and prop_exact_f is changed to propag
-        cp.cuda.runtime.deviceSynchronize()
-        g.message(f"TIME PyQUDA: cshift", time.time() - t0)
-        cp.cuda.runtime.deviceSynchronize()
-        t0 = time.time()
-        temp_down = []
-        for seq in sequential_bw_prop_down_contracted_pyq:
-            temp1 = pycontract.mesonAllSinkTwoPoint(tmd_forward_prop_dir1, core.LatticePropagator(latt_info, seq), gamma.Gamma(0)).data
-            temp2 = core.gatherLattice(contract("qwtzyx, gwtzyx -> qgt", phases_3pt_pyq, temp1).get(), [2, -1, -1, -1])
-            temp_down.append(temp2)
-        proton_TMDs_down.append(temp_down)
+    # #! PyQUDA: contract TMD +Y direction
+    # tmd_forward_prop_dir1 = propag.copy()
+    # for iW, WL_indices in enumerate(W_index_list_CG_dir1):
+    #     cp.cuda.runtime.deviceSynchronize()
+    #     t0 = time.time()
+    #     g.message(f"TIME PyQUDA: contract TMD {iW+1+len(W_index_list_CG_dir0)}/{len(W_index_list_CG)} {WL_indices}")
+    #     if iW == 0:
+    #         WL_indices_previous = [0, 0, 0, 0]
+    #     else:
+    #         WL_indices_previous = W_index_list_CG_dir1[iW - 1]
+    #     tmd_forward_prop_dir1 = Measurement.create_fw_prop_TMD_CG_pyquda(tmd_forward_prop_dir1, WL_indices, WL_indices_previous) #! note here [WL_indices] is changed to WL_indices for PyQUDA, and prop_exact_f is changed to propag
+    #     cp.cuda.runtime.deviceSynchronize()
+    #     g.message(f"TIME PyQUDA: cshift", time.time() - t0)
+    #     cp.cuda.runtime.deviceSynchronize()
+    #     t0 = time.time()
+    #     temp_down = []
+    #     for seq in sequential_bw_prop_down_contracted_pyq:
+    #         temp1 = pycontract.mesonAllSinkTwoPoint(tmd_forward_prop_dir1, core.LatticePropagator(latt_info, seq), gamma.Gamma(0)).data
+    #         temp2 = core.gatherLattice(contract("qwtzyx, gwtzyx -> qgt", phases_3pt_pyq, temp1).get(), [2, -1, -1, -1])
+    #         temp_down.append(temp2)
+    #     proton_TMDs_down.append(temp_down)
         
-        temp_up = []
-        for seq in sequential_bw_prop_up_contracted_pyq:
-            temp1 = pycontract.mesonAllSinkTwoPoint(tmd_forward_prop_dir1, core.LatticePropagator(latt_info, seq), gamma.Gamma(0)).data
-            temp2 = core.gatherLattice(contract("qwtzyx, gwtzyx -> qgt", phases_3pt_pyq, temp1).get(), [2, -1, -1, -1])
-            temp_up.append(temp2)
-        proton_TMDs_up.append(temp_up)
-        cp.cuda.runtime.deviceSynchronize()
-        g.message(f"TIME PyQUDA: contract TMD for U and D", time.time() - t0)
-    del tmd_forward_prop_dir1
-    del sequential_bw_prop_down_contracted_pyq
-    del sequential_bw_prop_up_contracted_pyq
+    #     temp_up = []
+    #     for seq in sequential_bw_prop_up_contracted_pyq:
+    #         temp1 = pycontract.mesonAllSinkTwoPoint(tmd_forward_prop_dir1, core.LatticePropagator(latt_info, seq), gamma.Gamma(0)).data
+    #         temp2 = core.gatherLattice(contract("qwtzyx, gwtzyx -> qgt", phases_3pt_pyq, temp1).get(), [2, -1, -1, -1])
+    #         temp_up.append(temp2)
+    #     proton_TMDs_up.append(temp_up)
+    #     cp.cuda.runtime.deviceSynchronize()
+    #     g.message(f"TIME PyQUDA: contract TMD for U and D", time.time() - t0)
+    # del tmd_forward_prop_dir1
+    # del sequential_bw_prop_down_contracted_pyq
+    # del sequential_bw_prop_up_contracted_pyq
     
-    proton_TMDs_down = np.array(proton_TMDs_down)
-    proton_TMDs_up = np.array(proton_TMDs_up)
-    g.message(f"contract_TMD over: proton_TMDs.shape {np.shape(proton_TMDs_down)} {time.time()-t0_contract}s")
+    # proton_TMDs_down = np.array(proton_TMDs_down)
+    # proton_TMDs_up = np.array(proton_TMDs_up)
+    # g.message(f"contract_TMD over: proton_TMDs.shape {np.shape(proton_TMDs_down)} {time.time()-t0_contract}s")
 
-    # save the TMD correlators
-    for i, pol in enumerate(parameters["pol"]):
-        cp.cuda.runtime.deviceSynchronize()
-        t0 = time.time()
+    # # save the TMD correlators
+    # for i, pol in enumerate(parameters["pol"]):
+    #     cp.cuda.runtime.deviceSynchronize()
+    #     t0 = time.time()
 
-        # reorder gamma, and cut useful tau in [src_t, src_t+tsep+2)
-        if g.rank() == 0 and i == 0:
-            proton_TMDs_down = np.roll(proton_TMDs_down, -pos[3], axis=-1)
-            proton_TMDs_up = np.roll(proton_TMDs_up, -pos[3], axis=-1)
-            proton_TMDs_down = proton_TMDs_down[:,:,:,pyq_gamma_order,:parameters["t_insert"]+2]
-            proton_TMDs_up = proton_TMDs_up[:,:,:,pyq_gamma_order,:parameters["t_insert"]+2]
-        proton_TMDs_down = getMPIComm().bcast(proton_TMDs_down, root=0)
-        proton_TMDs_up = getMPIComm().bcast(proton_TMDs_up, root=0)
+    #     # reorder gamma, and cut useful tau in [src_t, src_t+tsep+2)
+    #     if g.rank() == 0 and i == 0:
+    #         proton_TMDs_down = np.roll(proton_TMDs_down, -pos[3], axis=-1)
+    #         proton_TMDs_up = np.roll(proton_TMDs_up, -pos[3], axis=-1)
+    #         proton_TMDs_down = proton_TMDs_down[:,:,:,pyq_gamma_order,:parameters["t_insert"]+2]
+    #         proton_TMDs_up = proton_TMDs_up[:,:,:,pyq_gamma_order,:parameters["t_insert"]+2]
+    #     proton_TMDs_down = getMPIComm().bcast(proton_TMDs_down, root=0)
+    #     proton_TMDs_up = getMPIComm().bcast(proton_TMDs_up, root=0)
 
-        #! parallel the io through flavor and gamma
-        tasks = []
-        for gidx in range(len(gammalist)):
-            tasks.append((gidx, 'D'))  # Down
-            tasks.append((gidx, 'U'))  # Up
-        rank = g.rank()
-        if rank < len(tasks):
-            gidx, flavor = tasks[rank]
-            gm = gammalist[gidx]
-            tag = get_qTMD_file_tag(data_dir, lat_tag, conf, f"CG.{flavor}.ex", pos, f"{sm_tag}.{pf_tag}.{pol}.{gm}")
-            print(f"DEBUG: rank {rank}, {tag}")
-            data = proton_TMDs_down[:, i, :, gidx:gidx+1, :] if flavor == 'D' else proton_TMDs_up[:, i, :, gidx:gidx+1, :]
-            save_qTMD_proton_hdf5_noRoll(data, tag, [gm], parameters["qext"], W_index_list_CG, parameters["t_insert"])
-        cp.cuda.runtime.deviceSynchronize()
-        g.message(f"TIME: save TMDs for {pol}", time.time() - t0)
-    g.message("contract_TMD DONE: CG no links")
+    #     #! parallel the io through flavor and gamma
+    #     tasks = []
+    #     for gidx in range(len(gammalist)):
+    #         tasks.append((gidx, 'D'))  # Down
+    #         tasks.append((gidx, 'U'))  # Up
+    #     rank = g.rank()
+    #     if rank < len(tasks):
+    #         gidx, flavor = tasks[rank]
+    #         gm = gammalist[gidx]
+    #         tag = get_qTMD_file_tag(data_dir, lat_tag, conf, f"CG.{flavor}.ex", pos, f"{sm_tag}.{pf_tag}.{pol}.{gm}")
+    #         print(f"DEBUG: rank {rank}, {tag}")
+    #         data = proton_TMDs_down[:, i, :, gidx:gidx+1, :] if flavor == 'D' else proton_TMDs_up[:, i, :, gidx:gidx+1, :]
+    #         save_qTMD_proton_hdf5_noRoll(data, tag, [gm], parameters["qext"], W_index_list_CG, parameters["t_insert"])
+    #     cp.cuda.runtime.deviceSynchronize()
+    #     g.message(f"TIME: save TMDs for {pol}", time.time() - t0)
+    # g.message("contract_TMD DONE: CG no links")
 
-    #>>>>>>>>>>>>>>>>>>>>>>>>> GI GPD <<<<<<<<<<<<<<<<<<<<<<<<<<#
+    # #>>>>>>>>>>>>>>>>>>>>>>>>> GI GPD <<<<<<<<<<<<<<<<<<<<<<<<<<#
 
-    # prepare the TMD separate indices for GI
-    W_index_list_PDF = Measurement.create_PDF_Wilsonline_index_list()
+    # # prepare the TMD separate indices for GI
+    # W_index_list_PDF = Measurement.create_PDF_Wilsonline_index_list()
     
-    #! PyQUDA: prepare phases for qext
-    qext_pdf_xyz = [[v[0], v[1], v[2]] for v in parameters["qext_PDF"]]
-    phases_pdf_pyq = phase.MomentumPhase(latt_info).getPhases(qext_pdf_xyz, pos)
+    # #! PyQUDA: prepare phases for qext
+    # qext_pdf_xyz = [[v[0], v[1], v[2]] for v in parameters["qext_PDF"]]
+    # phases_pdf_pyq = phase.MomentumPhase(latt_info).getPhases(qext_pdf_xyz, pos)
     
-    #! PyQUDA: bw prop
-    sequential_prop_down = contract(
-        "ij, pwtzyxilab, kl -> pwtzyxkjba",
-        G5,
-        sequential_bw_prop_down_pyq.conj(),
-        G5,
-    )
-    sequential_prop_up = contract(
-        "ij, pwtzyxilab, kl -> pwtzyxkjba",
-        G5,
-        sequential_bw_prop_up_pyq.conj(),
-        G5,
-    )
+    # #! PyQUDA: bw prop
+    # sequential_prop_down = contract(
+    #     "ij, pwtzyxilab, kl -> pwtzyxkjba",
+    #     G5,
+    #     sequential_bw_prop_down_pyq.conj(),
+    #     G5,
+    # )
+    # sequential_prop_up = contract(
+    #     "ij, pwtzyxilab, kl -> pwtzyxkjba",
+    #     G5,
+    #     sequential_bw_prop_up_pyq.conj(),
+    #     G5,
+    # )
     
-    g.message("contract_PDF loop: GI with links")
-    t0_contract = time.time()
-    proton_PDFs_down = [] # [WL_indices][pol][qext][gammalist][tau]
-    proton_PDFs_up = []
-    for iW, WL_indices in enumerate(W_index_list_PDF):
+    # g.message("contract_PDF loop: GI with links")
+    # t0_contract = time.time()
+    # proton_PDFs_down = [] # [WL_indices][pol][qext][gammalist][tau]
+    # proton_PDFs_up = []
+    # for iW, WL_indices in enumerate(W_index_list_PDF):
 
-        t0 = time.time()
+    #     t0 = time.time()
 
-        if WL_indices[1] == 0:
-            WL_indices_previous = [0, 0, 0, 0]
-            tmd_forward_prop_pyq = propag.copy()
-        elif WL_indices[1] > 0:
-            WL_indices_previous = W_index_list_PDF[iW - 1]
-        elif WL_indices[1] == -1:
-            WL_indices_previous = [0, 0, 0, 0]
-            tmd_forward_prop_pyq = propag.copy()
-        elif WL_indices[1] < -1:
-            WL_indices_previous = W_index_list_PDF[iW - 1]
+    #     if WL_indices[1] == 0:
+    #         WL_indices_previous = [0, 0, 0, 0]
+    #         tmd_forward_prop_pyq = propag.copy()
+    #     elif WL_indices[1] > 0:
+    #         WL_indices_previous = W_index_list_PDF[iW - 1]
+    #     elif WL_indices[1] == -1:
+    #         WL_indices_previous = [0, 0, 0, 0]
+    #         tmd_forward_prop_pyq = propag.copy()
+    #     elif WL_indices[1] < -1:
+    #         WL_indices_previous = W_index_list_PDF[iW - 1]
 
-        tmd_forward_prop_pyq = Measurement.create_fw_prop_PDF_GI_pyquda(gauge, tmd_forward_prop_pyq, WL_indices, WL_indices_previous)
+    #     tmd_forward_prop_pyq = Measurement.create_fw_prop_PDF_GI_pyquda(gauge, tmd_forward_prop_pyq, WL_indices, WL_indices_previous)
 
-        #! PyQUDA: contract
-        temp_down = []
-        for seq in sequential_prop_down:
-            seq_lp = core.LatticePropagator(latt_info, seq)
-            temp1 = pycontract.mesonAllSinkTwoPoint(tmd_forward_prop_pyq, seq_lp, gamma.Gamma(0)).data
-            contracted = contract("qwtzyx, gwtzyx -> qgt", phases_pdf_pyq, temp1).get()
-            gathered = core.gatherLattice(contracted, [2, -1, -1, -1])
-            temp_down.append(gathered)
-        proton_PDFs_down.append(temp_down)
+    #     #! PyQUDA: contract
+    #     temp_down = []
+    #     for seq in sequential_prop_down:
+    #         seq_lp = core.LatticePropagator(latt_info, seq)
+    #         temp1 = pycontract.mesonAllSinkTwoPoint(tmd_forward_prop_pyq, seq_lp, gamma.Gamma(0)).data
+    #         contracted = contract("qwtzyx, gwtzyx -> qgt", phases_pdf_pyq, temp1).get()
+    #         gathered = core.gatherLattice(contracted, [2, -1, -1, -1])
+    #         temp_down.append(gathered)
+    #     proton_PDFs_down.append(temp_down)
 
-        temp_up = []
-        for seq in sequential_prop_up:
-            seq_lp = core.LatticePropagator(latt_info, seq)
-            temp1 = pycontract.mesonAllSinkTwoPoint(tmd_forward_prop_pyq, seq_lp, gamma.Gamma(0)).data
-            contracted = contract("qwtzyx, gwtzyx -> qgt", phases_pdf_pyq, temp1).get()
-            gathered = core.gatherLattice(contracted, [2, -1, -1, -1])
-            temp_up.append(gathered)
-        proton_PDFs_up.append(temp_up)
-        g.message(f"contract_GI_PDF over: proton_PDFs.shape {np.shape(proton_PDFs_down)} {time.time()-t0}s")
+    #     temp_up = []
+    #     for seq in sequential_prop_up:
+    #         seq_lp = core.LatticePropagator(latt_info, seq)
+    #         temp1 = pycontract.mesonAllSinkTwoPoint(tmd_forward_prop_pyq, seq_lp, gamma.Gamma(0)).data
+    #         contracted = contract("qwtzyx, gwtzyx -> qgt", phases_pdf_pyq, temp1).get()
+    #         gathered = core.gatherLattice(contracted, [2, -1, -1, -1])
+    #         temp_up.append(gathered)
+    #     proton_PDFs_up.append(temp_up)
+    #     g.message(f"contract_GI_PDF over: proton_PDFs.shape {np.shape(proton_PDFs_down)} {time.time()-t0}s")
 
-    g.message(f"TIME PyQUDA: contract GI PDF for U and D", time.time() - t0_contract)
+    # g.message(f"TIME PyQUDA: contract GI PDF for U and D", time.time() - t0_contract)
 
-    # save the PDF correlators
-    for i, pol in enumerate(parameters["pol"]):
-        cp.cuda.runtime.deviceSynchronize()
-        t0 = time.time()
+    # # save the PDF correlators
+    # for i, pol in enumerate(parameters["pol"]):
+    #     cp.cuda.runtime.deviceSynchronize()
+    #     t0 = time.time()
 
-        # reorder gamma, and cut useful tau in [src_t, src_t+tsep+2)
-        if g.rank() == 0 and i == 0:
-            proton_PDFs_down = np.roll(proton_PDFs_down, -pos[3], axis=-1)
-            proton_PDFs_up = np.roll(proton_PDFs_up, -pos[3], axis=-1)
-            proton_PDFs_down = proton_PDFs_down[:,:,:,pyq_gamma_order,:parameters["t_insert"]+2]
-            proton_PDFs_up = proton_PDFs_up[:,:,:,pyq_gamma_order,:parameters["t_insert"]+2]
-        proton_PDFs_down = getMPIComm().bcast(proton_PDFs_down, root=0)
-        proton_PDFs_up = getMPIComm().bcast(proton_PDFs_up, root=0)
+    #     # reorder gamma, and cut useful tau in [src_t, src_t+tsep+2)
+    #     if g.rank() == 0 and i == 0:
+    #         proton_PDFs_down = np.roll(proton_PDFs_down, -pos[3], axis=-1)
+    #         proton_PDFs_up = np.roll(proton_PDFs_up, -pos[3], axis=-1)
+    #         proton_PDFs_down = proton_PDFs_down[:,:,:,pyq_gamma_order,:parameters["t_insert"]+2]
+    #         proton_PDFs_up = proton_PDFs_up[:,:,:,pyq_gamma_order,:parameters["t_insert"]+2]
+    #     proton_PDFs_down = getMPIComm().bcast(proton_PDFs_down, root=0)
+    #     proton_PDFs_up = getMPIComm().bcast(proton_PDFs_up, root=0)
 
-        tasks = ['D', 'U']
-        if g.rank() < len(tasks):
-            flavor = tasks[g.rank()]
-            tag = get_qTMD_file_tag(data_dir, lat_tag, conf, f"GI_PDF.{flavor}.ex", pos, f"{sm_tag}.{pf_tag}.{pol}")
-            data = proton_PDFs_down[:, i, :, :, :] if flavor == 'D' else proton_PDFs_up[:, i, :, :, :]
-            save_qTMD_proton_hdf5_noRoll(data, tag, gammalist, parameters["qext_PDF"], W_index_list_PDF, parameters["t_insert"])
+    #     tasks = ['D', 'U']
+    #     if g.rank() < len(tasks):
+    #         flavor = tasks[g.rank()]
+    #         tag = get_qTMD_file_tag(data_dir, lat_tag, conf, f"GI_PDF.{flavor}.ex", pos, f"{sm_tag}.{pf_tag}.{pol}")
+    #         data = proton_PDFs_down[:, i, :, :, :] if flavor == 'D' else proton_PDFs_up[:, i, :, :, :]
+    #         save_qTMD_proton_hdf5_noRoll(data, tag, gammalist, parameters["qext_PDF"], W_index_list_PDF, parameters["t_insert"])
 
-        cp.cuda.runtime.deviceSynchronize()
-        g.message(f"TIME: save PDFs for {pol}", time.time() - t0)
-    g.message("contract_PDF DONE: GI with links")
+    #     cp.cuda.runtime.deviceSynchronize()
+    #     g.message(f"TIME: save PDFs for {pol}", time.time() - t0)
+    # g.message("contract_PDF DONE: GI with links")
 
-    with open(sample_log_file, "a+") as f:
-        if g.rank() == 0:
-            f.write(sample_log_tag+"\n")
-    g.message("DONE: " + sample_log_tag)
+    # with open(sample_log_file, "a+") as f:
+    #     if g.rank() == 0:
+    #         f.write(sample_log_tag+"\n")
+    # g.message("DONE: " + sample_log_tag)

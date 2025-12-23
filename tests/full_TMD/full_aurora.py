@@ -14,17 +14,6 @@ if not os.path.exists(".cache"):
 from pyquda_utils import core, gamma, phase, io, source
 from pyquda_utils.phase import MomentumPhase
 
-from utils.boosted_smearing_pyquda import boosted_smearing
-from utils.bw_seq_pyquda import create_bw_seq_pyquda
-from utils.proton_qTMD_pyquda import proton_TMD, pyquda_gammas_order
-from utils.io_corr import (
-    get_sample_log_tag,
-    get_c2pt_file_tag,
-    get_qTMD_file_tag,
-    save_qTMD_proton_hdf5_noRoll,
-)
-from utils.tools import srcLoc_distri_eq, mpi_print, _get_xp_from_array, _ensure_backend
-
 Ls = 8
 Lt = 8
 
@@ -37,6 +26,18 @@ init(
     backend_target="sycl",
     resource_path=".cache",
 )
+
+from utils.boosted_smearing_pyquda import boosted_smearing
+from utils.bw_seq_pyquda import create_bw_seq_pyquda
+from utils.proton_qTMD_pyquda import proton_TMD, pyquda_gammas_order
+from utils.io_corr import (
+    get_sample_log_tag,
+    get_c2pt_file_tag,
+    get_qTMD_file_tag,
+    save_qTMD_proton_hdf5_noRoll,
+)
+from utils.tools import srcLoc_distri_eq, mpi_print, _get_xp_from_array, _ensure_backend
+
 
 my_pyquda_gammas = [
     gamma.gamma(15),
@@ -469,10 +470,6 @@ for ipos, pos in enumerate(src_production):
     # prepare the TMD separate indices for GI
     W_index_list_PDF = Measurement.create_PDF_Wilsonline_index_list()
 
-    #! PyQUDA: prepare phases for qext
-    qext_pdf_xyz = [[v[0], v[1], v[2]] for v in parameters["qext_PDF"]]
-    phases_pdf_pyq = phase.MomentumPhase(latt_info).getPhases(qext_pdf_xyz, pos)
-
     #! PyQUDA: bw prop
     sequential_prop_down_contracted_pyq = dnp.einsum(
         "pwtzyxjicf, gim -> pgwtzyxjmcf", sequential_bw_prop_down_pyq, pyquda_gamma_ls
@@ -524,14 +521,14 @@ for ipos, pos in enumerate(src_production):
 
     proton_PDFs_down = [
         core.gatherLattice(
-            dnp.asnumpy(dnp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_pdf_pyq, temp)),
+            dnp.asnumpy(dnp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_3pt_pyq, temp)),
             [3, -1, -1, -1],
         )
         for temp in proton_PDFs_down
     ]
     proton_PDFs_up = [
         core.gatherLattice(
-            dnp.asnumpy(dnp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_pdf_pyq, temp)),
+            dnp.asnumpy(dnp.einsum("qwtzyx, pgwtzyx -> pqgt", phases_3pt_pyq, temp)),
             [3, -1, -1, -1],
         )
         for temp in proton_PDFs_up
@@ -587,7 +584,7 @@ for ipos, pos in enumerate(src_production):
                 data,
                 tag,
                 gammalist,
-                parameters["qext_PDF"],
+                parameters["qext"],
                 W_index_list_PDF,
                 parameters["t_insert"],
                 latt_info,
