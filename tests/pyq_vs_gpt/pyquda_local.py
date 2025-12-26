@@ -238,7 +238,7 @@ csw_t = 1.02868
 latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
 dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, None)
 dirac.setPrecision(sloppy=8)
-gauge = io.readNERSCGauge(f"/home/jinchen/git/lat-software/PyQUDA_qTMD/test_gauge/S8T8_wilson_b6.0")
+gauge = io.readNERSCGauge(f"../../test_gauge/S8T8_wilson_b6.0")
 
 # Setup source positions
 src_shift = np.array([7, 11, 13, 23])
@@ -268,6 +268,7 @@ for ipos, pos in enumerate(src_production):
     srcDp = boosted_smearing(srcD, w=parameters["width"], boost=parameters["boost_in"])
     dirac.loadGauge(gauge)
     propag = core.invertPropagator(dirac, srcDp, 1, 0)
+    propag.save(f"data/propag/{lat_tag}_propag_bsm.npy")
 
     # Contract 2pt TMD
     tag = get_c2pt_file_tag(data_dir, lat_tag, conf, "ex", pos, sm_tag)

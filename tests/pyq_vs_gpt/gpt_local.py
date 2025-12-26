@@ -178,10 +178,8 @@ dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, None)
 dirac.setPrecision(sloppy=8)
 
 grid = g.grid([Ls, Ls, Ls, Lt], g.double)
-U = g.convert(g.load(f"/home/jinchen/git/lat-software/PyQUDA_qTMD/test_gauge/S8T8_wilson_b6.0"), g.double)
-U_prime, trafo = g.gauge_fix(U, maxiter=500, prec=1e-2)
-del U_prime
-trafo = g.identity(trafo)
+U = g.convert(g.load(f"../../test_gauge/S8T8_wilson_b6.0"), g.double)
+trafo = g.identity(U[0])
 gauge = gpt.LatticeGaugeGPT(U, GEN_SIMD_WIDTH)
 
 # Setup source positions
