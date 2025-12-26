@@ -209,20 +209,12 @@ for ipos, pos in enumerate(src_production):
     propag = core.invertPropagator(
         dirac, srcDp, 1, 0
     )  # NOTE or "propag = core.invertPropagator(dirac, b, 0)" depends on the quda version
+    
+    propag.save(f"data/propag/{lat_tag}_propag_bsm.npy")
 
     if latt_info.mpi_rank == 0:
         print("TIME Pyquda: Forward propagator inversion", time.time() - t0)
 
-    src_point = source.point(latt_info, pos, 0, 0)
-    xp = _get_xp_from_array(src_point.data)
-    mat = src_point.getHost()
-    np.random.seed(42)  # seed
-    random_mat = np.random.randn(*mat.shape) + 1j * np.random.randn(*mat.shape)
-    src_point.data = _ensure_backend(random_mat, xp)
-
-    mpi_print(latt_info, "\nTESTING: dirac.invert(src_point)")
-    dirac.mat(src_point).save(f"{data_dir}/sample_log_qtmd/{lat_tag}_inv_point_src.npy")
-    mpi_print(latt_info, "TESTING: dirac.invert(src_point) DONE\n")
 
     #! PyQUDA: contract 2pt TMD
 
