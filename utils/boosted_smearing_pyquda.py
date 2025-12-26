@@ -114,13 +114,14 @@ def _boosted_smearing_fermion(src: LatticeFermion, *, w: float, boost: Sequence[
     # ---------------------------------------------------------
     # because U=Identity, so we don't need to do src.lexico() -> einsum -> evenodd()
     # directly do FFT on LatticeFermion
-    psi_p = fft(src, fft3d=True, backend="cupy" if xp.__name__=="cupy" else "numpy")
+    V = latt_info.Lx * latt_info.Ly * latt_info.Lz
+    psi_p = V * ifft(src, fft3d=True, backend="cupy" if xp.__name__=="cupy" else "numpy")
 
     # ---------------------------------------------------------
     # 2. Apply Momentum Space Kernel
     # ---------------------------------------------------------
     K_xyz = _build_kernel_realspace_distributed(xp, latt_info, w, boost)
-    K_p = fft(K_xyz, fft3d=True, backend="cupy" if xp.__name__=="cupy" else "numpy")
+    K_p = ifft(K_xyz, fft3d=True, backend="cupy" if xp.__name__=="cupy" else "numpy")
 
     # multiply in momentum space: psi(k) * K(k)
     psi_p.data = psi_p.data * K_p.data[..., None, None]
@@ -128,7 +129,7 @@ def _boosted_smearing_fermion(src: LatticeFermion, *, w: float, boost: Sequence[
     # ---------------------------------------------------------
     # 3. Inverse FFT (Distributed)
     # ---------------------------------------------------------
-    psi_smeared = ifft(psi_p, fft3d=True, backend="cupy" if xp.__name__=="cupy" else "numpy")
+    psi_smeared = fft(psi_p, fft3d=True, backend="cupy" if xp.__name__=="cupy" else "numpy")
 
     # ---------------------------------------------------------
     # 4. Result
