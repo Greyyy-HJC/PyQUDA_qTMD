@@ -14,17 +14,6 @@ if not os.path.exists(".cache"):
 from pyquda_utils import core, gamma, phase, io, source
 from pyquda_utils.phase import MomentumPhase
 
-from utils.boosted_smearing_pyquda import boosted_smearing
-from utils.bw_seq_pyquda import create_bw_seq_pyquda
-from utils.proton_qTMD_pyquda import proton_TMD, pyquda_gammas_order
-from utils.io_corr import (
-    get_sample_log_tag,
-    get_c2pt_file_tag,
-    get_qTMD_file_tag,
-    save_qTMD_proton_hdf5_noRoll,
-)
-from utils.tools import srcLoc_distri_eq, mpi_print, _get_xp_from_array, _ensure_backend
-
 Ls = 8
 Lt = 8
 
@@ -36,6 +25,18 @@ init(
     backend="cupy",
     resource_path=".cache",
 )
+
+from utils.boosted_smearing_pyquda import boosted_smearing
+from utils.bw_seq_pyquda import create_bw_seq_pyquda
+from utils.proton_qTMD_pyquda import proton_TMD, pyquda_gammas_order
+from utils.io_corr import (
+    get_sample_log_tag,
+    get_c2pt_file_tag,
+    get_qTMD_file_tag,
+    save_qTMD_proton_hdf5_noRoll,
+)
+from utils.tools import srcLoc_distri_eq, mpi_print, _get_xp_from_array, _ensure_backend
+
 
 my_pyquda_gammas = [
     gamma.gamma(15),
@@ -117,6 +118,8 @@ csw_t = 1.02868
 multigrid = None
 
 latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
+
+
 dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, multigrid)
 dirac.setPrecision(sloppy=8)
 gauge = io.readNERSCGauge(
@@ -220,7 +223,7 @@ for ipos, pos in enumerate(src_production):
     dirac.mat(src_point).save(f"{data_dir}/sample_log_qtmd/{lat_tag}_inv_point_src.npy")
     mpi_print(latt_info, "TESTING: dirac.invert(src_point) DONE\n")
 
-    #! GPT: contract 2pt TMD
+    #! PyQUDA: contract 2pt TMD
 
     t0 = time.time()
     tag = get_c2pt_file_tag(data_dir, lat_tag, conf, "ex", pos, sm_tag)
@@ -465,7 +468,7 @@ for ipos, pos in enumerate(src_production):
 
     # prepare the TMD separate indices for GI
     W_index_list_PDF = Measurement.create_PDF_Wilsonline_index_list()
-    
+
     #! PyQUDA: bw prop
     sequential_prop_down_contracted_pyq = cp.einsum(
         "pwtzyxjicf, gim -> pgwtzyxjmcf", sequential_bw_prop_down_pyq, pyquda_gamma_ls
