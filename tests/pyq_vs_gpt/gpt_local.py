@@ -8,6 +8,16 @@ import gpt as g
 
 # load pyquda modules
 from pyquda import init
+
+# --------------------------
+# initiate quda
+# --------------------------
+Ls = 8
+Lt = 8
+init(None, [Ls, Ls, Ls, Lt], enable_mps=True, grid_map="shared", backend="cupy", resource_path=".cache")
+
+
+
 from pyquda_utils import core, gpt
 
 # Create .cache directory
@@ -135,14 +145,7 @@ lat_tag = "S8T8_gpt_local"
 interpolation = "T5"
 sm_tag = "1HYP_GSRC_W90_k3_" + interpolation
 GEN_SIMD_WIDTH = 64
-Ls = 8
-Lt = 8
 conf = 0
-
-# --------------------------
-# initiate quda
-# --------------------------
-init(None, [Ls, Ls, Ls, Lt], enable_mps=True, grid_map="shared", backend="cupy", resource_path=".cache")
 
 # --------------------------
 # Setup parameters
