@@ -1,5 +1,7 @@
 dirac.setPrecision(sloppy=8, precondition=8)
 
+pyquda: boosted smearing fft definition changed
+
 /home/jinchen/git/lat-software/gpt/lib/cgpt/lib/coordinates.cc: ComplexF -> ComplexD
 
 /home/jinchen/git/lat-software/gpt/lib/cgpt/lib/coordinates.cc: RealD pi = 3.14159265359 -> RealD pi = 3.14159265358979323846
