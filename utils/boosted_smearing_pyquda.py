@@ -114,7 +114,7 @@ def _boosted_smearing_fermion(src: LatticeFermion, *, w: float, boost: Sequence[
     # ---------------------------------------------------------
     # because U=Identity, so we don't need to do src.lexico() -> einsum -> evenodd()
     # directly do FFT on LatticeFermion
-    V = latt_info.Lx * latt_info.Ly * latt_info.Lz
+    V = latt_info.GLx * latt_info.GLy * latt_info.GLz
     psi_p = V * ifft(src, fft3d=True, backend="cupy" if xp.__name__=="cupy" else "numpy")
 
     # ---------------------------------------------------------

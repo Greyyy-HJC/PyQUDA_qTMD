@@ -2,12 +2,12 @@
 
 #PBS -N qTMD
 #PBS -A StructNGB
-#PBS -l select=4:ngpus=4
+#PBS -l select=1:ngpus=4
 #PBS -l filesystems=home
-#PBS -q prod
+#PBS -q debug
 #PBS -j oe
 #PBS -l walltime=1:00:00
-#PBS -o /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/pyq_vs_gpt/logs/pyquda_aurora_mpi.log
+#PBS -o /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/pyq_vs_gpt/logs/pyquda_aurora.log
 
 # switch to the submit directory
 WORKDIR=/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/pyq_vs_gpt
@@ -53,7 +53,7 @@ ls -l $PYQ_LIB_PATH/libur_loader.so* 2>/dev/null || echo "Not found in $PYQ_LIB_
 
 
 echo ">>> Running pyquda_aurora.py"
-mpirun -n 16 python3 pyquda_aurora.py
+mpirun -n 4 python3 pyquda_aurora.py
 
 # calculate total time
 end_time=$(date +"%Y-%m-%d %H:%M:%S")
