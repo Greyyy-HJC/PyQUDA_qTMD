@@ -5,6 +5,15 @@ import h5py
 import numpy as np
 
 from pyquda import init
+
+# --------------------------
+# initiate quda
+# --------------------------
+Ls = 8
+Lt = 8
+init(None, [Ls, Ls, Ls, Lt], enable_mps=True, grid_map="shared", backend="dpnp", backend_target="sycl", resource_path=".cache")
+
+
 from pyquda_utils import core, gamma, io, source
 from pyquda_utils.phase import MomentumPhase
 
@@ -194,17 +203,10 @@ class proton_TMD:
 
 # Global parameters
 data_dir = "data"
-lat_tag = "S8T8_pyquda_local"
+lat_tag = "S8T8_pyquda_aurora"
 interpolation = "T5"
 sm_tag = "1HYP_GSRC_W90_k3_" + interpolation
-Ls = 8
-Lt = 8
 conf = 0
-
-# --------------------------
-# initiate quda
-# --------------------------
-init(None, [Ls, Ls, Ls, Lt], enable_mps=True, grid_map="shared", backend="dpnp", backend_target="sycl", resource_path=".cache")
 
 # --------------------------
 # Setup parameters
