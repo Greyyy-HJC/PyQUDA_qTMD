@@ -208,6 +208,7 @@ src_production = src_positions[0:1]
 for ipos, pos in enumerate(src_production):
     srcDp = Measurement.create_src_2pt(pos, trafo, U[0].grid)
     b = gpt.LatticePropagatorGPT(srcDp, GEN_SIMD_WIDTH)
+    b.save(f"data/propag/{lat_tag}_srcDp.npy")
 
     # Get forward propagator: smeared-point
     dirac.loadGauge(gauge)

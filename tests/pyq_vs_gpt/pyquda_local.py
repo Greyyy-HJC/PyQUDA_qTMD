@@ -266,6 +266,8 @@ src_production = src_positions[0:1]
 for ipos, pos in enumerate(src_production):
     srcD = source.propagator(latt_info, "point", pos)
     srcDp = boosted_smearing(srcD, w=parameters["width"], boost=parameters["boost_in"])
+    srcDp.save(f"data/propag/{lat_tag}_srcDp.npy")
+    
     dirac.loadGauge(gauge)
     propag = core.invertPropagator(dirac, srcDp, 1, 0)
     propag.save(f"data/propag/{lat_tag}_propag_bsm.npy")
