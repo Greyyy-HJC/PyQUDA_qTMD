@@ -11,9 +11,6 @@ from pyquda import init, getMPIComm
 if not os.path.exists(".cache"):
     os.makedirs(".cache", exist_ok=True)
 
-from pyquda_utils import core, gamma, phase, io, source
-from pyquda_utils.phase import MomentumPhase
-
 Ls = 8
 Lt = 8
 
@@ -26,6 +23,9 @@ init(
     backend_target="sycl",
     resource_path=".cache",
 )
+
+from pyquda_utils import core, gamma, phase, io, source
+from pyquda_utils.phase import MomentumPhase
 
 from utils.boosted_smearing_pyquda import boosted_smearing
 from utils.bw_seq_pyquda import create_bw_seq_pyquda
@@ -64,7 +64,7 @@ interpolation = "T5"  # NOTE, new interpolation operator
 sm_tag = "1HYP_GSRC_W90_k3_" + interpolation  # NOTE
 GEN_SIMD_WIDTH = 64
 conf = 0
-lat_tag = "S8T8_aurora"
+lat_tag = "S8T8_pyquda_aurora"
 
 # --------------------------
 # Setup parameters
@@ -120,7 +120,6 @@ multigrid = None
 
 latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
 
-
 dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, multigrid)
 dirac.setPrecision(sloppy=8)
 gauge = io.readNERSCGauge(
@@ -150,25 +149,9 @@ src_positions = src_positions + srcLoc_distri_eq(
     L, src_origin
 )  # create a list of source
 
-src_shift = np.array([0, 0, 0, 0]) + np.array([7 + 8, 11 + 8, 13 + 8, 23 + 4])
-src_origin = np.array([int(conf) % L[i] for i in range(4)]) + src_shift
-src_positions = src_positions + srcLoc_distri_eq(
-    L, src_origin
-)  # create a list of source
-
-src_shift = np.array([0, 0, 0, 0]) + np.array([7 + 8, 11 + 8, 13 + 4, 23 + 4])
-src_origin = np.array([int(conf) % L[i] for i in range(4)]) + src_shift
-src_positions = src_positions + srcLoc_distri_eq(
-    L, src_origin
-)  # create a list of source
-
 src_production = src_positions[
     0:1
 ]  # take the number of sources needed for this project NOTE
-
-###################### create multigrid inverter ######################
-
-mpi_print(latt_info, f"DEBUG plaquette U_hyp: {gauge.plaquette()}")
 
 
 # --------------------------
@@ -194,7 +177,6 @@ for ipos, pos in enumerate(src_production):
     # >>>>>>>>>>>>>>>>>>>>>>>>> Propagators <<<<<<<<<<<<<<<<<<<<<<<<<<#
 
     # get forward propagator boosted source
-
     t0 = time.time()
     srcD = source.propagator(latt_info, "point", pos)
     srcDp = boosted_smearing(srcD, w=parameters["width"], boost=parameters["boost_in"])
@@ -205,7 +187,7 @@ for ipos, pos in enumerate(src_production):
     # get forward propagator: smeared-point
 
     t0 = time.time()
-    dirac.loadGauge(gauge)  # TODO: debug
+    dirac.loadGauge(gauge)
     propag = core.invertPropagator(
         dirac, srcDp, 1, 0
     )  # NOTE or "propag = core.invertPropagator(dirac, b, 0)" depends on the quda version
@@ -436,7 +418,6 @@ for ipos, pos in enumerate(src_production):
                 pos,
                 f"{sm_tag}.{pf_tag}.{pol}.{gm}",
             )
-            print(f"DEBUG: rank {rank}, task {task_idx}, {tag}")
             data = (
                 proton_TMDs_down[:, i, :, gidx : gidx + 1, :]
                 if flavor == "D"
@@ -553,29 +534,33 @@ for ipos, pos in enumerate(src_production):
         proton_PDFs_down = getMPIComm().bcast(proton_PDFs_down, root=0)
         proton_PDFs_up = getMPIComm().bcast(proton_PDFs_up, root=0)
 
-        tasks = ["D", "U"]
+        tasks = []
+        for gidx in range(len(gammalist)):
+            tasks.append((gidx, 'D'))  # Down
+            tasks.append((gidx, 'U'))  # Up
         rank = latt_info.mpi_rank
         n_ranks = latt_info.mpi_size
         # Each rank loops over its assigned tasks (round-robin distribution)
         for task_idx in range(rank, len(tasks), n_ranks):
-            flavor = tasks[task_idx]
+            gidx, flavor = tasks[task_idx]
+            gm = gammalist[gidx]
             tag = get_qTMD_file_tag(
                 data_dir,
                 lat_tag,
                 conf,
                 f"GI_PDF.{flavor}.ex",
                 pos,
-                f"{sm_tag}.{pf_tag}.{pol}",
+                f"{sm_tag}.{pf_tag}.{pol}.{gm}",
             )
             data = (
-                proton_PDFs_down[:, i, :, :, :]
+                proton_PDFs_down[:, i, :, gidx : gidx + 1, :]
                 if flavor == "D"
-                else proton_PDFs_up[:, i, :, :, :]
+                else proton_PDFs_up[:, i, :, gidx : gidx + 1, :]
             )
             save_qTMD_proton_hdf5_noRoll(
                 data,
                 tag,
-                gammalist,
+                [gm],
                 parameters["qext"],
                 W_index_list_PDF,
                 parameters["t_insert"],

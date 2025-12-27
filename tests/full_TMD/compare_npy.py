@@ -30,16 +30,24 @@ if __name__ == "__main__":
         rel_diff_imag = abs_diff_imag / max_abs_imag
         rel_diff_imag = np.nan_to_num(rel_diff_imag, nan=0.0, posinf=0.0, neginf=0.0)
     
-    # Print top 10 largest relative differences for real part
-    top_indices_real = np.argsort(rel_diff_real)[-10:][::-1]
-    print("Top 10 largest relative differences (REAL part, comparing |val|):")
+    # Print top 10 largest absolute differences for real part
+    top_indices_real = np.argsort(abs_diff_real)[-10:][::-1]
+    print("Top 10 largest absolute differences (REAL part, comparing |val|):")
     for idx in top_indices_real:
-        print(f"  idx {idx}: rel_diff={rel_diff_real[idx]:.16e}, val1={real1[idx]:.16e}, val2={real2[idx]:.16e}")
+        print(f"  idx {idx}: abs_diff={abs_diff_real[idx]:.16e}, rel_diff={rel_diff_real[idx]:.16e}, val1={real1[idx]:.16e}, val2={real2[idx]:.16e}")
     
     print()
     
-    # Print top 10 largest relative differences for imaginary part
-    top_indices_imag = np.argsort(rel_diff_imag)[-10:][::-1]
-    print("Top 10 largest relative differences (IMAG part, comparing |val|):")
+    # Print top 10 largest absolute differences for imaginary part
+    top_indices_imag = np.argsort(abs_diff_imag)[-10:][::-1]
+    print("Top 10 largest absolute differences (IMAG part, comparing |val|):")
     for idx in top_indices_imag:
-        print(f"  idx {idx}: rel_diff={rel_diff_imag[idx]:.16e}, val1={imag1[idx]:.16e}, val2={imag2[idx]:.16e}")
+        print(f"  idx {idx}: abs_diff={abs_diff_imag[idx]:.16e}, rel_diff={rel_diff_imag[idx]:.16e}, val1={imag1[idx]:.16e}, val2={imag2[idx]:.16e}")
+    
+    print()
+    
+    # Print L2 norm of differences
+    l2_norm_real = np.linalg.norm(real1 - real2)
+    l2_norm_imag = np.linalg.norm(imag1 - imag2)
+    print(f"L2 norm of (real1 - real2): {l2_norm_real:.16e}")
+    print(f"L2 norm of (imag1 - imag2): {l2_norm_imag:.16e}")

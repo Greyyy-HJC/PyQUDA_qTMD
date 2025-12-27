@@ -52,8 +52,8 @@ echo "Checking for libur_loader.so in PYQ_LIB_PATH:"
 ls -l $PYQ_LIB_PATH/libur_loader.so* 2>/dev/null || echo "Not found in $PYQ_LIB_PATH"
 
 
-echo ">>> Running full_aurora.py"
-mpirun -n 1 python3 full_aurora.py
+echo ">>> Running pyquda_aurora.py"
+mpirun -n 1 python3 pyquda_aurora.py
 
 # calculate total time
 end_time=$(date +"%Y-%m-%d %H:%M:%S")
