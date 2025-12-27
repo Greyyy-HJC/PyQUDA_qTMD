@@ -12,8 +12,8 @@ from pyquda import init, getMPIComm
 if not os.path.exists(".cache"):
     os.makedirs(".cache", exist_ok=True)
 
-Ls = 8
-Lt = 8
+Ls = 64
+Lt = 64
 
 init(
     None,
@@ -49,21 +49,26 @@ G5 = gamma.gamma(15)
 parameters = {
     # NOTE:
     "eta": [0],  # irrelavant for CG TMD
-    "b_z": 2,
-    "b_T": 2,
+    "b_z": 20,
+    "b_T": 20,
     "qext": [
-        [x, y, z, 0] for x in [2] for y in [-2] for z in [0]
+        [x, y, z, 0]
+        for x in [-2, -1, 0, 1, 2]
+        for y in [-2, -1, 0, 1, 2]
+        for z in [-2, -1, 0]
     ],  # momentum transfer for TMD, pf = pi + q
-    # "qext": [list(v + (0,)) for v in {tuple(sorted((x, y, z))) for x in [-2,-1,0] for y in [-2,-1,0] for z in [0]}], # momentum transfer for TMD, pf = pi + q
     "pf": [0, 0, 9, 0],
     "p_2pt": [
-        [x, y, z, 0] for x in [2] for y in [-2] for z in [0]
+        [x, y, z, 0]
+        for x in [-2, -1, 0, 1, 2]
+        for y in [-2, -1, 0, 1, 2]
+        for z in [5, 6, 7, 8, 9]
     ],  # 2pt momentum, should match pf & pi
     "boost_in": [0, 0, 3],
     "boost_out": [0, 0, 3],
     "width": 9.0,
     "pol": ["PpUnpol"],
-    "t_insert": 4,  # time separation for TMD
+    "t_insert": 10,  # time separation for TMD
     "save_propagators": False,
 }
 pf = parameters["pf"]
@@ -90,16 +95,16 @@ Measurement = proton_TMD(parameters)
 grid = g.grid([Ls,Ls,Ls,Lt], g.double)
 L = [Ls, Ls, Ls, Lt]
 xi_0, nu = 1.0, 1.0
-mass = -0.038888  # kappa = 0.12623
-csw_r = 1.02868
-csw_t = 1.02868
-multigrid = None
+mass = -0.049  # kappa = 0.12623
+csw_r = 1.0372
+csw_t = 1.0372
+multigrid = [[4, 4, 4, 4]]
 
 latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
 
 dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, multigrid)
 # dirac.setPrecision(sloppy=8)
-U = g.convert( g.load(f"/home/jinchen/git/lat-software/PyQUDA_qTMD/test_gauge/S8T8_wilson_b6.0"), g.double )
+U = g.convert( g.load(f"/lus/flare/projects/StructNGB/jinchen/benchmark/full_TMD/l6464f21b7130m00119m0322a.1050.coulomb.1e-14.HYP"), g.double ) # todo: done hyp by gpt
 trafo = g.identity(U[0])
 U_hyp = U
 latt_info, gpt_latt, gpt_simd, gpt_prec = gpt.LatticeInfoGPT(U[0].grid, GEN_SIMD_WIDTH)
@@ -117,7 +122,7 @@ src_positions = src_positions + srcLoc_distri_eq(
 )  # create a list of source
 
 src_production = src_positions[
-    0:1
+    0:2
 ]  # take the number of sources needed for this project NOTE
 
 
@@ -139,6 +144,12 @@ for ipos, pos in enumerate(src_production):
     
     sample_log_tag = get_sample_log_tag(str(conf), pos, sm_tag + "_" + pf_tag)
     g.message(f"START: {sample_log_tag}")
+    
+    with open(sample_log_file, "a+") as f:
+        f.seek(0)
+        if sample_log_tag in f.read():
+            g.message(f"SKIP: {sample_log_tag}")
+            # continue  # NOTE comment this out for test otherwise it will skip all the sources that are already done
 
     # >>>>>>>>>>>>>>>>>>>>>>>>> Propagators <<<<<<<<<<<<<<<<<<<<<<<<<<#
 
