@@ -1,7 +1,7 @@
-python compare_npy.py /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_pyquda_local_propag_bsm.npy /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_gpt_local_propag_bsm.npy > diff_propag_bsm.txt
+python compare_npy.py /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_pyquda_local_propag_bsm.npy /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_gpt_local_propag_bsm.npy > logs/diff_propag_bsm.txt
 
-python compare_npy.py /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_pyquda_local_srcDp.npy /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_gpt_local_srcDp.npy > diff_srcDp.txt
+python compare_npy.py /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_pyquda_local_srcDp.npy /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_gpt_local_srcDp.npy > logs/diff_srcDp.txt
 
-python compare_npy.py /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_pyquda_aurora_propag_bsm.npy /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_pyquda_local_propag_bsm.npy > diff_aurora_propag_bsm.txt
+python compare_npy.py /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_pyquda_aurora_propag_bsm.npy /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_pyquda_local_propag_bsm.npy > logs/diff_aurora_propag_bsm.txt
 
-python compare_npy.py /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_pyquda_aurora_srcDp.npy /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_pyquda_local_srcDp.npy > diff_aurora_srcDp.txt
+python compare_npy.py /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_pyquda_aurora_srcDp.npy /home/jinchen/git/lat-software/PyQUDA_qTMD/tests/pyq_vs_gpt/data/propag/S8T8_pyquda_local_srcDp.npy > logs/diff_aurora_srcDp.txt

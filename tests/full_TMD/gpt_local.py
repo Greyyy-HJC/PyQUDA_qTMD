@@ -137,6 +137,8 @@ if g.rank() == 0:
 #! Measurement
 ###################### loop over sources ######################
 for ipos, pos in enumerate(src_production):
+    
+    pos = [1, 2, 3, 4]
 
     sample_log_tag = get_sample_log_tag(str(conf), pos, sm_tag + "_" + pf_tag)
     g.message(f"START: {sample_log_tag}")
