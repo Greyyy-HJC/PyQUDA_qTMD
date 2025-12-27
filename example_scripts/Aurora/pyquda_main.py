@@ -45,7 +45,7 @@ data_dir = "/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/full
 interpolation = "T5"  # NOTE, new interpolation operator
 sm_tag = "1HYP_GSRC_W90_k3_" + interpolation  # NOTE
 GEN_SIMD_WIDTH = 64
-conf = 0
+conf = 1050
 lat_tag = "S64T64_pyquda_aurora"
 
 # --------------------------

@@ -39,7 +39,7 @@ data_dir = "/home/jinchen/git/lat-software/PyQUDA_qTMD/tests/full_TMD/data"  # N
 interpolation = "T5"  # NOTE, new interpolation operator
 sm_tag = "1HYP_GSRC_W90_k3_" + interpolation  # NOTE
 GEN_SIMD_WIDTH = 64
-conf = 0
+conf = 1050
 lat_tag = "S8T8_gpt_local"
 G5 = gamma.gamma(15)
 
