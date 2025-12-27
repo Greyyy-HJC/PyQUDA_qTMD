@@ -41,7 +41,7 @@ from utils.io_corr import (
 from utils.tools import srcLoc_distri_eq, mpi_print
 
 # Global parameters
-data_dir = "/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/full_TMD/data"  # NOTE
+data_dir = "/lus/flare/projects/StructNGB/jinchen/benchmark/full_TMD/pyquda/data"  # NOTE
 interpolation = "T5"  # NOTE, new interpolation operator
 sm_tag = "1HYP_GSRC_W90_k3_" + interpolation  # NOTE
 GEN_SIMD_WIDTH = 64

@@ -35,12 +35,12 @@ import gpt as g
 from gpt_utils import *
 
 # Global parameters
-data_dir = "/home/jinchen/git/lat-software/PyQUDA_qTMD/tests/full_TMD/data"  # NOTE
+data_dir = "/lustre2/pion3d/jinchen/debug/PyQUDA_qTMD/example_scripts/LQ2/data"  # NOTE
 interpolation = "T5"  # NOTE, new interpolation operator
 sm_tag = "1HYP_GSRC_W90_k3_" + interpolation  # NOTE
 GEN_SIMD_WIDTH = 64
 conf = 1050
-lat_tag = "S64T64_gpt_local"
+lat_tag = "S64T64_gpt_lq2"
 G5 = gamma.gamma(15)
 
 # --------------------------
@@ -104,7 +104,7 @@ latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
 
 dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, multigrid)
 # dirac.setPrecision(sloppy=8)
-U = g.convert( g.load(f"/lus/flare/projects/StructNGB/jinchen/benchmark/full_TMD/l6464f21b7130m00119m0322a.1050.coulomb.1e-14.HYP"), g.double ) # todo: done hyp by gpt
+U = g.convert( g.load(f"/lustre2/pion3d/jinchen/debug/PyQUDA_qTMD/example_scripts/LQ2/l6464f21b7130m00119m0322a.1050.coulomb.1e-14.HYP"), g.double ) # todo: done hyp by gpt
 trafo = g.identity(U[0])
 U_hyp = U
 latt_info, gpt_latt, gpt_simd, gpt_prec = gpt.LatticeInfoGPT(U[0].grid, GEN_SIMD_WIDTH)
