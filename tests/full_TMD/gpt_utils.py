@@ -712,7 +712,6 @@ class proton_measurement:
 
     #function that creates boosted, smeared src.
     def create_src_2pt(self, pos, trafo, grid):
-        
         srcD = g.mspincolor(grid)
         g.create.point(srcD, pos)
         srcDp = g.create.smear.boosted_smearing(trafo, srcD, w=self.width, boost=self.pos_boost)

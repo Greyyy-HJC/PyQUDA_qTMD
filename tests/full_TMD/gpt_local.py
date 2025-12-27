@@ -100,8 +100,7 @@ latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
 dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, multigrid)
 dirac.setPrecision(sloppy=8)
 U = g.convert( g.load(f"/home/jinchen/git/lat-software/PyQUDA_qTMD/test_gauge/S8T8_wilson_b6.0"), g.double )
-U_prime, trafo = g.gauge_fix(U, maxiter=50, prec=1e-1) # CG fix, to get trafo
-del U_prime
+trafo = g.identity(U[0])
 U_hyp = U
 latt_info, gpt_latt, gpt_simd, gpt_prec = gpt.LatticeInfoGPT(U[0].grid, GEN_SIMD_WIDTH)
 gauge = gpt.LatticeGaugeGPT(U_hyp, GEN_SIMD_WIDTH)
@@ -138,8 +137,6 @@ if g.rank() == 0:
 ###################### loop over sources ######################
 for ipos, pos in enumerate(src_production):
     
-    pos = [1, 2, 3, 4]
-
     sample_log_tag = get_sample_log_tag(str(conf), pos, sm_tag + "_" + pf_tag)
     g.message(f"START: {sample_log_tag}")
 

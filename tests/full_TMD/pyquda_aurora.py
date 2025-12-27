@@ -180,6 +180,8 @@ for ipos, pos in enumerate(src_production):
     t0 = time.time()
     srcD = source.propagator(latt_info, "point", pos)
     srcDp = boosted_smearing(srcD, w=parameters["width"], boost=parameters["boost_in"])
+    
+    srcDp.save(f"data/propag/{lat_tag}_srcDp.npy")
 
     if latt_info.mpi_rank == 0:
         print("TIME Pyquda: Generatring boosted src", time.time() - t0)
