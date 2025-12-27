@@ -27,6 +27,33 @@ The `utils/` directory contains the core functions required for full TMD calcula
 | `io_corr.py` | I/O utilities for correlator data (HDF5 format) |
 | `tools.py` | General helper functions (source positions, MPI utilities, etc.) |
 
+## Example Scripts
+
+The `example_scripts/` directory contains production scripts for different HPC systems:
+
+### `Frontier/`
+
+`Pyquda_proton_tmd_p7_T5_ts10.py` is the original production script from the Frontier cluster (AMD GPU). However, it contains several issues:
+
+1. **Redundant parameter**: `parameters["qext_PDF"]` duplicates `parameters["qext"]` unnecessarily
+2. **Redundant function argument**: `Measurement.create_PDF_Wilsonline_index_list(U[0].grid)` passes a `grid` argument that is never used
+3. **Task distribution bug**: The `if rank < len(tasks):` pattern only works when the number of MPI ranks ≥ number of tasks. If there are fewer ranks than tasks (e.g., 16 ranks but 32 tasks = 16 gammas × 2 flavors), the remaining tasks are silently skipped
+
+### `LQ2/`
+
+Cleaned-up version for NVIDIA GPUs (cupy backend):
+- `gpt_main.py`: Main script with bugs fixed and code cleaned
+- `gpt_utils.py`: All utility functions consolidated into one file
+
+Key fixes:
+- Removed redundant `qext_PDF` parameter
+- Fixed function signatures (removed unused arguments)
+- Fixed task distribution using round-robin: `for task_idx in range(rank, len(tasks), n_ranks):`
+
+### `Aurora/`
+
+`pyquda_main.py`: Equivalent script for Intel GPUs (dpnp/SYCL backend), adapted from the LQ2 version.
+
 ## Tests
 
 Validation tests ensure numerical consistency between:
