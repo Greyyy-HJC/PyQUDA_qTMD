@@ -7,10 +7,10 @@
 #PBS -q debug
 #PBS -j oe
 #PBS -l walltime=1:00:00
-#PBS -o /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/pyq_vs_gpt/logs/pyquda_aurora.log
+#PBS -o /lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/pt2/logs/pyquda_aurora.log
 
 # switch to the submit directory
-WORKDIR=/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/pyq_vs_gpt
+WORKDIR=/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/pt2
 cd $WORKDIR
 
 # output node info
@@ -36,7 +36,7 @@ source /lus/flare/projects/StructNGB/jinchen/env/pyquda_env.sh
 python --version
 
 # check python path
-export PYTHONPATH="/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/pyq_vs_gpt:/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD"
+export PYTHONPATH="/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD/tests/pt2:/lus/flare/projects/StructNGB/jinchen/package/PyQUDA_qTMD"
 echo "Python path: $(which python)"
 echo "PYTHONPATH: $PYTHONPATH"
 
