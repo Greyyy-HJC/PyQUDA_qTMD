@@ -16,8 +16,7 @@ Ls = 64
 Lt = 64
 
 init(
-    None,
-    [Ls, Ls, Ls, Lt],
+    mpi_geometry=[2, 2, 2, 2],
     enable_mps=True,
     grid_map="shared",
     backend="cupy",

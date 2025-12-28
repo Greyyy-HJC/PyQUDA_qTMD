@@ -65,7 +65,7 @@ main=gpt_main.py
 echo -e "\n>>> Run Python script ${main}"
 
 srun -N 4 -n 16 --mpi=pmix --gpus-per-task=1 -u \
-    python3 ${main} --mpi_geometry 2.2.2.2 \
+    python3 ${main} \
     --mpi 2.2.2.2 --grid 64.64.64.64 \
     --shm-mpi 1 --shm 2048 \
     --comms-sequential \
