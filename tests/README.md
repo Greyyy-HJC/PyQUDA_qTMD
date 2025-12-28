@@ -46,11 +46,19 @@ In other words, `setPrecision(sloppy=8)` makes the two implementations agree wit
 
 Comparing `gpt_local`, `pyquda_local`, and `pyquda_aurora`:
 
-| Quantity | Relative Difference |
-|----------|---------------------|
-| Boosted smeared propagator | ~1e-10 |
-| 2-point correlator | ~1e-9 |
-| 3-point correlator (CG & GI) | ~1e-9 |
+| Quantity | Rel. Diff (tol=1e-10) | Rel. Diff (tol=1e-12) |
+|----------|----------------------|----------------------|
+| Boosted smeared propagator | ~1e-8 | ~1e-11 |
+| 2-point correlator | ~1e-9 | ~1e-9 |
+| 3-point correlator (CG & GI) | ~1e-9 | ~1e-11 |
+
+**Notes on error sources:**
+
+- **Propagator**: The inversion error is uniformly distributed across all lattice sites. Since some sites have small absolute values, their relative errors appear larger. Increasing inversion precision directly improves the relative difference.
+
+- **2-point correlator**: The error is dominated by `einsum` summation accumulation, with an absolute error floor of ~1e-7 that cannot be further reduced by improving inversion precision.
+
+- **3-point correlator**: The error scales with inversion precision and can be effectively reduced by using tighter tolerances.
 
 These results demonstrate excellent agreement between all three implementations.
 
