@@ -52,6 +52,22 @@ Comparing `gpt_local`, `pyquda_local`, and `pyquda_aurora`:
 | 2-point correlator | ~1e-9 | ~1e-9 |
 | 3-point correlator (CG & GI) | ~1e-9 | ~1e-11 |
 
+Detailed comparison logs are available in `tests/full_TMD/logs/`.
+
+### S64T64 Production Configuration
+
+Comparing `gpt_main.py` on LQ2 (NVIDIA GPU) vs `pyquda_main.py` on Aurora (Intel GPU):
+
+| Quantity | Rel. Diff (tol=1e-10) |
+|----------|----------------------|
+| 2-point correlator | ~1e-8 |
+| 3-point correlator (CG) | ~1e-7 |
+| 3-point correlator (GI) | ~1e-8 |
+
+Detailed comparison logs are available in `example_scripts/logs/`.
+
+This validates cross-platform consistency on production-scale lattices.
+
 **Notes on error sources:**
 
 - **Propagator**: The inversion error is uniformly distributed across all lattice sites. Since some sites have small absolute values, their relative errors appear larger. Increasing inversion precision directly improves the relative difference.
@@ -61,13 +77,3 @@ Comparing `gpt_local`, `pyquda_local`, and `pyquda_aurora`:
 - **3-point correlator**: The error scales with inversion precision and can be effectively reduced by using tighter tolerances.
 
 These results demonstrate excellent agreement between all three implementations.
-
-### S64T64 Production Configuration (In Progress)
-
-A larger-scale validation test on the S64T64 configuration is currently running:
-
-- **Aurora** (Intel GPU): Running `example_scripts/Aurora/pyquda_main.py` with dpnp backend
-- **LQ2** (NVIDIA GPU): Running `example_scripts/LQ2/gpt_main.py` with cupy backend
-
-This test will validate cross-platform consistency on production-scale lattices.
-
