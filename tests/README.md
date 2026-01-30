@@ -58,11 +58,11 @@ Detailed comparison logs are available in `tests/full_TMD/logs/`.
 
 Comparing `gpt_main.py` on LQ2 (NVIDIA GPU) vs `pyquda_main.py` on Aurora (Intel GPU):
 
-| Quantity | Rel. Diff (tol=1e-10) |
-|----------|----------------------|
-| 2-point correlator | ~1e-8 |
-| 3-point correlator (CG) | ~1e-7 |
-| 3-point correlator (GI) | ~1e-8 |
+| Quantity | Rel. Diff (tol=1e-10) | Rel. Diff (tol=1e-12) |
+|----------|----------------------|----------------------|
+| 2-point correlator | ~1e-8 | ~1e-10 |
+| 3-point correlator (CG) | ~1e-7 | ~1e-9 |
+| 3-point correlator (GI) | ~1e-8 | ~1e-10 |
 
 Detailed comparison logs are available in `example_scripts/logs/`.
 
