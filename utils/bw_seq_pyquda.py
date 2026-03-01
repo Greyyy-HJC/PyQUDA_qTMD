@@ -6,6 +6,7 @@ Refactored by Gemini to use pyquda_utils.source.sequential12 for time slicing.
 import numpy as np
 
 from pyquda.field import LatticePropagator
+from pyquda_plugins import pycontract
 from pyquda_utils import core, gamma
 from pyquda_utils.phase import MomentumPhase
 
@@ -120,6 +121,36 @@ def create_bw_seq_pyquda(dirac, prop: LatticePropagator, origin, sm_width, sm_bo
     dst_seq = _asarray_on_queue(dst_seq, xp, prop.data)
 
     return dst_seq
+
+
+def create_bw_seq_pycontract(
+    dirac,
+    prop: LatticePropagator,
+    origin,
+    sm_width,
+    sm_boost,
+    momentum,
+    t_insert,
+    pol_list,
+    flavor,
+    interpolator="5",
+):
+    # Keep this entrypoint numerically equivalent to create_bw_seq_pyquda.
+    # The pycontract-accelerated production speedup currently comes from downstream
+    # mesonAllSink contractions; this function remains a stable alias for backward
+    # sequential source generation.
+    return create_bw_seq_pyquda(
+        dirac,
+        prop,
+        origin,
+        sm_width,
+        sm_boost,
+        momentum,
+        t_insert,
+        pol_list,
+        flavor,
+        interpolator,
+    )
 
 
 def down_quark_insertion_pyquda(Q: LatticePropagator, Gamma, P):
