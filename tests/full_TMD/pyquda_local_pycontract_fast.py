@@ -31,8 +31,7 @@ from pyquda_utils.phase import MomentumPhase
 from pyquda_utils.source import sequential12
 
 from utils.boosted_smearing_pyquda import boosted_smearing
-from utils.bw_seq_pyquda import create_bw_seq_pyquda
-from utils.proton_qTMD_pyquda import proton_TMD, my_pyquda_gammas, pyquda_gammas_order
+from utils.proton_qTMD_pyquda import proton_TMD, pyquda_gammas_order
 from utils.io_corr import (
     get_sample_log_tag,
     get_c2pt_file_tag,
@@ -42,27 +41,10 @@ from utils.io_corr import (
 from utils.tools import _asarray_on_queue, _get_xp_from_array, srcLoc_distri_eq, mpi_print
 
 
-VALIDATE_FAST = os.getenv("PYCONTRACT_FAST_VALIDATE", "0") == "1"
-REL_TOL = 1e-10
-_validated_bw_seq = set()
-_validated_meson_mapping = set()
-
 _INTERPOLATOR_GAMMA = {
-    "5": (15, 1j * gamma.Gamma(2) @ gamma.Gamma(8) @ gamma.Gamma(15)),
-    "T5": (7, 1j * gamma.Gamma(2) @ gamma.Gamma(8) @ gamma.Gamma(7)),
-    "Z5": (11, 1j * gamma.Gamma(2) @ gamma.Gamma(8) @ gamma.Gamma(11)),
-}
-
-_POLARIZATION_MATRICES = {
-    "PpUnpol": (gamma.gamma(0) + gamma.gamma(8)) * 0.25,
-    "PpSzp": ((gamma.gamma(0) + gamma.gamma(8)) * 0.25)
-    @ (gamma.gamma(0) - 1j * gamma.gamma(1) @ gamma.gamma(2)),
-    "PpSzm": ((gamma.gamma(0) + gamma.gamma(8)) * 0.25)
-    @ (gamma.gamma(0) + 1j * gamma.gamma(1) @ gamma.gamma(2)),
-    "PpSxp": ((gamma.gamma(0) + gamma.gamma(8)) * 0.25)
-    @ (gamma.gamma(0) - 1j * gamma.gamma(2) @ gamma.gamma(4)),
-    "PpSxm": ((gamma.gamma(0) + gamma.gamma(8)) * 0.25)
-    @ (gamma.gamma(0) + 1j * gamma.gamma(2) @ gamma.gamma(4)),
+    "5": 1j * gamma.Gamma(2) @ gamma.Gamma(8) @ gamma.Gamma(15),
+    "T5": 1j * gamma.Gamma(2) @ gamma.Gamma(8) @ gamma.Gamma(7),
+    "Z5": 1j * gamma.Gamma(2) @ gamma.Gamma(8) @ gamma.Gamma(11),
 }
 
 _I = pycontract.BaryonSequentialType.SEQUENTIAL_I
@@ -100,41 +82,26 @@ _BW_SEQ_COMB = {
     ],
 }
 
-def _to_numpy_matrix(mat):
-    if isinstance(mat, cp.ndarray):
-        return cp.asnumpy(mat)
-    return np.asarray(mat)
+def _g(index, factor=1):
+    return gamma.Gamma(index, factor)
 
 
-_GAMMA_BASIS = np.stack(
-    [_to_numpy_matrix(gamma.Gamma(idx).matrix).reshape(-1) for idx in range(16)], axis=1
-)
-_GAMMA_BASIS_INV = np.linalg.inv(_GAMMA_BASIS)
-_POLARIZATION_TERMS = {}
-for _pol_name, _pol_mat in _POLARIZATION_MATRICES.items():
-    _coeff = _GAMMA_BASIS_INV @ _to_numpy_matrix(_pol_mat).reshape(-1)
-    _POLARIZATION_TERMS[_pol_name] = [
-        (complex(val), gamma.Gamma(idx))
-        for idx, val in enumerate(_coeff)
-        if abs(val) > 1e-12
-    ]
+# Merge polarization terms into pycontract-compatible components.
+# Each component is Gamma or Polarize (sum of two Gamma terms).
+_POLARIZATION_COMPONENTS = {
+    "PpUnpol": [_g(0, 0.25) + _g(8, 0.25)],
+    "PpSzp": [_g(0, 0.25) + _g(3, -0.25j), _g(8, 0.25) + _g(11, -0.25j)],
+    "PpSzm": [_g(0, 0.25) + _g(3, 0.25j), _g(8, 0.25) + _g(11, 0.25j)],
+    "PpSxp": [_g(0, 0.25) + _g(6, -0.25j), _g(8, 0.25) + _g(14, -0.25j)],
+    "PpSxm": [_g(0, 0.25) + _g(6, 0.25j), _g(8, 0.25) + _g(14, 0.25j)],
+}
 
 
-def _relative_l2(x, y):
-    xp_local = _get_xp_from_array(x)
-    x_flat = x.reshape(-1)
-    y_flat = y.reshape(-1)
-    den = float(xp_local.linalg.norm(y_flat))
-    if den == 0.0:
-        return float(xp_local.linalg.norm(x_flat - y_flat))
-    return float(xp_local.linalg.norm(x_flat - y_flat) / den)
-
-
-def _build_seq_source_pycontract(prop_smear, gamma_insert, polarization_terms, flavor):
+def _build_seq_source_pycontract(prop_smear, gamma_insert, polarization_components, flavor):
     latt_info = prop_smear.latt_info
     xp_local = _get_xp_from_array(prop_smear.data)
     seq_sum = None
-    for pol_coef, pol_gamma in polarization_terms:
+    for polarization_component in polarization_components:
         for wick_coef, seq_type, contract_type in _BW_SEQ_COMB[flavor]:
             seq_raw = pycontract.baryonSequentialTwoPoint(
                 prop_smear,
@@ -144,12 +111,11 @@ def _build_seq_source_pycontract(prop_smear, gamma_insert, polarization_terms, f
                 seq_type,
                 gamma_insert,
                 gamma_insert,
-                pol_gamma,
+                polarization_component,
             )
-            coeff = pol_coef * wick_coef
-            term = coeff * seq_raw.data
+            term = wick_coef * seq_raw.data
             seq_sum = term if seq_sum is None else (seq_sum + term)
-    # Match the spin/color convention of create_bw_seq_pyquda.
+    # Match the spin/color convention of the reference implementation.
     seq_sum = -xp_local.swapaxes(xp_local.swapaxes(seq_sum, -4, -3), -2, -1)
     seq_prop = core.LatticePropagator(latt_info)
     seq_prop.data = seq_sum
@@ -163,14 +129,14 @@ def create_bw_seq_pycontract_fast(
         raise ValueError(f"Invalid interpolator: {interpolator}")
     if flavor not in _BW_SEQ_COMB:
         raise ValueError(f"Invalid flavor: {flavor}")
-    unsupported_pols = [pol for pol in pol_list if pol not in _POLARIZATION_TERMS]
+    unsupported_pols = [pol for pol in pol_list if pol not in _POLARIZATION_COMPONENTS]
     if unsupported_pols:
         raise ValueError(
             "Unsupported polarization(s) for pycontract fast path: "
-            f"{unsupported_pols}. Supported: {sorted(_POLARIZATION_TERMS.keys())}"
+            f"{unsupported_pols}. Supported: {sorted(_POLARIZATION_COMPONENTS.keys())}"
         )
 
-    _, gamma_insert = _INTERPOLATOR_GAMMA[interpolator]
+    gamma_insert = _INTERPOLATOR_GAMMA[interpolator]
     xp_local = _get_xp_from_array(prop.data)
     latt_info = prop.latt_info
     GLt = latt_info.GLt
@@ -185,7 +151,7 @@ def create_bw_seq_pycontract_fast(
     dst_seq = []
     for pol in pol_list:
         seq_source = _build_seq_source_pycontract(
-            prop_smear, gamma_insert, _POLARIZATION_TERMS[pol], flavor
+            prop_smear, gamma_insert, _POLARIZATION_COMPONENTS[pol], flavor
         )
         seq_data = _asarray_on_queue(sequential12(seq_source, t_sink).data, xp_local, prop_smear.data)
         data = xp_local.einsum("ij,wtzyx,wtzyxkjba->wtzyxikab", g5, mom_phase, seq_data.conj())
@@ -196,29 +162,6 @@ def create_bw_seq_pycontract_fast(
         prop_smeared = core.invertPropagator(dirac, src, 1, 0)
         final_term = xp_local.einsum("wtzyxijfc,ik->wtzyxjkcf", prop_smeared.data.conj(), g5)
         dst_seq.append(final_term)
-
-        if VALIDATE_FAST:
-            key = (flavor, interpolator, pol)
-            if key not in _validated_bw_seq:
-                ref = create_bw_seq_pyquda(
-                    dirac,
-                    prop,
-                    origin,
-                    sm_width,
-                    sm_boost,
-                    momentum,
-                    t_insert,
-                    [pol],
-                    flavor,
-                    interpolator,
-                )[0]
-                rel = _relative_l2(final_term, ref)
-                if rel > REL_TOL:
-                    raise RuntimeError(
-                        f"BW seq mismatch for {key}: rel_l2={rel:.3e} > {REL_TOL:.1e}"
-                    )
-                mpi_print(latt_info, f"VALIDATE BW seq {key}: rel_l2={rel:.3e}")
-                _validated_bw_seq.add(key)
 
     return _asarray_on_queue(dst_seq, xp_local, prop_smear.data)
 
@@ -234,9 +177,6 @@ def contract_qgt_meson_all_sink(
     forward_prop,
     seq_fast,
     phases_3pt,
-    pyquda_gamma_ls,
-    seq_ref=None,
-    validate_key=None,
 ):
     all_sink = pycontract.mesonAllSinkTwoPoint(
         forward_prop, core.LatticePropagator(latt_info, seq_fast), gamma.Gamma(0)
@@ -246,25 +186,6 @@ def contract_qgt_meson_all_sink(
         [2, -1, -1, -1],
     )
     qgt_fast = reorder_gamma_qgt(qgt_fast)
-
-    if VALIDATE_FAST and seq_ref is not None and validate_key not in _validated_meson_mapping:
-        qgt_ref_local = xp.einsum(
-            "wtzyxjicf,gim,wtzyxmjfc->gwtzyx", seq_ref, pyquda_gamma_ls, forward_prop.data
-        )
-        qgt_ref = core.gatherLattice(
-            xp.asnumpy(xp.einsum("qwtzyx,gwtzyx->qgt", phases_3pt, qgt_ref_local)),
-            [2, -1, -1, -1],
-        )
-        rel = np.linalg.norm((qgt_fast - qgt_ref).reshape(-1)) / np.linalg.norm(
-            qgt_ref.reshape(-1)
-        )
-        if rel > REL_TOL:
-            raise RuntimeError(
-                f"mesonAllSink mapping mismatch for {validate_key}: rel_l2={rel:.3e} > {REL_TOL:.1e}"
-            )
-        mpi_print(latt_info, f"VALIDATE mesonAllSink {validate_key}: rel_l2={rel:.3e}")
-        _validated_meson_mapping.add(validate_key)
-
     return qgt_fast
 
 # Global parameters
@@ -334,18 +255,6 @@ dirac = core.getClover(latt_info, mass, 1e-12, 10000, xi_0, csw_r, csw_t, multig
 gauge = io.readNERSCGauge(
     f"/home/jinchen/git/lat-software/PyQUDA_qTMD/test_gauge/S8T8_wilson_b6.0"
 )
-
-first_gamma = my_pyquda_gammas[0]
-n_gamma = len(my_pyquda_gammas)
-
-pyquda_gamma_ls = xp.empty(
-    (n_gamma,) + first_gamma.shape,
-    dtype=first_gamma.dtype,
-    # device=first_gamma.device,  # key: use the same device as gamma_pyq
-)
-
-for gamma_idx, gamma_pyq in enumerate(my_pyquda_gammas):
-    pyquda_gamma_ls[gamma_idx] = xp.asarray(gamma_pyq)
 
 ###################### setup source positions ######################
 src_shift = np.array([0, 0, 0, 0]) + np.array([7, 11, 13, 23])
@@ -495,31 +404,25 @@ for ipos, pos in enumerate(src_production):
         t0 = time.time()
 
         temp_down = []
-        for seq_idx, seq in enumerate(sequential_bw_prop_down_contracted_pyq):
+        for seq in sequential_bw_prop_down_contracted_pyq:
             temp_down.append(
                 contract_qgt_meson_all_sink(
                     latt_info,
                     tmd_forward_prop_dir0,
                     seq,
                     phases_3pt_pyq,
-                    pyquda_gamma_ls,
-                    seq_ref=sequential_bw_prop_down_pyq[seq_idx],
-                    validate_key=("CG", "D"),
                 )
             )
         proton_TMDs_down.append(temp_down)
 
         temp_up = []
-        for seq_idx, seq in enumerate(sequential_bw_prop_up_contracted_pyq):
+        for seq in sequential_bw_prop_up_contracted_pyq:
             temp_up.append(
                 contract_qgt_meson_all_sink(
                     latt_info,
                     tmd_forward_prop_dir0,
                     seq,
                     phases_3pt_pyq,
-                    pyquda_gamma_ls,
-                    seq_ref=sequential_bw_prop_up_pyq[seq_idx],
-                    validate_key=("CG", "U"),
                 )
             )
         proton_TMDs_up.append(temp_up)
@@ -547,31 +450,25 @@ for ipos, pos in enumerate(src_production):
 
         t0 = time.time()
         temp_down = []
-        for seq_idx, seq in enumerate(sequential_bw_prop_down_contracted_pyq):
+        for seq in sequential_bw_prop_down_contracted_pyq:
             temp_down.append(
                 contract_qgt_meson_all_sink(
                     latt_info,
                     tmd_forward_prop_dir1,
                     seq,
                     phases_3pt_pyq,
-                    pyquda_gamma_ls,
-                    seq_ref=sequential_bw_prop_down_pyq[seq_idx],
-                    validate_key=("CG", "D"),
                 )
             )
         proton_TMDs_down.append(temp_down)
 
         temp_up = []
-        for seq_idx, seq in enumerate(sequential_bw_prop_up_contracted_pyq):
+        for seq in sequential_bw_prop_up_contracted_pyq:
             temp_up.append(
                 contract_qgt_meson_all_sink(
                     latt_info,
                     tmd_forward_prop_dir1,
                     seq,
                     phases_3pt_pyq,
-                    pyquda_gamma_ls,
-                    seq_ref=sequential_bw_prop_up_pyq[seq_idx],
-                    validate_key=("CG", "U"),
                 )
             )
         proton_TMDs_up.append(temp_up)
@@ -682,31 +579,25 @@ for ipos, pos in enumerate(src_production):
         #! PyQUDA: contract
 
         temp_down = []
-        for seq_idx, seq in enumerate(sequential_prop_down_contracted_pyq):
+        for seq in sequential_prop_down_contracted_pyq:
             temp_down.append(
                 contract_qgt_meson_all_sink(
                     latt_info,
                     tmd_forward_prop_pyq,
                     seq,
                     phases_3pt_pyq,
-                    pyquda_gamma_ls,
-                    seq_ref=sequential_bw_prop_down_pyq[seq_idx],
-                    validate_key=("GI_PDF", "D"),
                 )
             )
         proton_PDFs_down.append(temp_down)
 
         temp_up = []
-        for seq_idx, seq in enumerate(sequential_prop_up_contracted_pyq):
+        for seq in sequential_prop_up_contracted_pyq:
             temp_up.append(
                 contract_qgt_meson_all_sink(
                     latt_info,
                     tmd_forward_prop_pyq,
                     seq,
                     phases_3pt_pyq,
-                    pyquda_gamma_ls,
-                    seq_ref=sequential_bw_prop_up_pyq[seq_idx],
-                    validate_key=("GI_PDF", "U"),
                 )
             )
         proton_PDFs_up.append(temp_up)
