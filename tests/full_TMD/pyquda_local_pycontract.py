@@ -30,21 +30,37 @@ from pyquda_utils import core, gamma, phase, io, source
 from pyquda_utils.phase import MomentumPhase
 
 from utils.boosted_smearing_pyquda import boosted_smearing
-from utils.bw_seq_pyquda import create_bw_seq_pyquda
-from utils.proton_qTMD_pyquda import proton_TMD, my_pyquda_gammas, pyquda_gammas_order
+from utils.proton_qTMD_pyquda import proton_TMD, pyquda_gammas_order
 from utils.io_corr import (
     get_sample_log_tag,
     get_c2pt_file_tag,
     get_qTMD_file_tag,
     save_qTMD_proton_hdf5_noRoll,
 )
-from utils.tools import srcLoc_distri_eq, mpi_print
-
+from utils.bw_seq_pycontract import *
+from utils.tools import _asarray_on_queue, _get_xp_from_array, srcLoc_distri_eq, mpi_print
 
 def reorder_gamma_qgt(qgt_data):
     # mesonAllSinkTwoPoint returns gamma channels in native 0..15 order.
     # pyquda_local expects channels ordered by pyquda_gammas_order.
     return qgt_data[:, pyquda_gammas_order, :]
+
+
+def contract_qgt_meson_all_sink(
+    latt_info,
+    forward_prop,
+    seq_fast,
+    phases_3pt,
+):
+    all_sink = pycontract.mesonAllSinkTwoPoint(
+        forward_prop, core.LatticePropagator(latt_info, seq_fast), gamma.Gamma(0)
+    ).data
+    qgt_fast = core.gatherLattice(
+        xp.asnumpy(xp.einsum("qwtzyx,gwtzyx->qgt", phases_3pt, all_sink)),
+        [2, -1, -1, -1],
+    )
+    qgt_fast = reorder_gamma_qgt(qgt_fast)
+    return qgt_fast
 
 # Global parameters
 data_dir = "/home/jinchen/git/lat-software/PyQUDA_qTMD/tests/full_TMD/data"  # NOTE
@@ -113,18 +129,6 @@ dirac = core.getClover(latt_info, mass, 1e-12, 10000, xi_0, csw_r, csw_t, multig
 gauge = io.readNERSCGauge(
     f"/home/jinchen/git/lat-software/PyQUDA_qTMD/test_gauge/S8T8_wilson_b6.0"
 )
-
-first_gamma = my_pyquda_gammas[0]
-n_gamma = len(my_pyquda_gammas)
-
-pyquda_gamma_ls = xp.empty(
-    (n_gamma,) + first_gamma.shape,
-    dtype=first_gamma.dtype,
-    # device=first_gamma.device,  # key: use the same device as gamma_pyq
-)
-
-for gamma_idx, gamma_pyq in enumerate(my_pyquda_gammas):
-    pyquda_gamma_ls[gamma_idx] = xp.asarray(gamma_pyq)
 
 ###################### setup source positions ######################
 src_shift = np.array([0, 0, 0, 0]) + np.array([7, 11, 13, 23])
@@ -199,7 +203,7 @@ for ipos, pos in enumerate(src_production):
     #! PyQUDA: get backward propagator through sequential source for U and D
 
     t0 = time.time()
-    sequential_bw_prop_down_pyq = create_bw_seq_pyquda(
+    sequential_bw_prop_down_pyq = create_bw_seq_pycontract(
         dirac,
         propag,
         pos,
@@ -211,7 +215,7 @@ for ipos, pos in enumerate(src_production):
         2,
         interpolation,
     )
-    sequential_bw_prop_up_pyq = create_bw_seq_pyquda(
+    sequential_bw_prop_up_pyq = create_bw_seq_pycontract(
         dirac,
         propag,
         pos,
@@ -275,28 +279,26 @@ for ipos, pos in enumerate(src_production):
 
         temp_down = []
         for seq in sequential_bw_prop_down_contracted_pyq:
-            temp1 = pycontract.mesonAllSinkTwoPoint(
-                tmd_forward_prop_dir0, core.LatticePropagator(latt_info, seq), gamma.Gamma(0)
-            ).data
-            temp2 = core.gatherLattice(
-                xp.asnumpy(xp.einsum("qwtzyx,gwtzyx->qgt", phases_3pt_pyq, temp1)),
-                [2, -1, -1, -1],
+            temp_down.append(
+                contract_qgt_meson_all_sink(
+                    latt_info,
+                    tmd_forward_prop_dir0,
+                    seq,
+                    phases_3pt_pyq,
+                )
             )
-            temp2 = reorder_gamma_qgt(temp2)
-            temp_down.append(temp2)
         proton_TMDs_down.append(temp_down)
 
         temp_up = []
         for seq in sequential_bw_prop_up_contracted_pyq:
-            temp1 = pycontract.mesonAllSinkTwoPoint(
-                tmd_forward_prop_dir0, core.LatticePropagator(latt_info, seq), gamma.Gamma(0)
-            ).data
-            temp2 = core.gatherLattice(
-                xp.asnumpy(xp.einsum("qwtzyx,gwtzyx->qgt", phases_3pt_pyq, temp1)),
-                [2, -1, -1, -1],
+            temp_up.append(
+                contract_qgt_meson_all_sink(
+                    latt_info,
+                    tmd_forward_prop_dir0,
+                    seq,
+                    phases_3pt_pyq,
+                )
             )
-            temp2 = reorder_gamma_qgt(temp2)
-            temp_up.append(temp2)
         proton_TMDs_up.append(temp_up)
 
         mpi_print(
@@ -323,28 +325,26 @@ for ipos, pos in enumerate(src_production):
         t0 = time.time()
         temp_down = []
         for seq in sequential_bw_prop_down_contracted_pyq:
-            temp1 = pycontract.mesonAllSinkTwoPoint(
-                tmd_forward_prop_dir1, core.LatticePropagator(latt_info, seq), gamma.Gamma(0)
-            ).data
-            temp2 = core.gatherLattice(
-                xp.asnumpy(xp.einsum("qwtzyx,gwtzyx->qgt", phases_3pt_pyq, temp1)),
-                [2, -1, -1, -1],
+            temp_down.append(
+                contract_qgt_meson_all_sink(
+                    latt_info,
+                    tmd_forward_prop_dir1,
+                    seq,
+                    phases_3pt_pyq,
+                )
             )
-            temp2 = reorder_gamma_qgt(temp2)
-            temp_down.append(temp2)
         proton_TMDs_down.append(temp_down)
 
         temp_up = []
         for seq in sequential_bw_prop_up_contracted_pyq:
-            temp1 = pycontract.mesonAllSinkTwoPoint(
-                tmd_forward_prop_dir1, core.LatticePropagator(latt_info, seq), gamma.Gamma(0)
-            ).data
-            temp2 = core.gatherLattice(
-                xp.asnumpy(xp.einsum("qwtzyx,gwtzyx->qgt", phases_3pt_pyq, temp1)),
-                [2, -1, -1, -1],
+            temp_up.append(
+                contract_qgt_meson_all_sink(
+                    latt_info,
+                    tmd_forward_prop_dir1,
+                    seq,
+                    phases_3pt_pyq,
+                )
             )
-            temp2 = reorder_gamma_qgt(temp2)
-            temp_up.append(temp2)
         proton_TMDs_up.append(temp_up)
 
         mpi_print(
@@ -454,28 +454,26 @@ for ipos, pos in enumerate(src_production):
 
         temp_down = []
         for seq in sequential_prop_down_contracted_pyq:
-            temp1 = pycontract.mesonAllSinkTwoPoint(
-                tmd_forward_prop_pyq, core.LatticePropagator(latt_info, seq), gamma.Gamma(0)
-            ).data
-            temp2 = core.gatherLattice(
-                xp.asnumpy(xp.einsum("qwtzyx,gwtzyx->qgt", phases_3pt_pyq, temp1)),
-                [2, -1, -1, -1],
+            temp_down.append(
+                contract_qgt_meson_all_sink(
+                    latt_info,
+                    tmd_forward_prop_pyq,
+                    seq,
+                    phases_3pt_pyq,
+                )
             )
-            temp2 = reorder_gamma_qgt(temp2)
-            temp_down.append(temp2)
         proton_PDFs_down.append(temp_down)
 
         temp_up = []
         for seq in sequential_prop_up_contracted_pyq:
-            temp1 = pycontract.mesonAllSinkTwoPoint(
-                tmd_forward_prop_pyq, core.LatticePropagator(latt_info, seq), gamma.Gamma(0)
-            ).data
-            temp2 = core.gatherLattice(
-                xp.asnumpy(xp.einsum("qwtzyx,gwtzyx->qgt", phases_3pt_pyq, temp1)),
-                [2, -1, -1, -1],
+            temp_up.append(
+                contract_qgt_meson_all_sink(
+                    latt_info,
+                    tmd_forward_prop_pyq,
+                    seq,
+                    phases_3pt_pyq,
+                )
             )
-            temp2 = reorder_gamma_qgt(temp2)
-            temp_up.append(temp2)
         proton_PDFs_up.append(temp_up)
 
     proton_PDFs_down = np.array(proton_PDFs_down)
