@@ -57,9 +57,10 @@ def contract_qgt_meson_all_sink(
     ).data
     qgt_fast = core.gatherLattice(
         xp.asnumpy(xp.einsum("qwtzyx,gwtzyx->qgt", phases_3pt, all_sink)),
-        [3, -1, -1, -1],
+        [2, -1, -1, -1],
     )
-    qgt_fast = reorder_gamma_qgt(qgt_fast)
+    if qgt_fast is not None:
+        qgt_fast = reorder_gamma_qgt(qgt_fast)
     return qgt_fast
 
 # Global parameters
@@ -128,7 +129,7 @@ multigrid = [[4, 4, 4, 4]]
 
 latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
 
-dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, multigrid)
+dirac = core.getClover(latt_info, mass, 1e-12, 10000, xi_0, csw_r, csw_t, multigrid)
 # dirac.setPrecision(sloppy=8)
 gauge = io.readNERSCGauge(
     f"/lustre2/pion3d/jinchen/debug/PyQUDA_qTMD/example_scripts/LQ2/l6464f21b7130m00119m0322a.1050.coulomb.1e-14.HYP",

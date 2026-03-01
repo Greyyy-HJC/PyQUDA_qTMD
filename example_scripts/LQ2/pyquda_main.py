@@ -104,7 +104,7 @@ multigrid = [[4, 4, 4, 4]]
 
 latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
 
-dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, multigrid)
+dirac = core.getClover(latt_info, mass, 1e-12, 10000, xi_0, csw_r, csw_t, multigrid)
 # dirac.setPrecision(sloppy=8)
 gauge = io.readNERSCGauge(
     f"/lustre2/pion3d/jinchen/debug/PyQUDA_qTMD/example_scripts/LQ2/l6464f21b7130m00119m0322a.1050.coulomb.1e-14.HYP",
