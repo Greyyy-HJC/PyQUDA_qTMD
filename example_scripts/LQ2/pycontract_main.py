@@ -14,12 +14,11 @@ from pyquda_plugins import pycontract
 if not os.path.exists(".cache"):
     os.makedirs(".cache", exist_ok=True)
 
-Ls = 8
-Lt = 8
+Ls = 64
+Lt = 64
 
 init(
-    None,
-    [Ls, Ls, Ls, Lt],
+    [2, 2, 2, 2],
     enable_mps=True,
     grid_map="shared",
     backend="cupy",
@@ -38,11 +37,12 @@ from utils.io_corr import (
     save_qTMD_proton_hdf5_noRoll,
 )
 from utils.bw_seq_pycontract import create_bw_seq_pycontract
-from utils.tools import _asarray_on_queue, _get_xp_from_array, srcLoc_distri_eq, mpi_print
+from utils.tools import srcLoc_distri_eq, mpi_print
+
 
 def reorder_gamma_qgt(qgt_data):
     # mesonAllSinkTwoPoint returns gamma channels in native 0..15 order.
-    # pyquda_local expects channels ordered by pyquda_gammas_order.
+    # pyquda_main expects channels ordered by pyquda_gammas_order.
     return qgt_data[:, pyquda_gammas_order, :]
 
 
@@ -57,18 +57,18 @@ def contract_qgt_meson_all_sink(
     ).data
     qgt_fast = core.gatherLattice(
         xp.asnumpy(xp.einsum("qwtzyx,gwtzyx->qgt", phases_3pt, all_sink)),
-        [2, -1, -1, -1],
+        [3, -1, -1, -1],
     )
     qgt_fast = reorder_gamma_qgt(qgt_fast)
     return qgt_fast
 
 # Global parameters
-data_dir = "/home/jinchen/git/lat-software/PyQUDA_qTMD/tests/full_TMD/data"  # NOTE
+data_dir = "/lustre2/pion3d/jinchen/debug/PyQUDA_qTMD/example_scripts/LQ2/data"  # NOTE
 interpolation = "T5"  # NOTE, new interpolation operator
 sm_tag = "1HYP_GSRC_W90_k3_" + interpolation  # NOTE
 GEN_SIMD_WIDTH = 64
-conf = 0
-lat_tag = "S8T8_pyquda_local_pycontract"
+conf = 1050
+lat_tag = "S64T64_pycontract_lq2"
 
 # --------------------------
 # Setup parameters
@@ -76,21 +76,26 @@ lat_tag = "S8T8_pyquda_local_pycontract"
 parameters = {
     # NOTE:
     "eta": [0],  # irrelavant for CG TMD
-    "b_z": 2,
-    "b_T": 2,
+    "b_z": 20,
+    "b_T": 20,
     "qext": [
-        [x, y, z, 0] for x in [2] for y in [-2] for z in [0]
+        [x, y, z, 0]
+        for x in [-2, -1, 0, 1, 2]
+        for y in [-2, -1, 0, 1, 2]
+        for z in [-2, -1, 0]
     ],  # momentum transfer for TMD, pf = pi + q
-    # "qext": [list(v + (0,)) for v in {tuple(sorted((x, y, z))) for x in [-2,-1,0] for y in [-2,-1,0] for z in [0]}], # momentum transfer for TMD, pf = pi + q
     "pf": [0, 0, 9, 0],
     "p_2pt": [
-        [x, y, z, 0] for x in [2] for y in [-2] for z in [0]
+        [x, y, z, 0]
+        for x in [-2, -1, 0, 1, 2]
+        for y in [-2, -1, 0, 1, 2]
+        for z in [5, 6, 7, 8, 9]
     ],  # 2pt momentum, should match pf & pi
     "boost_in": [0, 0, 3],
     "boost_out": [0, 0, 3],
     "width": 9.0,
     "pol": ["PpUnpol"],
-    "t_insert": 4,  # time separation for TMD
+    "t_insert": 10,  # time separation for TMD
     "save_propagators": False,
 }
 pf = parameters["pf"]
@@ -108,7 +113,6 @@ gammalist = ["5"]  # NOTE: temporarily only run one gamma structure
 # gammalist = ["5", "T", "T5", "X", "X5", "Y", "Y5", "Z", "Z5", "I", "SXT", "SXY", "SXZ", "SYT", "SYZ", "SZT"]
 Measurement = proton_TMD(parameters)
 
-
 # --------------------------
 # Load gauge and create inverter
 # --------------------------
@@ -117,18 +121,21 @@ Measurement = proton_TMD(parameters)
 
 L = [Ls, Ls, Ls, Lt]
 xi_0, nu = 1.0, 1.0
-mass = -0.038888  # kappa = 0.12623
-csw_r = 1.02868
-csw_t = 1.02868
-multigrid = None
+mass = -0.049  # kappa = 0.12623
+csw_r = 1.0372
+csw_t = 1.0372
+multigrid = [[4, 4, 4, 4]]
 
 latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
 
-dirac = core.getClover(latt_info, mass, 1e-12, 10000, xi_0, csw_r, csw_t, multigrid)
+dirac = core.getClover(latt_info, mass, 1e-10, 10000, xi_0, csw_r, csw_t, multigrid)
 # dirac.setPrecision(sloppy=8)
 gauge = io.readNERSCGauge(
-    f"/home/jinchen/git/lat-software/PyQUDA_qTMD/test_gauge/S8T8_wilson_b6.0"
-)
+    f"/lustre2/pion3d/jinchen/debug/PyQUDA_qTMD/example_scripts/LQ2/l6464f21b7130m00119m0322a.1050.coulomb.1e-14.HYP",
+    checksum=False,
+    link_trace=False,
+    plaquette=False,
+)  # todo: done hyp by gpt
 
 ###################### setup source positions ######################
 src_shift = np.array([0, 0, 0, 0]) + np.array([7, 11, 13, 23])
@@ -142,7 +149,7 @@ src_positions = src_positions + srcLoc_distri_eq(
 )  # create a list of source
 
 src_production = src_positions[
-    0:1
+    0:2
 ]  # take the number of sources needed for this project NOTE
 
 
@@ -165,6 +172,12 @@ for ipos, pos in enumerate(src_production):
     sample_log_tag = get_sample_log_tag(str(conf), pos, sm_tag + "_" + pf_tag)
     mpi_print(latt_info, f"START: {sample_log_tag}")
 
+    with open(sample_log_file, "a+") as f:
+        f.seek(0)
+        if sample_log_tag in f.read():
+            mpi_print(latt_info, f"SKIP: {sample_log_tag}")
+            # continue  # NOTE comment this out for test otherwise it will skip all the sources that are already done
+
     # >>>>>>>>>>>>>>>>>>>>>>>>> Propagators <<<<<<<<<<<<<<<<<<<<<<<<<<#
 
     # get forward propagator boosted source
@@ -172,7 +185,7 @@ for ipos, pos in enumerate(src_production):
     srcD = source.propagator(latt_info, "point", pos)
     srcDp = boosted_smearing(srcD, w=parameters["width"], boost=parameters["boost_in"])
     
-    srcDp.save(f"tests/full_TMD/data/propag/{lat_tag}_srcDp.npy")
+    srcDp.save(f"data/propag/{lat_tag}_srcDp.npy")
 
     mpi_print(latt_info, f"TIME Pyquda: Generatring boosted src {time.time() - t0}s")
 
@@ -184,7 +197,7 @@ for ipos, pos in enumerate(src_production):
         dirac, srcDp, 1, 0
     )  # NOTE or "propag = core.invertPropagator(dirac, b, 0)" depends on the quda version
     
-    propag.save(f"tests/full_TMD/data/propag/{lat_tag}_propag_bsm.npy")
+    propag.save(f"data/propag/{lat_tag}_propag_bsm.npy")
 
     mpi_print(latt_info, f"TIME Pyquda: Forward propagator inversion {time.time() - t0}s")
 
