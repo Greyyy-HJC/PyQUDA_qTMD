@@ -95,6 +95,23 @@ Detailed comparison logs are available in `example_scripts/logs/`.
 
 This validates cross-platform consistency on production-scale lattices.
 
+### PyContract vs `einsum`-based PyQUDA (LQ2 and Frontier)
+
+Direct comparisons were performed between pycontract implementations and the
+original `einsum`-based PyQUDA scripts on both LQ2 and Frontier.
+
+For all tested channels:
+- 2-point correlator (2pt)
+- 3-point correlator (CG TMD)
+- 3-point correlator (GI GPD)
+
+the observed relative differences are smaller than the inversion precision.
+
+On Frontier, memory efficiency improvement is substantial for the same
+`Ls = Lt = 64` ensemble:
+- pycontract version: runs with `-n 32` GPUs
+- original `einsum` PyQUDA version: requires `-n 128` GPUs
+
 **Notes on error sources:**
 
 - **Propagator**: The inversion error is uniformly distributed across all lattice sites. Since some sites have small absolute values, their relative errors appear larger. Increasing inversion precision directly improves the relative difference.

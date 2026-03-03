@@ -68,6 +68,23 @@ Validation tests ensure numerical consistency between:
   PyQUDA scripts (e.g. `tests/full_TMD/pycontract_local.py` and
   `example_scripts/LQ2/pycontract_main.py`)
 
+## PyContract Results on LQ2 and Frontier
+
+Recent production-style comparisons were performed between:
+- original `einsum`-based PyQUDA scripts
+- pycontract-based scripts (`pycontract_local.py`, `pycontract_main.py`, and Frontier counterparts)
+
+Observed results:
+- On both **LQ2** and **Frontier**, the relative differences for
+  **2pt**, **CG TMD**, and **GI GPD** are all smaller than the inversion precision.
+- On **Frontier** (same `Ls = Lt = 64` ensemble), the pycontract path shows
+  significantly better memory efficiency:
+  - pycontract version: `-n 32` GPUs
+  - original `einsum` PyQUDA version: `-n 128` GPUs
+
+This indicates that the pycontract implementation preserves numerical
+equivalence while materially reducing memory pressure on large-volume runs.
+
 See [tests/README.md](tests/README.md) for detailed test descriptions and results.
 
 ## Requirements
