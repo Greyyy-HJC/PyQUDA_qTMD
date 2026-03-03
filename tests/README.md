@@ -19,6 +19,33 @@ Full TMD (Transverse Momentum Dependent) measurement tests, including:
 - 2-point and 3-point correlation functions
 - CG (Coulomb Gauge) TMD contractions
 - GI (Gauge Invariant) PDF contractions
+- `pycontract_local.py`: pycontract-based implementation that reproduces
+  `pyquda_local.py` results while replacing the original `einsum`-based 3pt
+  contraction path with `baryonSequentialTwoPoint` and `mesonAllSinkTwoPoint`
+
+## PyContract Equivalence Validation
+
+The `full_TMD` suite now includes a pycontract path validated against the
+original PyQUDA `einsum` implementation:
+
+- Reference: `tests/full_TMD/pyquda_local.py`
+- PyContract version: `tests/full_TMD/pycontract_local.py`
+- Comparison script: `tests/full_TMD/check_pycontract.sh`
+
+Typical workflow:
+
+```bash
+cd /home/jinchen/git/lat-software/PyQUDA_qTMD
+source /home/jinchen/miniconda3/etc/profile.d/conda.sh
+conda activate pygpt
+
+python -m tests.full_TMD.pyquda_local
+python -m tests.full_TMD.pycontract_local
+bash tests/full_TMD/check_pycontract.sh
+```
+
+The generated HDF5 tree layout, dataset naming, and correlator values are
+verified to match within floating-point roundoff tolerance.
 
 ## Code Modifications
 

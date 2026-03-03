@@ -59,6 +59,7 @@ def contract_qgt_meson_all_sink(
         xp.asnumpy(xp.einsum("qwtzyx,gwtzyx->qgt", phases_3pt, all_sink)),
         [2, -1, -1, -1],
     )
+    # gatherLattice only returns data on root rank; non-root receives None.
     if qgt_fast is not None:
         qgt_fast = reorder_gamma_qgt(qgt_fast)
     return qgt_fast

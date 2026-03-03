@@ -23,6 +23,7 @@ The `utils/` directory contains the core functions required for full TMD calcula
 |--------|-------------|
 | `boosted_smearing_pyquda.py` | Boosted Gaussian smearing for propagator sources |
 | `bw_seq_pyquda.py` | Backward sequential propagator construction |
+| `bw_seq_pycontract.py` | PyContract-based backward sequential propagator construction |
 | `proton_qTMD_pyquda.py` | Proton TMD measurement class and contractions |
 | `io_corr.py` | I/O utilities for correlator data (HDF5 format) |
 | `tools.py` | General helper functions (source positions, MPI utilities, etc.) |
@@ -44,6 +45,9 @@ The `example_scripts/` directory contains production scripts for different HPC s
 Cleaned-up version for NVIDIA GPUs (cupy backend):
 - `gpt_main.py`: Main script with bugs fixed and code cleaned
 - `gpt_utils.py`: All utility functions consolidated into one file
+- `pyquda_main.py`: PyQUDA `einsum`-based implementation
+- `pycontract_main.py`: PyContract-based implementation reproducing
+  `pyquda_main.py` outputs while using pycontract contraction functions
 
 Key fixes:
 - Removed redundant `qext_PDF` parameter
@@ -60,6 +64,9 @@ Validation tests ensure numerical consistency between:
 - **GPT** (Grid Python Toolkit) reference implementation
 - **PyQUDA** with cupy backend (NVIDIA GPU)
 - **PyQUDA** with dpnp backend (Intel GPU)
+- **PyContract-based PyQUDA paths** that reproduce original `einsum`-based
+  PyQUDA scripts (e.g. `tests/full_TMD/pycontract_local.py` and
+  `example_scripts/LQ2/pycontract_main.py`)
 
 See [tests/README.md](tests/README.md) for detailed test descriptions and results.
 
