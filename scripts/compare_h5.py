@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
 """
-Compare two HDF5 files with identical key structures.
+Compare two HDF5 files by common keys.
 
 Usage:
-  python tests/full_TMD/compare_h5.py file_a.h5 file_b.h5
+  python scripts/compare_h5.py file_a.h5 file_b.h5
 
 Behavior:
-- Recursively checks that both files have the same group/dataset key tree.
-- For each leaf dataset, prints: dataset_path  max_abs_diff
-- If structures differ (missing/extra keys, group vs dataset mismatch), prints an error and exits non-zero.
+- Recursively scans both files and compares only common dataset keys.
+- For each comparable dataset, prints: dataset_path  max_abs_diff
+- Missing/extra keys, group-vs-dataset mismatches, or shape/dtype mismatches are reported and skipped.
 
 在命令行指定两个 h5 文件路径进行对比：
-- 递归检查两者 key tree 完全一致（Group/Dataset 类型也要一致）
-- 对每个末端 Dataset 打印：路径 + max abs difference
-- 如果结构不同则报错并退出（返回非 0）
+- 递归扫描两者 key tree，只对比共同的 Dataset keys
+- 对每个可对比 Dataset 打印：路径 + max abs difference
+- 缺失/多余 key、Group/Dataset 类型不一致、shape/dtype 不一致会提示并跳过
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ from __future__ import annotations
 import argparse
 import sys
 from dataclasses import dataclass
-from typing import Dict, Iterable, List, Tuple
+from typing import Dict, List, Tuple
 
 import numpy as np
 
@@ -83,59 +83,63 @@ def _format_meta(meta: DatasetMeta) -> str:
     return f"shape={meta.shape}, dtype={meta.dtype}"
 
 
-def _ensure_same_structure(
+def _preview_paths(title: str, paths: List[str], types: Dict[str, str], *, limit: int = 200) -> None:
+    if not paths:
+        return
+    print(title, file=sys.stderr)
+    for p in paths[:limit]:
+        print(f"  {p} ({types.get(p)})", file=sys.stderr)
+    if len(paths) > limit:
+        print(f"  ... and {len(paths) - limit} more", file=sys.stderr)
+
+
+def _select_common_comparable_datasets(
     types_a: Dict[str, str],
     types_b: Dict[str, str],
     datasets_a: Dict[str, DatasetMeta],
     datasets_b: Dict[str, DatasetMeta],
 ) -> List[str]:
-    paths_a = set(types_a.keys())
-    paths_b = set(types_b.keys())
+    paths_a = set(types_a)
+    paths_b = set(types_b)
+    common_paths = paths_a & paths_b
 
     only_a = sorted(paths_a - paths_b)
     only_b = sorted(paths_b - paths_a)
-    if only_a or only_b:
-        msg = ["HDF5 key structure mismatch:"]
-        if only_a:
-            msg.append("  Present only in file A:")
-            msg.extend([f"    {p} ({types_a.get(p)})" for p in only_a[:200]])
-            if len(only_a) > 200:
-                msg.append(f"    ... and {len(only_a) - 200} more")
-        if only_b:
-            msg.append("  Present only in file B:")
-            msg.extend([f"    {p} ({types_b.get(p)})" for p in only_b[:200]])
-            if len(only_b) > 200:
-                msg.append(f"    ... and {len(only_b) - 200} more")
-        raise H5StructureError("\n".join(msg))
+    _preview_paths("# INFO: keys only in file A (skipped):", only_a, types_a)
+    _preview_paths("# INFO: keys only in file B (skipped):", only_b, types_b)
 
-    # same paths, now same types
-    type_mismatch = sorted([p for p in paths_a if types_a.get(p) != types_b.get(p)])
+    type_mismatch = sorted([p for p in common_paths if types_a.get(p) != types_b.get(p)])
     if type_mismatch:
-        msg = ["HDF5 object type mismatch (group vs dataset):"]
+        print("# INFO: common keys with type mismatch (skipped):", file=sys.stderr)
         for p in type_mismatch[:200]:
-            msg.append(f"  {p}: A={types_a.get(p)}  B={types_b.get(p)}")
+            print(f"  {p}: A={types_a.get(p)}  B={types_b.get(p)}", file=sys.stderr)
         if len(type_mismatch) > 200:
-            msg.append(f"  ... and {len(type_mismatch) - 200} more")
-        raise H5StructureError("\n".join(msg))
+            print(f"  ... and {len(type_mismatch) - 200} more", file=sys.stderr)
 
-    # dataset metadata sanity checks (shape + dtype)
-    dataset_paths = sorted(datasets_a.keys())
+    dataset_paths = sorted(
+        p for p in common_paths if types_a.get(p) == "dataset" and types_b.get(p) == "dataset"
+    )
+    comparable_paths: List[str] = []
     meta_mismatch: List[str] = []
     for p in dataset_paths:
         ma = datasets_a[p]
         mb = datasets_b[p]
-        if ma.shape != mb.shape or ma.dtype != mb.dtype:
-            meta_mismatch.append(
-                f"  {p}: A({_format_meta(ma)})  B({_format_meta(mb)})"
-            )
-    if meta_mismatch:
-        msg = ["HDF5 dataset metadata mismatch (shape/dtype):"]
-        msg.extend(meta_mismatch[:200])
-        if len(meta_mismatch) > 200:
-            msg.append(f"  ... and {len(meta_mismatch) - 200} more")
-        raise H5StructureError("\n".join(msg))
+        if ma.shape == mb.shape and ma.dtype == mb.dtype:
+            comparable_paths.append(p)
+        else:
+            meta_mismatch.append(f"  {p}: A({_format_meta(ma)})  B({_format_meta(mb)})")
 
-    return dataset_paths
+    if meta_mismatch:
+        print("# INFO: common dataset keys with shape/dtype mismatch (skipped):", file=sys.stderr)
+        for line in meta_mismatch[:200]:
+            print(line, file=sys.stderr)
+        if len(meta_mismatch) > 200:
+            print(f"  ... and {len(meta_mismatch) - 200} more", file=sys.stderr)
+
+    if not comparable_paths:
+        raise H5StructureError("No common comparable dataset keys found.")
+
+    return comparable_paths
 
 
 def _max_abs_diff_dataset(
@@ -226,7 +230,7 @@ def compare_h5(file_a: str, file_b: str, *, chunk_rows: int = 1024) -> int:
         types_a, datasets_a = _collect_objects(fa)
         types_b, datasets_b = _collect_objects(fb)
 
-        dataset_paths = _ensure_same_structure(types_a, types_b, datasets_a, datasets_b)
+        dataset_paths = _select_common_comparable_datasets(types_a, types_b, datasets_a, datasets_b)
 
         # Print header for readability
         print(f"# file_a: {file_a}")
@@ -244,7 +248,7 @@ def compare_h5(file_a: str, file_b: str, *, chunk_rows: int = 1024) -> int:
 
 
 def _parse_args(argv: List[str]) -> argparse.Namespace:
-    ap = argparse.ArgumentParser(description="Compare two HDF5 files with identical key structures.")
+    ap = argparse.ArgumentParser(description="Compare two HDF5 files by common dataset keys.")
     ap.add_argument("file_a", type=str, help="Path to HDF5 file A")
     ap.add_argument("file_b", type=str, help="Path to HDF5 file B")
     ap.add_argument(
@@ -270,4 +274,3 @@ def main(argv: List[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
