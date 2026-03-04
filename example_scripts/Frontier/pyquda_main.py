@@ -14,11 +14,11 @@ from pyquda import init, getMPIComm
 if not os.path.exists(".cache"):
     os.makedirs(".cache", exist_ok=True)
 
-Ls = 64
-Lt = 64
+Ls = 32
+Lt = 48
 
 init(
-    [2, 2, 2, 8],
+    [4, 2, 2, 1],
     enable_mps=True,
     grid_map="shared",
     backend="cupy",
@@ -48,13 +48,14 @@ def release_memory(latt_info, label=""):
         cp.get_default_pinned_memory_pool().free_all_blocks()
     if label:
         mpi_print(latt_info, f"MEM: released temporary memory ({label})")
+
 # Global parameters
 data_dir = "/lustre/orion/nph158/proj-shared/jinchen/debug/PyQUDA_qTMD/example_scripts/Frontier/data"  # NOTE
 interpolation = "T5"  # NOTE, new interpolation operator
 sm_tag = "1HYP_GSRC_W90_k3_" + interpolation  # NOTE
 GEN_SIMD_WIDTH = 64
-conf = 1050
-lat_tag = "S64T64_pyquda_frontier"
+conf = 300
+lat_tag = "S32T48_pyquda_frontier"
 
 # --------------------------
 # Setup parameters
@@ -62,8 +63,8 @@ lat_tag = "S64T64_pyquda_frontier"
 parameters = {
     # NOTE:
     "eta": [0],  # irrelavant for CG TMD
-    "b_z": 10,
-    "b_T": 10,
+    "b_z": 5,
+    "b_T": 5,
     "qext": [
         [x, y, z, 0]
         for x in [-2, -1, 0, 1, 2]
@@ -75,7 +76,7 @@ parameters = {
         [x, y, z, 0]
         for x in [-2, -1, 0, 1, 2]
         for y in [-2, -1, 0, 1, 2]
-        for z in [5, 6, 7, 8, 9]
+        for z in [5, 6, 7]
     ],  # 2pt momentum, should match pf & pi
     "boost_in": [0, 0, 3],
     "boost_out": [0, 0, 3],
@@ -107,9 +108,13 @@ Measurement = proton_TMD(parameters)
 
 L = [Ls, Ls, Ls, Lt]
 xi_0, nu = 1.0, 1.0
-mass = -0.049  # kappa = 0.12623
-csw_r = 1.0372
-csw_t = 1.0372
+# mass = -0.049  # kappa = 0.12623
+# csw_r = 1.0372
+# csw_t = 1.0372
+kappa = 0.12575
+mass = 1 / (2 * kappa) - 4
+csw_r = 1
+csw_t = 1
 multigrid = [[4, 4, 4, 4]]
 
 latt_info = core.LatticeInfo([Ls, Ls, Ls, Lt], -1, xi_0 / nu)
@@ -123,7 +128,9 @@ dirac = core.getClover(latt_info, mass, 1e-12, 10000, xi_0, csw_r, csw_t, multig
 #     plaquette=False,
 # )  # todo: done hyp by gpt
 
-gauge = io.readNERSCGauge("/lustre/orion/nph158/proj-shared/jinchen/ensemble/l6464f21b7130m00119m0322a.nersc.cg_high_prec/fixed_GLU/l6464f21b7130m00119m0322a.1050.coulomb.1e-14")
+# gauge = io.readNERSCGauge("/lustre/orion/nph158/proj-shared/jinchen/ensemble/l6464f21b7130m00119m0322a.nersc.cg_high_prec/fixed_GLU/l6464f21b7130m00119m0322a.1050.coulomb.1e-14")
+
+gauge = io.readNERSCGauge("/lustre/orion/nph158/proj-shared/jinchen/debug/PyQUDA_qTMD/example_scripts/Frontier/l3248f211b580m002426m06730m8447a.flow1.gf.300.nersc")
 
 first_gamma = my_pyquda_gammas[0]
 n_gamma = len(my_pyquda_gammas)

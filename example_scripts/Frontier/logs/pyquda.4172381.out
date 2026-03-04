@@ -1,0 +1,1668 @@
+ 
+>>> SLURM_NODELIST content:
+frontier[02437,02439]
+2n*2t
+ 
+>>> AMD GPU info:
+
+
+========================================== ROCm System Management Interface ==========================================
+==================================================== Concise Info ====================================================
+Device  Node  IDs              Temp    Power  Partitions          SCLK    MCLK     Fan  Perf    PwrCap  VRAM%  GPU%  
+[3m              (DID,     GUID)  (Edge)  (Avg)  (Mem, Compute, ID)                                                     [0m
+======================================================================================================================
+0       4     0x7408,   63582  42.0°C  89.0W  N/A, N/A, 0         800Mhz  1600Mhz  0%   manual  560.0W  0%     0%    
+1       5     0x7408,   51740  38.0°C  N/A    N/A, N/A, 0         800Mhz  1600Mhz  0%   manual  0.0W    0%     0%    
+2       6     0x7408,   15961  40.0°C  88.0W  N/A, N/A, 0         800Mhz  1600Mhz  0%   manual  560.0W  0%     0%    
+3       7     0x7408,   3099   39.0°C  N/A    N/A, N/A, 0         800Mhz  1600Mhz  0%   manual  0.0W    0%     0%    
+4       8     0x7408,   13395  36.0°C  84.0W  N/A, N/A, 0         800Mhz  1600Mhz  0%   manual  560.0W  0%     0%    
+5       9     0x7408,   1553   42.0°C  N/A    N/A, N/A, 0         800Mhz  1600Mhz  0%   manual  0.0W    0%     0%    
+6       10    0x7408,   62036  37.0°C  91.0W  N/A, N/A, 0         800Mhz  1600Mhz  0%   manual  560.0W  0%     0%    
+7       11    0x7408,   49174  37.0°C  N/A    N/A, N/A, 0         800Mhz  1600Mhz  0%   manual  0.0W    0%     0%    
+======================================================================================================================
+================================================ End of ROCm SMI Log =================================================
+/lustre/orion/nph158/proj-shared/jinchen/software/pyq/bin/python
+
+>>> Output LD_LIBRARY_PATH:
+/lib64:/usr/lib64:/opt/cray/pe/mpich/8.1.31/gtl/lib:/opt/rocm-6.2.4/lib:/opt/cray/libfabric/1.22.0/lib64:/lustre/orion/nph158/world-shared/software/build/quda/build/lib:/lustre/orion/nph158/proj-shared/xgao/software/build/quda/build/lib:/opt/cray/pe/python/3.11.7/lib:/opt/rocm-6.2.4/lib/roctracer:/opt/rocm-6.2.4/lib/rocprofiler:/opt/rocm-6.2.4/lib:/opt/rocm-6.2.4/llvm/lib:/opt/cray/libfabric/1.22.0/lib64:/ccs/home/jinchen/gcc-9.4.0/lib64
+SLURM_NTASKS=16
+PyQUDA INFO: Using shared grid mapping
+PyQUDA INFO: Using grid size [4, 2, 2, 1]
+PyQUDA INFO: Mapping ranks to [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+PyQUDA INFO: Using cupy with hip as Array API
+MPS enabled, rank=  3 -> gpu=0
+MPS enabled, rank=  4 -> gpu=0
+MPS enabled, rank=  5 -> gpu=0
+MPS enabled, rank=  6 -> gpu=0
+MPS enabled, rank=  7 -> gpu=0
+PyQUDA INFO: Using device 0
+PyQUDA INFO: Using QUDA_RESOURCE_PATH=.cache
+PyQUDA INFO: Using QUDA_ENABLE_MPS=1
+PyQUDA INFO: Using QUDA_ENABLE_P2P=0
+PyQUDA INFO: Using QUDA_ENABLE_TUNING=1
+PyQUDA INFO: Using QUDA_ENABLE_DEVICE_MEMORY_POOL=0
+MPS enabled, rank=  2 -> gpu=0
+MPS enabled, rank=  1 -> gpu=0
+MPS enabled, rank= 14 -> gpu=0
+MPS enabled, rank= 15 -> gpu=0
+MPS enabled, rank= 13 -> gpu=0
+MPS enabled, rank=  9 -> gpu=0
+MPS enabled, rank= 10 -> gpu=0
+MPS enabled, rank= 12 -> gpu=0
+MPS enabled, rank= 11 -> gpu=0
+Disabling GPU-Direct RDMA access
+Disabling peer-to-peer access
+MPS enabled, rank=  1 -> gpu=0
+MPS enabled, rank=  2 -> gpu=0
+MPS enabled, rank=  3 -> gpu=0
+MPS enabled, rank=  4 -> gpu=0
+MPS enabled, rank=  5 -> gpu=0
+MPS enabled, rank=  6 -> gpu=0
+MPS enabled, rank=  9 -> gpu=0
+MPS enabled, rank=  7 -> gpu=0
+MPS enabled, rank= 10 -> gpu=0
+MPS enabled, rank= 11 -> gpu=0
+MPS enabled, rank= 12 -> gpu=0
+MPS enabled, rank= 13 -> gpu=0
+MPS enabled, rank= 14 -> gpu=0
+MPS enabled, rank= 15 -> gpu=0
+QUDA 1.1.0 (git 1.1.0-a76d22e9b-gfx90a)
+*** HIP BACKEND ***
+HIP Driver version = 60241134
+HIP Runtime version = 60241134
+Found device 0: AMD Instinct MI250X
+Using device 0: AMD Instinct MI250X
+WARNING: Data reordering done on GPU (set with QUDA_REORDER_LOCATION=GPU/CPU)
+Loaded 1343 sets of cached parameters from .cache/tunecache.tsv
+WARNING: Not using device memory pool allocator
+WARNING: Using pinned memory pool allocator
+hipblasCreated successfully
+START: 300_x19y23z25t35_1HYP_GSRC_W90_k3_T5_PX0PY0PZ9dt10
+TIME Pyquda: Generatring boosted src 14.896588325500488s
+Saving 1353 sets of cached parameters to .cache/tunecache.tsv
+Saving 1368 sets of cached parameters to .cache/tunecache.tsv
+Saving 1379 sets of cached parameters to .cache/tunecache.tsv
+Saving 1550 sets of cached parameters to .cache/tunecache.tsv
+GCR: Convergence at 76 iterations, L2 relative residual: iterated = 9.096352e-13, true = 9.096352e-13 (requested = 1.000000e-12)
+Saving 1625 sets of cached parameters to .cache/tunecache.tsv
+PyQUDA INFO: Time = 7.241 secs, Performance = 1284.686 GFLOPS
+GCR: Convergence at 79 iterations, L2 relative residual: iterated = 9.052072e-13, true = 9.052072e-13 (requested = 1.000000e-12)
+Saving 1626 sets of cached parameters to .cache/tunecache.tsv
+PyQUDA INFO: Time = 1.012 secs, Performance = 4446.791 GFLOPS
+GCR: Convergence at 76 iterations, L2 relative residual: iterated = 9.581625e-13, true = 9.581625e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.964 secs, Performance = 4485.326 GFLOPS
+GCR: Convergence at 74 iterations, L2 relative residual: iterated = 7.528312e-13, true = 7.528312e-13 (requested = 1.000000e-12)
+Saving 1627 sets of cached parameters to .cache/tunecache.tsv
+PyQUDA INFO: Time = 0.947 secs, Performance = 4450.228 GFLOPS
+GCR: Convergence at 77 iterations, L2 relative residual: iterated = 9.649467e-13, true = 9.649467e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.975 secs, Performance = 4497.229 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 7.844704e-13, true = 7.844704e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.009 secs, Performance = 4513.165 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 7.823621e-13, true = 7.823621e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.008 secs, Performance = 4515.560 GFLOPS
+GCR: Convergence at 81 iterations, L2 relative residual: iterated = 6.944548e-13, true = 6.944548e-13 (requested = 1.000000e-12)
+Saving 1628 sets of cached parameters to .cache/tunecache.tsv
+PyQUDA INFO: Time = 1.034 secs, Performance = 4462.773 GFLOPS
+GCR: Convergence at 77 iterations, L2 relative residual: iterated = 9.617591e-13, true = 9.617591e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.975 secs, Performance = 4496.841 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 8.376167e-13, true = 8.376167e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.009 secs, Performance = 4514.700 GFLOPS
+GCR: Convergence at 79 iterations, L2 relative residual: iterated = 7.569423e-13, true = 7.569423e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.997 secs, Performance = 4510.605 GFLOPS
+GCR: Convergence at 79 iterations, L2 relative residual: iterated = 7.852720e-13, true = 7.852720e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.996 secs, Performance = 4516.078 GFLOPS
+TIME Pyquda: Forward propagator inversion 104.18713617324829s
+Begin sink smearing
+Sink smearing completed
+MEM: released temporary memory (after 2pt contraction)
+TIME Pyquda: Contraction 2pt (includes sink smearing) 6.3565568923950195s
+starting diquark contractions for down quark insertion and Polarization PpUnpol
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+diquark contractions for Polarization PpUnpol done
+GCR: Convergence at 78 iterations, L2 relative residual: iterated = 9.230372e-13, true = 9.230372e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.008 secs, Performance = 4403.474 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 8.991262e-13, true = 8.991262e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.011 secs, Performance = 4504.076 GFLOPS
+GCR: Convergence at 79 iterations, L2 relative residual: iterated = 9.249135e-13, true = 9.249135e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.996 secs, Performance = 4513.883 GFLOPS
+GCR: Convergence at 75 iterations, L2 relative residual: iterated = 9.520394e-13, true = 9.520394e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.946 secs, Performance = 4512.469 GFLOPS
+GCR: Convergence at 78 iterations, L2 relative residual: iterated = 9.817453e-13, true = 9.817453e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.985 secs, Performance = 4509.024 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 7.650275e-13, true = 7.650275e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.010 secs, Performance = 4510.260 GFLOPS
+GCR: Convergence at 78 iterations, L2 relative residual: iterated = 8.187985e-13, true = 8.187985e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.986 secs, Performance = 4503.832 GFLOPS
+GCR: Convergence at 77 iterations, L2 relative residual: iterated = 9.992318e-13, true = 9.992318e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.972 secs, Performance = 4511.116 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 8.116159e-13, true = 8.116159e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.010 secs, Performance = 4510.434 GFLOPS
+GCR: Convergence at 77 iterations, L2 relative residual: iterated = 9.777459e-13, true = 9.777459e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.972 secs, Performance = 4508.837 GFLOPS
+GCR: Convergence at 78 iterations, L2 relative residual: iterated = 8.888338e-13, true = 8.888338e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.984 secs, Performance = 4512.163 GFLOPS
+GCR: Convergence at 77 iterations, L2 relative residual: iterated = 8.719787e-13, true = 8.719787e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.973 secs, Performance = 4503.713 GFLOPS
+starting diquark contractions for up quark insertion and Polarization PpUnpol
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+diquark contractions for Polarization PpUnpol done
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 7.651398e-13, true = 7.651398e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.031 secs, Performance = 4418.579 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 9.038529e-13, true = 9.038529e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.009 secs, Performance = 4510.814 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 7.510704e-13, true = 7.510704e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.010 secs, Performance = 4508.679 GFLOPS
+GCR: Convergence at 79 iterations, L2 relative residual: iterated = 9.779383e-13, true = 9.779383e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.997 secs, Performance = 4511.008 GFLOPS
+GCR: Convergence at 79 iterations, L2 relative residual: iterated = 9.109967e-13, true = 9.109967e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.997 secs, Performance = 4509.537 GFLOPS
+GCR: Convergence at 76 iterations, L2 relative residual: iterated = 8.258033e-13, true = 8.258033e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.960 secs, Performance = 4504.869 GFLOPS
+GCR: Convergence at 77 iterations, L2 relative residual: iterated = 9.177670e-13, true = 9.177670e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.972 secs, Performance = 4509.737 GFLOPS
+GCR: Convergence at 78 iterations, L2 relative residual: iterated = 8.831137e-13, true = 8.831137e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.984 secs, Performance = 4509.477 GFLOPS
+GCR: Convergence at 78 iterations, L2 relative residual: iterated = 8.900019e-13, true = 8.900019e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.984 secs, Performance = 4510.228 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 6.726987e-13, true = 6.726987e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.009 secs, Performance = 4514.852 GFLOPS
+GCR: Convergence at 78 iterations, L2 relative residual: iterated = 8.456425e-13, true = 8.456425e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.984 secs, Performance = 4510.352 GFLOPS
+GCR: Convergence at 78 iterations, L2 relative residual: iterated = 8.860568e-13, true = 8.860568e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.983 secs, Performance = 4514.260 GFLOPS
+TIME Pyquda: Backward propagator through sequential source for U and D 34.4285147190094s
+contract_TMD loop: CG no links
+TIME PyQUDA: contract bw prop with gamma_ls for U and D 0.0008332729339599609s
+TIME PyQUDA: contract TMD 1/132 [0, -5, 0, 0]
+TIME PyQUDA: cshift 0.03023242950439453s
+TIME PyQUDA: contract TMD for U and D 0.44849181175231934s
+TIME PyQUDA: contract TMD 2/132 [0, -4, 0, 0]
+TIME PyQUDA: cshift 0.06402587890625s
+TIME PyQUDA: contract TMD for U and D 0.12831974029541016s
+TIME PyQUDA: contract TMD 3/132 [0, -3, 0, 0]
+TIME PyQUDA: cshift 0.0604248046875s
+TIME PyQUDA: contract TMD for U and D 0.12801289558410645s
+TIME PyQUDA: contract TMD 4/132 [0, -2, 0, 0]
+TIME PyQUDA: cshift 0.05813241004943848s
+TIME PyQUDA: contract TMD for U and D 0.12528443336486816s
+TIME PyQUDA: contract TMD 5/132 [0, -1, 0, 0]
+TIME PyQUDA: cshift 0.059064388275146484s
+TIME PyQUDA: contract TMD for U and D 0.12818408012390137s
+TIME PyQUDA: contract TMD 6/132 [0, 0, 0, 0]
+TIME PyQUDA: cshift 0.05686020851135254s
+TIME PyQUDA: contract TMD for U and D 0.12960338592529297s
+TIME PyQUDA: contract TMD 7/132 [0, 1, 0, 0]
+TIME PyQUDA: cshift 0.05588960647583008s
+TIME PyQUDA: contract TMD for U and D 0.1308586597442627s
+TIME PyQUDA: contract TMD 8/132 [0, 2, 0, 0]
+TIME PyQUDA: cshift 0.05418586730957031s
+TIME PyQUDA: contract TMD for U and D 0.1308746337890625s
+TIME PyQUDA: contract TMD 9/132 [0, 3, 0, 0]
+TIME PyQUDA: cshift 0.055571556091308594s
+TIME PyQUDA: contract TMD for U and D 0.12663674354553223s
+TIME PyQUDA: contract TMD 10/132 [0, 4, 0, 0]
+TIME PyQUDA: cshift 0.06717538833618164s
+TIME PyQUDA: contract TMD for U and D 0.12653326988220215s
+TIME PyQUDA: contract TMD 11/132 [0, 5, 0, 0]
+TIME PyQUDA: cshift 0.0653078556060791s
+TIME PyQUDA: contract TMD for U and D 0.12596821784973145s
+TIME PyQUDA: contract TMD 12/132 [1, 4, 0, 0]
+TIME PyQUDA: cshift 1.398771047592163s
+TIME PyQUDA: contract TMD for U and D 0.12859702110290527s
+TIME PyQUDA: contract TMD 13/132 [1, 3, 0, 0]
+TIME PyQUDA: cshift 0.05836915969848633s
+TIME PyQUDA: contract TMD for U and D 0.1302335262298584s
+TIME PyQUDA: contract TMD 14/132 [1, 2, 0, 0]
+TIME PyQUDA: cshift 0.05521845817565918s
+TIME PyQUDA: contract TMD for U and D 0.12955880165100098s
+TIME PyQUDA: contract TMD 15/132 [1, 1, 0, 0]
+TIME PyQUDA: cshift 0.057123422622680664s
+TIME PyQUDA: contract TMD for U and D 0.12971854209899902s
+TIME PyQUDA: contract TMD 16/132 [1, 0, 0, 0]
+TIME PyQUDA: cshift 0.05623507499694824s
+TIME PyQUDA: contract TMD for U and D 0.12672781944274902s
+TIME PyQUDA: contract TMD 17/132 [1, -1, 0, 0]
+TIME PyQUDA: cshift 0.06127166748046875s
+TIME PyQUDA: contract TMD for U and D 0.13291549682617188s
+TIME PyQUDA: contract TMD 18/132 [1, -2, 0, 0]
+TIME PyQUDA: cshift 0.0560452938079834s
+TIME PyQUDA: contract TMD for U and D 0.13012027740478516s
+TIME PyQUDA: contract TMD 19/132 [1, -3, 0, 0]
+TIME PyQUDA: cshift 0.054915428161621094s
+TIME PyQUDA: contract TMD for U and D 0.1310255527496338s
+TIME PyQUDA: contract TMD 20/132 [1, -4, 0, 0]
+TIME PyQUDA: cshift 0.054147958755493164s
+TIME PyQUDA: contract TMD for U and D 0.13057565689086914s
+TIME PyQUDA: contract TMD 21/132 [1, -5, 0, 0]
+TIME PyQUDA: cshift 0.05484938621520996s
+TIME PyQUDA: contract TMD for U and D 0.13000893592834473s
+TIME PyQUDA: contract TMD 22/132 [2, -5, 0, 0]
+TIME PyQUDA: cshift 0.29520368576049805s
+TIME PyQUDA: contract TMD for U and D 0.1327836513519287s
+TIME PyQUDA: contract TMD 23/132 [2, -4, 0, 0]
+TIME PyQUDA: cshift 0.08925938606262207s
+TIME PyQUDA: contract TMD for U and D 0.13117122650146484s
+TIME PyQUDA: contract TMD 24/132 [2, -3, 0, 0]
+TIME PyQUDA: cshift 0.05637693405151367s
+TIME PyQUDA: contract TMD for U and D 0.1287527084350586s
+TIME PyQUDA: contract TMD 25/132 [2, -2, 0, 0]
+TIME PyQUDA: cshift 0.057157278060913086s
+TIME PyQUDA: contract TMD for U and D 0.12855887413024902s
+TIME PyQUDA: contract TMD 26/132 [2, -1, 0, 0]
+TIME PyQUDA: cshift 0.05627870559692383s
+TIME PyQUDA: contract TMD for U and D 0.12901544570922852s
+TIME PyQUDA: contract TMD 27/132 [2, 0, 0, 0]
+TIME PyQUDA: cshift 0.05581068992614746s
+TIME PyQUDA: contract TMD for U and D 0.1285567283630371s
+TIME PyQUDA: contract TMD 28/132 [2, 1, 0, 0]
+TIME PyQUDA: cshift 0.05619668960571289s
+TIME PyQUDA: contract TMD for U and D 0.12862396240234375s
+TIME PyQUDA: contract TMD 29/132 [2, 2, 0, 0]
+TIME PyQUDA: cshift 0.05619072914123535s
+TIME PyQUDA: contract TMD for U and D 0.12865591049194336s
+TIME PyQUDA: contract TMD 30/132 [2, 3, 0, 0]
+TIME PyQUDA: cshift 0.05711650848388672s
+TIME PyQUDA: contract TMD for U and D 0.12563657760620117s
+TIME PyQUDA: contract TMD 31/132 [2, 4, 0, 0]
+TIME PyQUDA: cshift 0.06616473197937012s
+TIME PyQUDA: contract TMD for U and D 0.1258549690246582s
+TIME PyQUDA: contract TMD 32/132 [1, 5, 0, 0]
+TIME PyQUDA: cshift 0.20617055892944336s
+TIME PyQUDA: contract TMD for U and D 0.12904834747314453s
+TIME PyQUDA: contract TMD 33/132 [2, 5, 0, 0]
+TIME PyQUDA: cshift 0.07269835472106934s
+TIME PyQUDA: contract TMD for U and D 0.14372992515563965s
+TIME PyQUDA: contract TMD 34/132 [3, 4, 0, 0]
+TIME PyQUDA: cshift 0.07928013801574707s
+TIME PyQUDA: contract TMD for U and D 0.12811636924743652s
+TIME PyQUDA: contract TMD 35/132 [3, 3, 0, 0]
+TIME PyQUDA: cshift 0.05707979202270508s
+TIME PyQUDA: contract TMD for U and D 0.1291947364807129s
+TIME PyQUDA: contract TMD 36/132 [3, 2, 0, 0]
+TIME PyQUDA: cshift 0.05806279182434082s
+TIME PyQUDA: contract TMD for U and D 0.13006329536437988s
+TIME PyQUDA: contract TMD 37/132 [3, 1, 0, 0]
+TIME PyQUDA: cshift 0.05605030059814453s
+TIME PyQUDA: contract TMD for U and D 0.1273975372314453s
+TIME PyQUDA: contract TMD 38/132 [3, 0, 0, 0]
+TIME PyQUDA: cshift 0.0569605827331543s
+TIME PyQUDA: contract TMD for U and D 0.12828278541564941s
+TIME PyQUDA: contract TMD 39/132 [3, -1, 0, 0]
+TIME PyQUDA: cshift 0.057144880294799805s
+TIME PyQUDA: contract TMD for U and D 0.12912678718566895s
+TIME PyQUDA: contract TMD 40/132 [3, -2, 0, 0]
+TIME PyQUDA: cshift 0.05666232109069824s
+TIME PyQUDA: contract TMD for U and D 0.12960219383239746s
+TIME PyQUDA: contract TMD 41/132 [3, -3, 0, 0]
+TIME PyQUDA: cshift 0.05588388442993164s
+TIME PyQUDA: contract TMD for U and D 0.12977337837219238s
+TIME PyQUDA: contract TMD 42/132 [3, -4, 0, 0]
+TIME PyQUDA: cshift 0.05870771408081055s
+TIME PyQUDA: contract TMD for U and D 0.1262197494506836s
+TIME PyQUDA: contract TMD 43/132 [3, -5, 0, 0]
+TIME PyQUDA: cshift 0.060294389724731445s
+TIME PyQUDA: contract TMD for U and D 0.1266317367553711s
+TIME PyQUDA: contract TMD 44/132 [4, -5, 0, 0]
+TIME PyQUDA: cshift 0.18146777153015137s
+TIME PyQUDA: contract TMD for U and D 0.12660837173461914s
+TIME PyQUDA: contract TMD 45/132 [4, -4, 0, 0]
+TIME PyQUDA: cshift 0.08178853988647461s
+TIME PyQUDA: contract TMD for U and D 0.13581228256225586s
+TIME PyQUDA: contract TMD 46/132 [4, -3, 0, 0]
+TIME PyQUDA: cshift 0.05566120147705078s
+TIME PyQUDA: contract TMD for U and D 0.1301894187927246s
+TIME PyQUDA: contract TMD 47/132 [4, -2, 0, 0]
+TIME PyQUDA: cshift 0.05710792541503906s
+TIME PyQUDA: contract TMD for U and D 0.12910246849060059s
+TIME PyQUDA: contract TMD 48/132 [4, -1, 0, 0]
+TIME PyQUDA: cshift 0.05717730522155762s
+TIME PyQUDA: contract TMD for U and D 0.1300351619720459s
+TIME PyQUDA: contract TMD 49/132 [4, 0, 0, 0]
+TIME PyQUDA: cshift 0.05614352226257324s
+TIME PyQUDA: contract TMD for U and D 0.12944841384887695s
+TIME PyQUDA: contract TMD 50/132 [4, 1, 0, 0]
+TIME PyQUDA: cshift 0.05739593505859375s
+TIME PyQUDA: contract TMD for U and D 0.12876462936401367s
+TIME PyQUDA: contract TMD 51/132 [4, 2, 0, 0]
+TIME PyQUDA: cshift 0.057618141174316406s
+TIME PyQUDA: contract TMD for U and D 0.1301097869873047s
+TIME PyQUDA: contract TMD 52/132 [4, 3, 0, 0]
+TIME PyQUDA: cshift 0.05803561210632324s
+TIME PyQUDA: contract TMD for U and D 0.12775182723999023s
+TIME PyQUDA: contract TMD 53/132 [4, 4, 0, 0]
+TIME PyQUDA: cshift 0.0647883415222168s
+TIME PyQUDA: contract TMD for U and D 0.12771916389465332s
+TIME PyQUDA: contract TMD 54/132 [3, 5, 0, 0]
+TIME PyQUDA: cshift 0.2066638469696045s
+TIME PyQUDA: contract TMD for U and D 0.12781333923339844s
+TIME PyQUDA: contract TMD 55/132 [4, 5, 0, 0]
+TIME PyQUDA: cshift 0.06892180442810059s
+TIME PyQUDA: contract TMD for U and D 0.12722516059875488s
+TIME PyQUDA: contract TMD 56/132 [5, 4, 0, 0]
+TIME PyQUDA: cshift 0.08993124961853027s
+TIME PyQUDA: contract TMD for U and D 0.13173246383666992s
+TIME PyQUDA: contract TMD 57/132 [5, 3, 0, 0]
+TIME PyQUDA: cshift 0.05537724494934082s
+TIME PyQUDA: contract TMD for U and D 0.13182473182678223s
+TIME PyQUDA: contract TMD 58/132 [5, 2, 0, 0]
+TIME PyQUDA: cshift 0.056969642639160156s
+TIME PyQUDA: contract TMD for U and D 0.12872862815856934s
+TIME PyQUDA: contract TMD 59/132 [5, 1, 0, 0]
+TIME PyQUDA: cshift 0.05703234672546387s
+TIME PyQUDA: contract TMD for U and D 0.12849020957946777s
+TIME PyQUDA: contract TMD 60/132 [5, 0, 0, 0]
+TIME PyQUDA: cshift 0.056406497955322266s
+TIME PyQUDA: contract TMD for U and D 0.1289374828338623s
+TIME PyQUDA: contract TMD 61/132 [5, -1, 0, 0]
+TIME PyQUDA: cshift 0.0569915771484375s
+TIME PyQUDA: contract TMD for U and D 0.12932300567626953s
+TIME PyQUDA: contract TMD 62/132 [5, -2, 0, 0]
+TIME PyQUDA: cshift 0.05690598487854004s
+TIME PyQUDA: contract TMD for U and D 0.13088750839233398s
+TIME PyQUDA: contract TMD 63/132 [5, -3, 0, 0]
+TIME PyQUDA: cshift 0.055145263671875s
+TIME PyQUDA: contract TMD for U and D 0.12977242469787598s
+TIME PyQUDA: contract TMD 64/132 [5, -4, 0, 0]
+TIME PyQUDA: cshift 0.05629563331604004s
+TIME PyQUDA: contract TMD for U and D 0.1270754337310791s
+TIME PyQUDA: contract TMD 65/132 [5, -5, 0, 0]
+TIME PyQUDA: cshift 0.06758666038513184s
+TIME PyQUDA: contract TMD for U and D 0.12792277336120605s
+TIME PyQUDA: contract TMD 66/132 [5, 5, 0, 0]
+TIME PyQUDA: cshift 0.09957671165466309s
+TIME PyQUDA: contract TMD for U and D 0.13107681274414062s
+TIME PyQUDA: contract TMD 67/132 [0, -5, 0, 1]
+TIME PyQUDA: cshift 0.07046222686767578s
+TIME PyQUDA: contract TMD for U and D 0.12816596031188965s
+TIME PyQUDA: contract TMD 68/132 [0, -4, 0, 1]
+TIME PyQUDA: cshift 0.06389951705932617s
+TIME PyQUDA: contract TMD for U and D 0.13069558143615723s
+TIME PyQUDA: contract TMD 69/132 [0, -3, 0, 1]
+TIME PyQUDA: cshift 0.055418968200683594s
+TIME PyQUDA: contract TMD for U and D 0.12825798988342285s
+TIME PyQUDA: contract TMD 70/132 [0, -2, 0, 1]
+TIME PyQUDA: cshift 0.056726932525634766s
+TIME PyQUDA: contract TMD for U and D 0.12637972831726074s
+TIME PyQUDA: contract TMD 71/132 [0, -1, 0, 1]
+TIME PyQUDA: cshift 0.05966067314147949s
+TIME PyQUDA: contract TMD for U and D 0.12875032424926758s
+TIME PyQUDA: contract TMD 72/132 [0, 0, 0, 1]
+TIME PyQUDA: cshift 0.05883026123046875s
+TIME PyQUDA: contract TMD for U and D 0.12857675552368164s
+TIME PyQUDA: contract TMD 73/132 [0, 1, 0, 1]
+TIME PyQUDA: cshift 0.057482004165649414s
+TIME PyQUDA: contract TMD for U and D 0.12983202934265137s
+TIME PyQUDA: contract TMD 74/132 [0, 2, 0, 1]
+TIME PyQUDA: cshift 0.05797600746154785s
+TIME PyQUDA: contract TMD for U and D 0.12842369079589844s
+TIME PyQUDA: contract TMD 75/132 [0, 3, 0, 1]
+TIME PyQUDA: cshift 0.057346343994140625s
+TIME PyQUDA: contract TMD for U and D 0.12875747680664062s
+TIME PyQUDA: contract TMD 76/132 [0, 4, 0, 1]
+TIME PyQUDA: cshift 0.05635571479797363s
+TIME PyQUDA: contract TMD for U and D 0.12901806831359863s
+TIME PyQUDA: contract TMD 77/132 [0, 5, 0, 1]
+TIME PyQUDA: cshift 0.05632209777832031s
+TIME PyQUDA: contract TMD for U and D 0.12866449356079102s
+TIME PyQUDA: contract TMD 78/132 [1, 4, 0, 1]
+TIME PyQUDA: cshift 0.07404184341430664s
+TIME PyQUDA: contract TMD for U and D 0.12788844108581543s
+TIME PyQUDA: contract TMD 79/132 [1, 3, 0, 1]
+TIME PyQUDA: cshift 0.05656719207763672s
+TIME PyQUDA: contract TMD for U and D 0.12995600700378418s
+TIME PyQUDA: contract TMD 80/132 [1, 2, 0, 1]
+TIME PyQUDA: cshift 0.05563044548034668s
+TIME PyQUDA: contract TMD for U and D 0.1292431354522705s
+TIME PyQUDA: contract TMD 81/132 [1, 1, 0, 1]
+TIME PyQUDA: cshift 0.05612587928771973s
+TIME PyQUDA: contract TMD for U and D 0.12700390815734863s
+TIME PyQUDA: contract TMD 82/132 [1, 0, 0, 1]
+TIME PyQUDA: cshift 0.06829333305358887s
+TIME PyQUDA: contract TMD for U and D 0.12670302391052246s
+TIME PyQUDA: contract TMD 83/132 [1, -1, 0, 1]
+TIME PyQUDA: cshift 0.061034440994262695s
+TIME PyQUDA: contract TMD for U and D 0.12679576873779297s
+TIME PyQUDA: contract TMD 84/132 [1, -2, 0, 1]
+TIME PyQUDA: cshift 0.06538701057434082s
+TIME PyQUDA: contract TMD for U and D 0.13090825080871582s
+TIME PyQUDA: contract TMD 85/132 [1, -3, 0, 1]
+TIME PyQUDA: cshift 0.05592179298400879s
+TIME PyQUDA: contract TMD for U and D 0.1302330493927002s
+TIME PyQUDA: contract TMD 86/132 [1, -4, 0, 1]
+TIME PyQUDA: cshift 0.05578017234802246s
+TIME PyQUDA: contract TMD for U and D 0.12969183921813965s
+TIME PyQUDA: contract TMD 87/132 [1, -5, 0, 1]
+TIME PyQUDA: cshift 0.0557711124420166s
+TIME PyQUDA: contract TMD for U and D 0.1310420036315918s
+TIME PyQUDA: contract TMD 88/132 [2, -5, 0, 1]
+TIME PyQUDA: cshift 0.05186653137207031s
+TIME PyQUDA: contract TMD for U and D 0.12942194938659668s
+TIME PyQUDA: contract TMD 89/132 [2, -4, 0, 1]
+TIME PyQUDA: cshift 0.0641026496887207s
+TIME PyQUDA: contract TMD for U and D 0.12734341621398926s
+TIME PyQUDA: contract TMD 90/132 [2, -3, 0, 1]
+TIME PyQUDA: cshift 0.059450626373291016s
+TIME PyQUDA: contract TMD for U and D 0.13093185424804688s
+TIME PyQUDA: contract TMD 91/132 [2, -2, 0, 1]
+TIME PyQUDA: cshift 0.05533885955810547s
+TIME PyQUDA: contract TMD for U and D 0.13049912452697754s
+TIME PyQUDA: contract TMD 92/132 [2, -1, 0, 1]
+TIME PyQUDA: cshift 0.056146860122680664s
+TIME PyQUDA: contract TMD for U and D 0.1299276351928711s
+TIME PyQUDA: contract TMD 93/132 [2, 0, 0, 1]
+TIME PyQUDA: cshift 0.05583071708679199s
+TIME PyQUDA: contract TMD for U and D 0.12971901893615723s
+TIME PyQUDA: contract TMD 94/132 [2, 1, 0, 1]
+TIME PyQUDA: cshift 0.05617189407348633s
+TIME PyQUDA: contract TMD for U and D 0.12857460975646973s
+TIME PyQUDA: contract TMD 95/132 [2, 2, 0, 1]
+TIME PyQUDA: cshift 0.05696582794189453s
+TIME PyQUDA: contract TMD for U and D 0.12967348098754883s
+TIME PyQUDA: contract TMD 96/132 [2, 3, 0, 1]
+TIME PyQUDA: cshift 0.055666446685791016s
+TIME PyQUDA: contract TMD for U and D 0.12860536575317383s
+TIME PyQUDA: contract TMD 97/132 [2, 4, 0, 1]
+TIME PyQUDA: cshift 0.056441545486450195s
+TIME PyQUDA: contract TMD for U and D 0.1293163299560547s
+TIME PyQUDA: contract TMD 98/132 [1, 5, 0, 1]
+TIME PyQUDA: cshift 0.05939126014709473s
+TIME PyQUDA: contract TMD for U and D 0.1282498836517334s
+TIME PyQUDA: contract TMD 99/132 [2, 5, 0, 1]
+TIME PyQUDA: cshift 0.051886796951293945s
+TIME PyQUDA: contract TMD for U and D 0.12553811073303223s
+TIME PyQUDA: contract TMD 100/132 [3, 4, 0, 1]
+TIME PyQUDA: cshift 0.06863760948181152s
+TIME PyQUDA: contract TMD for U and D 0.12665176391601562s
+TIME PyQUDA: contract TMD 101/132 [3, 3, 0, 1]
+TIME PyQUDA: cshift 0.06391239166259766s
+TIME PyQUDA: contract TMD for U and D 0.13189482688903809s
+TIME PyQUDA: contract TMD 102/132 [3, 2, 0, 1]
+TIME PyQUDA: cshift 0.05477309226989746s
+TIME PyQUDA: contract TMD for U and D 0.1292126178741455s
+TIME PyQUDA: contract TMD 103/132 [3, 1, 0, 1]
+TIME PyQUDA: cshift 0.056661367416381836s
+TIME PyQUDA: contract TMD for U and D 0.130784273147583s
+TIME PyQUDA: contract TMD 104/132 [3, 0, 0, 1]
+TIME PyQUDA: cshift 0.05448341369628906s
+TIME PyQUDA: contract TMD for U and D 0.12975430488586426s
+TIME PyQUDA: contract TMD 105/132 [3, -1, 0, 1]
+TIME PyQUDA: cshift 0.0552215576171875s
+TIME PyQUDA: contract TMD for U and D 0.12746691703796387s
+TIME PyQUDA: contract TMD 106/132 [3, -2, 0, 1]
+TIME PyQUDA: cshift 0.0577244758605957s
+TIME PyQUDA: contract TMD for U and D 0.12576818466186523s
+TIME PyQUDA: contract TMD 107/132 [3, -3, 0, 1]
+TIME PyQUDA: cshift 0.06161332130432129s
+TIME PyQUDA: contract TMD for U and D 0.1313948631286621s
+TIME PyQUDA: contract TMD 108/132 [3, -4, 0, 1]
+TIME PyQUDA: cshift 0.05642294883728027s
+TIME PyQUDA: contract TMD for U and D 0.12896156311035156s
+TIME PyQUDA: contract TMD 109/132 [3, -5, 0, 1]
+TIME PyQUDA: cshift 0.05687737464904785s
+TIME PyQUDA: contract TMD for U and D 0.1295175552368164s
+TIME PyQUDA: contract TMD 110/132 [4, -5, 0, 1]
+TIME PyQUDA: cshift 0.05188727378845215s
+TIME PyQUDA: contract TMD for U and D 0.1283423900604248s
+TIME PyQUDA: contract TMD 111/132 [4, -4, 0, 1]
+TIME PyQUDA: cshift 0.06518816947937012s
+TIME PyQUDA: contract TMD for U and D 0.1308917999267578s
+TIME PyQUDA: contract TMD 112/132 [4, -3, 0, 1]
+TIME PyQUDA: cshift 0.05554819107055664s
+TIME PyQUDA: contract TMD for U and D 0.12831735610961914s
+TIME PyQUDA: contract TMD 113/132 [4, -2, 0, 1]
+TIME PyQUDA: cshift 0.05744576454162598s
+TIME PyQUDA: contract TMD for U and D 0.1283888816833496s
+TIME PyQUDA: contract TMD 114/132 [4, -1, 0, 1]
+TIME PyQUDA: cshift 0.05878496170043945s
+TIME PyQUDA: contract TMD for U and D 0.12827038764953613s
+TIME PyQUDA: contract TMD 115/132 [4, 0, 0, 1]
+TIME PyQUDA: cshift 0.05687832832336426s
+TIME PyQUDA: contract TMD for U and D 0.12639951705932617s
+TIME PyQUDA: contract TMD 116/132 [4, 1, 0, 1]
+TIME PyQUDA: cshift 0.06778573989868164s
+TIME PyQUDA: contract TMD for U and D 0.12698721885681152s
+TIME PyQUDA: contract TMD 117/132 [4, 2, 0, 1]
+TIME PyQUDA: cshift 0.0637967586517334s
+TIME PyQUDA: contract TMD for U and D 0.12585115432739258s
+TIME PyQUDA: contract TMD 118/132 [4, 3, 0, 1]
+TIME PyQUDA: cshift 0.06157231330871582s
+TIME PyQUDA: contract TMD for U and D 0.12868332862854004s
+TIME PyQUDA: contract TMD 119/132 [4, 4, 0, 1]
+TIME PyQUDA: cshift 0.05659747123718262s
+TIME PyQUDA: contract TMD for U and D 0.13008666038513184s
+TIME PyQUDA: contract TMD 120/132 [3, 5, 0, 1]
+TIME PyQUDA: cshift 0.058712005615234375s
+TIME PyQUDA: contract TMD for U and D 0.12807941436767578s
+TIME PyQUDA: contract TMD 121/132 [4, 5, 0, 1]
+TIME PyQUDA: cshift 0.05183672904968262s
+TIME PyQUDA: contract TMD for U and D 0.12630939483642578s
+TIME PyQUDA: contract TMD 122/132 [5, 4, 0, 1]
+TIME PyQUDA: cshift 0.06799578666687012s
+TIME PyQUDA: contract TMD for U and D 0.12858891487121582s
+TIME PyQUDA: contract TMD 123/132 [5, 3, 0, 1]
+TIME PyQUDA: cshift 0.05639910697937012s
+TIME PyQUDA: contract TMD for U and D 0.12519288063049316s
+TIME PyQUDA: contract TMD 124/132 [5, 2, 0, 1]
+TIME PyQUDA: cshift 0.06105756759643555s
+TIME PyQUDA: contract TMD for U and D 0.12987899780273438s
+TIME PyQUDA: contract TMD 125/132 [5, 1, 0, 1]
+TIME PyQUDA: cshift 0.05777263641357422s
+TIME PyQUDA: contract TMD for U and D 0.12921428680419922s
+TIME PyQUDA: contract TMD 126/132 [5, 0, 0, 1]
+TIME PyQUDA: cshift 0.0561370849609375s
+TIME PyQUDA: contract TMD for U and D 0.12834954261779785s
+TIME PyQUDA: contract TMD 127/132 [5, -1, 0, 1]
+TIME PyQUDA: cshift 0.05723881721496582s
+TIME PyQUDA: contract TMD for U and D 0.12975549697875977s
+TIME PyQUDA: contract TMD 128/132 [5, -2, 0, 1]
+TIME PyQUDA: cshift 0.05599498748779297s
+TIME PyQUDA: contract TMD for U and D 0.12940454483032227s
+TIME PyQUDA: contract TMD 129/132 [5, -3, 0, 1]
+TIME PyQUDA: cshift 0.05752086639404297s
+TIME PyQUDA: contract TMD for U and D 0.1278371810913086s
+TIME PyQUDA: contract TMD 130/132 [5, -4, 0, 1]
+TIME PyQUDA: cshift 0.05710935592651367s
+TIME PyQUDA: contract TMD for U and D 0.1303255558013916s
+TIME PyQUDA: contract TMD 131/132 [5, -5, 0, 1]
+TIME PyQUDA: cshift 0.05632829666137695s
+TIME PyQUDA: contract TMD for U and D 0.12563729286193848s
+TIME PyQUDA: contract TMD 132/132 [5, 5, 0, 1]
+TIME PyQUDA: cshift 0.09946584701538086s
+TIME PyQUDA: contract TMD for U and D 0.12981605529785156s
+contract_TMD over: proton_TMDs.shape (132, 1, 75, 16, 48) 30.90107774734497s
+no roll
+corr.shape, (132, 75, 1, 12)
+plist.shape, (75, 4)
+TIME: save TMDs for PpUnpol 2.4260077476501465s
+contract_TMD DONE: CG no links
+MEM: released temporary memory (after CG TMD)
+contract_PDF loop: GI with links
+Saving 1629 sets of cached parameters to .cache/tunecache.tsv
+contract_GI_PDF over: proton_PDFs.shape (11, 1, 75, 16, 48) 0.422210693359375s
+no roll
+corr.shape, (11, 75, 1, 12)
+plist.shape, (75, 4)
+TIME: save PDFs for PpUnpol 0.21587467193603516s
+contract_PDF DONE: GI with links
+MEM: released temporary memory (end of source)
+DONE: 300_x19y23z25t35_1HYP_GSRC_W90_k3_T5_PX0PY0PZ9dt10
+START: 300_x19y23z25t47_1HYP_GSRC_W90_k3_T5_PX0PY0PZ9dt10
+TIME Pyquda: Generatring boosted src 3.5003507137298584s
+Saving 1637 sets of cached parameters to .cache/tunecache.tsv
+GCR: Convergence at 78 iterations, L2 relative residual: iterated = 8.604792e-13, true = 8.604792e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.989 secs, Performance = 4490.651 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 7.941625e-13, true = 7.941625e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.010 secs, Performance = 4508.018 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 9.523892e-13, true = 9.523892e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.008 secs, Performance = 4515.533 GFLOPS
+GCR: Convergence at 79 iterations, L2 relative residual: iterated = 8.212013e-13, true = 8.212013e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.997 secs, Performance = 4510.279 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 8.317224e-13, true = 8.317224e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.009 secs, Performance = 4514.244 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 7.632169e-13, true = 7.632169e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.009 secs, Performance = 4512.781 GFLOPS
+GCR: Convergence at 81 iterations, L2 relative residual: iterated = 7.590721e-13, true = 7.590721e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.023 secs, Performance = 4508.357 GFLOPS
+GCR: Convergence at 79 iterations, L2 relative residual: iterated = 7.590707e-13, true = 7.590707e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.995 secs, Performance = 4517.493 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 8.284478e-13, true = 8.284478e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.011 secs, Performance = 4506.211 GFLOPS
+GCR: Convergence at 81 iterations, L2 relative residual: iterated = 9.793228e-13, true = 9.793228e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.022 secs, Performance = 4513.651 GFLOPS
+GCR: Convergence at 79 iterations, L2 relative residual: iterated = 9.989350e-13, true = 9.989350e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.996 secs, Performance = 4516.490 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 7.695272e-13, true = 7.695272e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.009 secs, Performance = 4514.423 GFLOPS
+TIME Pyquda: Forward propagator inversion 19.256664752960205s
+Begin sink smearing
+Sink smearing completed
+MEM: released temporary memory (after 2pt contraction)
+TIME Pyquda: Contraction 2pt (includes sink smearing) 1.392890214920044s
+starting diquark contractions for down quark insertion and Polarization PpUnpol
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+diquark contractions for Polarization PpUnpol done
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 9.364978e-13, true = 9.364978e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.012 secs, Performance = 4497.923 GFLOPS
+GCR: Convergence at 79 iterations, L2 relative residual: iterated = 8.309268e-13, true = 8.309268e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.997 secs, Performance = 4509.660 GFLOPS
+GCR: Convergence at 81 iterations, L2 relative residual: iterated = 7.979959e-13, true = 7.979959e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.022 secs, Performance = 4514.539 GFLOPS
+GCR: Convergence at 78 iterations, L2 relative residual: iterated = 8.232198e-13, true = 8.232198e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.983 secs, Performance = 4516.390 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 7.529455e-13, true = 7.529455e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.010 secs, Performance = 4509.545 GFLOPS
+GCR: Convergence at 78 iterations, L2 relative residual: iterated = 8.967168e-13, true = 8.967168e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.983 secs, Performance = 4514.659 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 7.492937e-13, true = 7.492937e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.009 secs, Performance = 4514.575 GFLOPS
+GCR: Convergence at 79 iterations, L2 relative residual: iterated = 7.659162e-13, true = 7.659162e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.997 secs, Performance = 4509.262 GFLOPS
+GCR: Convergence at 81 iterations, L2 relative residual: iterated = 7.764937e-13, true = 7.764937e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.022 secs, Performance = 4511.602 GFLOPS
+GCR: Convergence at 81 iterations, L2 relative residual: iterated = 8.491316e-13, true = 8.491316e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.022 secs, Performance = 4513.509 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 8.075417e-13, true = 8.075417e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.007 secs, Performance = 4521.398 GFLOPS
+GCR: Convergence at 79 iterations, L2 relative residual: iterated = 7.480338e-13, true = 7.480338e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.996 secs, Performance = 4513.254 GFLOPS
+starting diquark contractions for up quark insertion and Polarization PpUnpol
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+diquark contractions for Polarization PpUnpol done
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+DEBUG: mom_phase shape: (2, 48, 16, 16, 4)
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 8.728064e-13, true = 8.728064e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.012 secs, Performance = 4497.772 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 7.657639e-13, true = 7.657639e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.009 secs, Performance = 4514.405 GFLOPS
+GCR: Convergence at 79 iterations, L2 relative residual: iterated = 7.410559e-13, true = 7.410559e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.996 secs, Performance = 4514.563 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 7.775142e-13, true = 7.775142e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.007 secs, Performance = 4521.047 GFLOPS
+GCR: Convergence at 79 iterations, L2 relative residual: iterated = 9.477190e-13, true = 9.477190e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.995 secs, Performance = 4519.559 GFLOPS
+GCR: Convergence at 78 iterations, L2 relative residual: iterated = 7.797819e-13, true = 7.797819e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.983 secs, Performance = 4517.682 GFLOPS
+GCR: Convergence at 78 iterations, L2 relative residual: iterated = 9.238580e-13, true = 9.238580e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.983 secs, Performance = 4515.022 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 9.121703e-13, true = 9.121703e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.008 secs, Performance = 4516.146 GFLOPS
+GCR: Convergence at 79 iterations, L2 relative residual: iterated = 8.760003e-13, true = 8.760003e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 0.996 secs, Performance = 4512.493 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 8.537955e-13, true = 8.537955e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.008 secs, Performance = 4515.408 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 7.391365e-13, true = 7.391365e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.008 secs, Performance = 4516.630 GFLOPS
+GCR: Convergence at 80 iterations, L2 relative residual: iterated = 6.549176e-13, true = 6.549176e-13 (requested = 1.000000e-12)
+PyQUDA INFO: Time = 1.007 secs, Performance = 4519.988 GFLOPS
+TIME Pyquda: Backward propagator through sequential source for U and D 28.34333896636963s
+contract_TMD loop: CG no links
+TIME PyQUDA: contract bw prop with gamma_ls for U and D 0.0007939338684082031s
+TIME PyQUDA: contract TMD 1/132 [0, -5, 0, 0]
+TIME PyQUDA: cshift 0.04188275337219238s
+TIME PyQUDA: contract TMD for U and D 0.12888836860656738s
+TIME PyQUDA: contract TMD 2/132 [0, -4, 0, 0]
+TIME PyQUDA: cshift 0.07808899879455566s
+TIME PyQUDA: contract TMD for U and D 0.12913227081298828s
+TIME PyQUDA: contract TMD 3/132 [0, -3, 0, 0]
+TIME PyQUDA: cshift 0.07485437393188477s
+TIME PyQUDA: contract TMD for U and D 0.12704896926879883s
+TIME PyQUDA: contract TMD 4/132 [0, -2, 0, 0]
+TIME PyQUDA: cshift 0.07411813735961914s
+TIME PyQUDA: contract TMD for U and D 0.12854886054992676s
+TIME PyQUDA: contract TMD 5/132 [0, -1, 0, 0]
+TIME PyQUDA: cshift 0.07333230972290039s
+TIME PyQUDA: contract TMD for U and D 0.1300194263458252s
+TIME PyQUDA: contract TMD 6/132 [0, 0, 0, 0]
+TIME PyQUDA: cshift 0.07183074951171875s
+TIME PyQUDA: contract TMD for U and D 0.12989020347595215s
+TIME PyQUDA: contract TMD 7/132 [0, 1, 0, 0]
+TIME PyQUDA: cshift 0.07210612297058105s
+TIME PyQUDA: contract TMD for U and D 0.12981009483337402s
+TIME PyQUDA: contract TMD 8/132 [0, 2, 0, 0]
+TIME PyQUDA: cshift 0.0726919174194336s
+TIME PyQUDA: contract TMD for U and D 0.12983155250549316s
+TIME PyQUDA: contract TMD 9/132 [0, 3, 0, 0]
+TIME PyQUDA: cshift 0.07621884346008301s
+TIME PyQUDA: contract TMD for U and D 0.12789440155029297s
+TIME PyQUDA: contract TMD 10/132 [0, 4, 0, 0]
+TIME PyQUDA: cshift 0.0766141414642334s
+TIME PyQUDA: contract TMD for U and D 0.12880206108093262s
+TIME PyQUDA: contract TMD 11/132 [0, 5, 0, 0]
+TIME PyQUDA: cshift 0.0739736557006836s
+TIME PyQUDA: contract TMD for U and D 0.12819123268127441s
+TIME PyQUDA: contract TMD 12/132 [1, 4, 0, 0]
+TIME PyQUDA: cshift 0.08889198303222656s
+TIME PyQUDA: contract TMD for U and D 0.1299877166748047s
+TIME PyQUDA: contract TMD 13/132 [1, 3, 0, 0]
+TIME PyQUDA: cshift 0.07290148735046387s
+TIME PyQUDA: contract TMD for U and D 0.12779784202575684s
+TIME PyQUDA: contract TMD 14/132 [1, 2, 0, 0]
+TIME PyQUDA: cshift 0.07437443733215332s
+TIME PyQUDA: contract TMD for U and D 0.1271345615386963s
+TIME PyQUDA: contract TMD 15/132 [1, 1, 0, 0]
+TIME PyQUDA: cshift 0.07415175437927246s
+TIME PyQUDA: contract TMD for U and D 0.12836670875549316s
+TIME PyQUDA: contract TMD 16/132 [1, 0, 0, 0]
+TIME PyQUDA: cshift 0.07262682914733887s
+TIME PyQUDA: contract TMD for U and D 0.1278989315032959s
+TIME PyQUDA: contract TMD 17/132 [1, -1, 0, 0]
+TIME PyQUDA: cshift 0.07322502136230469s
+TIME PyQUDA: contract TMD for U and D 0.1268148422241211s
+TIME PyQUDA: contract TMD 18/132 [1, -2, 0, 0]
+TIME PyQUDA: cshift 0.07400918006896973s
+TIME PyQUDA: contract TMD for U and D 0.12666845321655273s
+TIME PyQUDA: contract TMD 19/132 [1, -3, 0, 0]
+TIME PyQUDA: cshift 0.07489633560180664s
+TIME PyQUDA: contract TMD for U and D 0.12752676010131836s
+TIME PyQUDA: contract TMD 20/132 [1, -4, 0, 0]
+TIME PyQUDA: cshift 0.0762336254119873s
+TIME PyQUDA: contract TMD for U and D 0.12654399871826172s
+TIME PyQUDA: contract TMD 21/132 [1, -5, 0, 0]
+TIME PyQUDA: cshift 0.07560920715332031s
+TIME PyQUDA: contract TMD for U and D 0.12571358680725098s
+TIME PyQUDA: contract TMD 22/132 [2, -5, 0, 0]
+TIME PyQUDA: cshift 0.05684351921081543s
+TIME PyQUDA: contract TMD for U and D 0.12517333030700684s
+TIME PyQUDA: contract TMD 23/132 [2, -4, 0, 0]
+TIME PyQUDA: cshift 0.09787130355834961s
+TIME PyQUDA: contract TMD for U and D 0.12759852409362793s
+TIME PyQUDA: contract TMD 24/132 [2, -3, 0, 0]
+TIME PyQUDA: cshift 0.07431602478027344s
+TIME PyQUDA: contract TMD for U and D 0.12477612495422363s
+TIME PyQUDA: contract TMD 25/132 [2, -2, 0, 0]
+TIME PyQUDA: cshift 0.07649755477905273s
+TIME PyQUDA: contract TMD for U and D 0.1258096694946289s
+TIME PyQUDA: contract TMD 26/132 [2, -1, 0, 0]
+TIME PyQUDA: cshift 0.07537841796875s
+TIME PyQUDA: contract TMD for U and D 0.12770462036132812s
+TIME PyQUDA: contract TMD 27/132 [2, 0, 0, 0]
+TIME PyQUDA: cshift 0.07366466522216797s
+TIME PyQUDA: contract TMD for U and D 0.125596284866333s
+TIME PyQUDA: contract TMD 28/132 [2, 1, 0, 0]
+TIME PyQUDA: cshift 0.07463908195495605s
+TIME PyQUDA: contract TMD for U and D 0.1269066333770752s
+TIME PyQUDA: contract TMD 29/132 [2, 2, 0, 0]
+TIME PyQUDA: cshift 0.07427978515625s
+TIME PyQUDA: contract TMD for U and D 0.12563586235046387s
+TIME PyQUDA: contract TMD 30/132 [2, 3, 0, 0]
+TIME PyQUDA: cshift 0.07853317260742188s
+TIME PyQUDA: contract TMD for U and D 0.12669873237609863s
+TIME PyQUDA: contract TMD 31/132 [2, 4, 0, 0]
+TIME PyQUDA: cshift 0.07788372039794922s
+TIME PyQUDA: contract TMD for U and D 0.12572169303894043s
+TIME PyQUDA: contract TMD 32/132 [1, 5, 0, 0]
+TIME PyQUDA: cshift 0.08601117134094238s
+TIME PyQUDA: contract TMD for U and D 0.12501168251037598s
+TIME PyQUDA: contract TMD 33/132 [2, 5, 0, 0]
+TIME PyQUDA: cshift 0.05658125877380371s
+TIME PyQUDA: contract TMD for U and D 0.126220703125s
+TIME PyQUDA: contract TMD 34/132 [3, 4, 0, 0]
+TIME PyQUDA: cshift 0.10902070999145508s
+TIME PyQUDA: contract TMD for U and D 0.12614774703979492s
+TIME PyQUDA: contract TMD 35/132 [3, 3, 0, 0]
+TIME PyQUDA: cshift 0.07671093940734863s
+TIME PyQUDA: contract TMD for U and D 0.12452054023742676s
+TIME PyQUDA: contract TMD 36/132 [3, 2, 0, 0]
+TIME PyQUDA: cshift 0.07735705375671387s
+TIME PyQUDA: contract TMD for U and D 0.12772917747497559s
+TIME PyQUDA: contract TMD 37/132 [3, 1, 0, 0]
+TIME PyQUDA: cshift 0.07390546798706055s
+TIME PyQUDA: contract TMD for U and D 0.12560224533081055s
+TIME PyQUDA: contract TMD 38/132 [3, 0, 0, 0]
+TIME PyQUDA: cshift 0.07514405250549316s
+TIME PyQUDA: contract TMD for U and D 0.1274123191833496s
+TIME PyQUDA: contract TMD 39/132 [3, -1, 0, 0]
+TIME PyQUDA: cshift 0.0740668773651123s
+TIME PyQUDA: contract TMD for U and D 0.1288280487060547s
+TIME PyQUDA: contract TMD 40/132 [3, -2, 0, 0]
+TIME PyQUDA: cshift 0.07280778884887695s
+TIME PyQUDA: contract TMD for U and D 0.12659239768981934s
+TIME PyQUDA: contract TMD 41/132 [3, -3, 0, 0]
+TIME PyQUDA: cshift 0.07446146011352539s
+TIME PyQUDA: contract TMD for U and D 0.12699246406555176s
+TIME PyQUDA: contract TMD 42/132 [3, -4, 0, 0]
+TIME PyQUDA: cshift 0.0738985538482666s
+TIME PyQUDA: contract TMD for U and D 0.12772798538208008s
+TIME PyQUDA: contract TMD 43/132 [3, -5, 0, 0]
+TIME PyQUDA: cshift 0.07502341270446777s
+TIME PyQUDA: contract TMD for U and D 0.12555718421936035s
+TIME PyQUDA: contract TMD 44/132 [4, -5, 0, 0]
+TIME PyQUDA: cshift 0.056795597076416016s
+TIME PyQUDA: contract TMD for U and D 0.12479805946350098s
+TIME PyQUDA: contract TMD 45/132 [4, -4, 0, 0]
+TIME PyQUDA: cshift 0.10141873359680176s
+TIME PyQUDA: contract TMD for U and D 0.12858343124389648s
+TIME PyQUDA: contract TMD 46/132 [4, -3, 0, 0]
+TIME PyQUDA: cshift 0.07392120361328125s
+TIME PyQUDA: contract TMD for U and D 0.12502050399780273s
+TIME PyQUDA: contract TMD 47/132 [4, -2, 0, 0]
+TIME PyQUDA: cshift 0.0757744312286377s
+TIME PyQUDA: contract TMD for U and D 0.12651658058166504s
+TIME PyQUDA: contract TMD 48/132 [4, -1, 0, 0]
+TIME PyQUDA: cshift 0.07467150688171387s
+TIME PyQUDA: contract TMD for U and D 0.12668609619140625s
+TIME PyQUDA: contract TMD 49/132 [4, 0, 0, 0]
+TIME PyQUDA: cshift 0.07457661628723145s
+TIME PyQUDA: contract TMD for U and D 0.12667155265808105s
+TIME PyQUDA: contract TMD 50/132 [4, 1, 0, 0]
+TIME PyQUDA: cshift 0.07421875s
+TIME PyQUDA: contract TMD for U and D 0.12685155868530273s
+TIME PyQUDA: contract TMD 51/132 [4, 2, 0, 0]
+TIME PyQUDA: cshift 0.07444977760314941s
+TIME PyQUDA: contract TMD for U and D 0.12567758560180664s
+TIME PyQUDA: contract TMD 52/132 [4, 3, 0, 0]
+TIME PyQUDA: cshift 0.07913374900817871s
+TIME PyQUDA: contract TMD for U and D 0.12767958641052246s
+TIME PyQUDA: contract TMD 53/132 [4, 4, 0, 0]
+TIME PyQUDA: cshift 0.0745551586151123s
+TIME PyQUDA: contract TMD for U and D 0.12731599807739258s
+TIME PyQUDA: contract TMD 54/132 [3, 5, 0, 0]
+TIME PyQUDA: cshift 0.08131909370422363s
+TIME PyQUDA: contract TMD for U and D 0.12647724151611328s
+TIME PyQUDA: contract TMD 55/132 [4, 5, 0, 0]
+TIME PyQUDA: cshift 0.056572914123535156s
+TIME PyQUDA: contract TMD for U and D 0.12620782852172852s
+TIME PyQUDA: contract TMD 56/132 [5, 4, 0, 0]
+TIME PyQUDA: cshift 0.10528969764709473s
+TIME PyQUDA: contract TMD for U and D 0.12694311141967773s
+TIME PyQUDA: contract TMD 57/132 [5, 3, 0, 0]
+TIME PyQUDA: cshift 0.07525110244750977s
+TIME PyQUDA: contract TMD for U and D 0.1245570182800293s
+TIME PyQUDA: contract TMD 58/132 [5, 2, 0, 0]
+TIME PyQUDA: cshift 0.07785630226135254s
+TIME PyQUDA: contract TMD for U and D 0.1278247833251953s
+TIME PyQUDA: contract TMD 59/132 [5, 1, 0, 0]
+TIME PyQUDA: cshift 0.07366037368774414s
+TIME PyQUDA: contract TMD for U and D 0.1249990463256836s
+TIME PyQUDA: contract TMD 60/132 [5, 0, 0, 0]
+TIME PyQUDA: cshift 0.07511258125305176s
+TIME PyQUDA: contract TMD for U and D 0.12809014320373535s
+TIME PyQUDA: contract TMD 61/132 [5, -1, 0, 0]
+TIME PyQUDA: cshift 0.07419657707214355s
+TIME PyQUDA: contract TMD for U and D 0.12685441970825195s
+TIME PyQUDA: contract TMD 62/132 [5, -2, 0, 0]
+TIME PyQUDA: cshift 0.07477378845214844s
+TIME PyQUDA: contract TMD for U and D 0.12751460075378418s
+TIME PyQUDA: contract TMD 63/132 [5, -3, 0, 0]
+TIME PyQUDA: cshift 0.07317066192626953s
+TIME PyQUDA: contract TMD for U and D 0.12721467018127441s
+TIME PyQUDA: contract TMD 64/132 [5, -4, 0, 0]
+TIME PyQUDA: cshift 0.07435083389282227s
+TIME PyQUDA: contract TMD for U and D 0.1290583610534668s
+TIME PyQUDA: contract TMD 65/132 [5, -5, 0, 0]
+TIME PyQUDA: cshift 0.07573127746582031s
+TIME PyQUDA: contract TMD for U and D 0.1272594928741455s
+TIME PyQUDA: contract TMD 66/132 [5, 5, 0, 0]
+TIME PyQUDA: cshift 0.1106562614440918s
+TIME PyQUDA: contract TMD for U and D 0.12601089477539062s
+TIME PyQUDA: contract TMD 67/132 [0, -5, 0, 1]
+TIME PyQUDA: cshift 0.0932610034942627s
+TIME PyQUDA: contract TMD for U and D 0.12765073776245117s
+TIME PyQUDA: contract TMD 68/132 [0, -4, 0, 1]
+TIME PyQUDA: cshift 0.07371330261230469s
+TIME PyQUDA: contract TMD for U and D 0.12528204917907715s
+TIME PyQUDA: contract TMD 69/132 [0, -3, 0, 1]
+TIME PyQUDA: cshift 0.07503700256347656s
+TIME PyQUDA: contract TMD for U and D 0.12830209732055664s
+TIME PyQUDA: contract TMD 70/132 [0, -2, 0, 1]
+TIME PyQUDA: cshift 0.0754246711730957s
+TIME PyQUDA: contract TMD for U and D 0.12883377075195312s
+TIME PyQUDA: contract TMD 71/132 [0, -1, 0, 1]
+TIME PyQUDA: cshift 0.07501339912414551s
+TIME PyQUDA: contract TMD for U and D 0.1260061264038086s
+TIME PyQUDA: contract TMD 72/132 [0, 0, 0, 1]
+TIME PyQUDA: cshift 0.07692313194274902s
+TIME PyQUDA: contract TMD for U and D 0.12644600868225098s
+TIME PyQUDA: contract TMD 73/132 [0, 1, 0, 1]
+TIME PyQUDA: cshift 0.07445883750915527s
+TIME PyQUDA: contract TMD for U and D 0.12773609161376953s
+TIME PyQUDA: contract TMD 74/132 [0, 2, 0, 1]
+TIME PyQUDA: cshift 0.07378911972045898s
+TIME PyQUDA: contract TMD for U and D 0.12732505798339844s
+TIME PyQUDA: contract TMD 75/132 [0, 3, 0, 1]
+TIME PyQUDA: cshift 0.07434415817260742s
+TIME PyQUDA: contract TMD for U and D 0.12761211395263672s
+TIME PyQUDA: contract TMD 76/132 [0, 4, 0, 1]
+TIME PyQUDA: cshift 0.07385993003845215s
+TIME PyQUDA: contract TMD for U and D 0.1275162696838379s
+TIME PyQUDA: contract TMD 77/132 [0, 5, 0, 1]
+TIME PyQUDA: cshift 0.0738673210144043s
+TIME PyQUDA: contract TMD for U and D 0.12775111198425293s
+TIME PyQUDA: contract TMD 78/132 [1, 4, 0, 1]
+TIME PyQUDA: cshift 0.07683014869689941s
+TIME PyQUDA: contract TMD for U and D 0.12841463088989258s
+TIME PyQUDA: contract TMD 79/132 [1, 3, 0, 1]
+TIME PyQUDA: cshift 0.07456564903259277s
+TIME PyQUDA: contract TMD for U and D 0.1275324821472168s
+TIME PyQUDA: contract TMD 80/132 [1, 2, 0, 1]
+TIME PyQUDA: cshift 0.07444882392883301s
+TIME PyQUDA: contract TMD for U and D 0.1279759407043457s
+TIME PyQUDA: contract TMD 81/132 [1, 1, 0, 1]
+TIME PyQUDA: cshift 0.07389664649963379s
+TIME PyQUDA: contract TMD for U and D 0.12714171409606934s
+TIME PyQUDA: contract TMD 82/132 [1, 0, 0, 1]
+TIME PyQUDA: cshift 0.07442998886108398s
+TIME PyQUDA: contract TMD for U and D 0.12995147705078125s
+TIME PyQUDA: contract TMD 83/132 [1, -1, 0, 1]
+TIME PyQUDA: cshift 0.07220125198364258s
+TIME PyQUDA: contract TMD for U and D 0.128373384475708s
+TIME PyQUDA: contract TMD 84/132 [1, -2, 0, 1]
+TIME PyQUDA: cshift 0.07462096214294434s
+TIME PyQUDA: contract TMD for U and D 0.12854552268981934s
+TIME PyQUDA: contract TMD 85/132 [1, -3, 0, 1]
+TIME PyQUDA: cshift 0.0748593807220459s
+TIME PyQUDA: contract TMD for U and D 0.12621212005615234s
+TIME PyQUDA: contract TMD 86/132 [1, -4, 0, 1]
+TIME PyQUDA: cshift 0.07648921012878418s
+TIME PyQUDA: contract TMD for U and D 0.1257936954498291s
+TIME PyQUDA: contract TMD 87/132 [1, -5, 0, 1]
+TIME PyQUDA: cshift 0.07863926887512207s
+TIME PyQUDA: contract TMD for U and D 0.12807011604309082s
+TIME PyQUDA: contract TMD 88/132 [2, -5, 0, 1]
+TIME PyQUDA: cshift 0.05202126502990723s
+TIME PyQUDA: contract TMD for U and D 0.1254279613494873s
+TIME PyQUDA: contract TMD 89/132 [2, -4, 0, 1]
+TIME PyQUDA: cshift 0.0966036319732666s
+TIME PyQUDA: contract TMD for U and D 0.1265270709991455s
+TIME PyQUDA: contract TMD 90/132 [2, -3, 0, 1]
+TIME PyQUDA: cshift 0.07544803619384766s
+TIME PyQUDA: contract TMD for U and D 0.12923908233642578s
+TIME PyQUDA: contract TMD 91/132 [2, -2, 0, 1]
+TIME PyQUDA: cshift 0.07279825210571289s
+TIME PyQUDA: contract TMD for U and D 0.1269397735595703s
+TIME PyQUDA: contract TMD 92/132 [2, -1, 0, 1]
+TIME PyQUDA: cshift 0.07490086555480957s
+TIME PyQUDA: contract TMD for U and D 0.12792682647705078s
+TIME PyQUDA: contract TMD 93/132 [2, 0, 0, 1]
+TIME PyQUDA: cshift 0.07339286804199219s
+TIME PyQUDA: contract TMD for U and D 0.12947726249694824s
+TIME PyQUDA: contract TMD 94/132 [2, 1, 0, 1]
+TIME PyQUDA: cshift 0.07283163070678711s
+TIME PyQUDA: contract TMD for U and D 0.1276235580444336s
+TIME PyQUDA: contract TMD 95/132 [2, 2, 0, 1]
+TIME PyQUDA: cshift 0.07689881324768066s
+TIME PyQUDA: contract TMD for U and D 0.12489795684814453s
+TIME PyQUDA: contract TMD 96/132 [2, 3, 0, 1]
+TIME PyQUDA: cshift 0.07931828498840332s
+TIME PyQUDA: contract TMD for U and D 0.13010907173156738s
+TIME PyQUDA: contract TMD 97/132 [2, 4, 0, 1]
+TIME PyQUDA: cshift 0.07301187515258789s
+TIME PyQUDA: contract TMD for U and D 0.12804365158081055s
+TIME PyQUDA: contract TMD 98/132 [1, 5, 0, 1]
+TIME PyQUDA: cshift 0.0777292251586914s
+TIME PyQUDA: contract TMD for U and D 0.12883472442626953s
+TIME PyQUDA: contract TMD 99/132 [2, 5, 0, 1]
+TIME PyQUDA: cshift 0.05196189880371094s
+TIME PyQUDA: contract TMD for U and D 0.1256566047668457s
+TIME PyQUDA: contract TMD 100/132 [3, 4, 0, 1]
+TIME PyQUDA: cshift 0.09940576553344727s
+TIME PyQUDA: contract TMD for U and D 0.12843680381774902s
+TIME PyQUDA: contract TMD 101/132 [3, 3, 0, 1]
+TIME PyQUDA: cshift 0.07381653785705566s
+TIME PyQUDA: contract TMD for U and D 0.12857341766357422s
+TIME PyQUDA: contract TMD 102/132 [3, 2, 0, 1]
+TIME PyQUDA: cshift 0.07299518585205078s
+TIME PyQUDA: contract TMD for U and D 0.1294116973876953s
+TIME PyQUDA: contract TMD 103/132 [3, 1, 0, 1]
+TIME PyQUDA: cshift 0.07448768615722656s
+TIME PyQUDA: contract TMD for U and D 0.12913012504577637s
+TIME PyQUDA: contract TMD 104/132 [3, 0, 0, 1]
+TIME PyQUDA: cshift 0.07362079620361328s
+TIME PyQUDA: contract TMD for U and D 0.12552881240844727s
+TIME PyQUDA: contract TMD 105/132 [3, -1, 0, 1]
+TIME PyQUDA: cshift 0.07730937004089355s
+TIME PyQUDA: contract TMD for U and D 0.1253032684326172s
+TIME PyQUDA: contract TMD 106/132 [3, -2, 0, 1]
+TIME PyQUDA: cshift 0.07693123817443848s
+TIME PyQUDA: contract TMD for U and D 0.12566924095153809s
+TIME PyQUDA: contract TMD 107/132 [3, -3, 0, 1]
+TIME PyQUDA: cshift 0.07638144493103027s
+TIME PyQUDA: contract TMD for U and D 0.12717700004577637s
+TIME PyQUDA: contract TMD 108/132 [3, -4, 0, 1]
+TIME PyQUDA: cshift 0.0792551040649414s
+TIME PyQUDA: contract TMD for U and D 0.1279919147491455s
+TIME PyQUDA: contract TMD 109/132 [3, -5, 0, 1]
+TIME PyQUDA: cshift 0.0742635726928711s
+TIME PyQUDA: contract TMD for U and D 0.1266624927520752s
+TIME PyQUDA: contract TMD 110/132 [4, -5, 0, 1]
+TIME PyQUDA: cshift 0.05200481414794922s
+TIME PyQUDA: contract TMD for U and D 0.1255176067352295s
+TIME PyQUDA: contract TMD 111/132 [4, -4, 0, 1]
+TIME PyQUDA: cshift 0.09662890434265137s
+TIME PyQUDA: contract TMD for U and D 0.12842178344726562s
+TIME PyQUDA: contract TMD 112/132 [4, -3, 0, 1]
+TIME PyQUDA: cshift 0.07342934608459473s
+TIME PyQUDA: contract TMD for U and D 0.12936019897460938s
+TIME PyQUDA: contract TMD 113/132 [4, -2, 0, 1]
+TIME PyQUDA: cshift 0.07328963279724121s
+TIME PyQUDA: contract TMD for U and D 0.12625336647033691s
+TIME PyQUDA: contract TMD 114/132 [4, -1, 0, 1]
+TIME PyQUDA: cshift 0.07903337478637695s
+TIME PyQUDA: contract TMD for U and D 0.1272289752960205s
+TIME PyQUDA: contract TMD 115/132 [4, 0, 0, 1]
+TIME PyQUDA: cshift 0.07606244087219238s
+TIME PyQUDA: contract TMD for U and D 0.12638640403747559s
+TIME PyQUDA: contract TMD 116/132 [4, 1, 0, 1]
+TIME PyQUDA: cshift 0.07968592643737793s
+TIME PyQUDA: contract TMD for U and D 0.1292552947998047s
+TIME PyQUDA: contract TMD 117/132 [4, 2, 0, 1]
+TIME PyQUDA: cshift 0.07556462287902832s
+TIME PyQUDA: contract TMD for U and D 0.12581396102905273s
+TIME PyQUDA: contract TMD 118/132 [4, 3, 0, 1]
+TIME PyQUDA: cshift 0.0792849063873291s
+TIME PyQUDA: contract TMD for U and D 0.12811899185180664s
+TIME PyQUDA: contract TMD 119/132 [4, 4, 0, 1]
+TIME PyQUDA: cshift 0.07425355911254883s
+TIME PyQUDA: contract TMD for U and D 0.12891864776611328s
+TIME PyQUDA: contract TMD 120/132 [3, 5, 0, 1]
+TIME PyQUDA: cshift 0.07625389099121094s
+TIME PyQUDA: contract TMD for U and D 0.12761735916137695s
+TIME PyQUDA: contract TMD 121/132 [4, 5, 0, 1]
+TIME PyQUDA: cshift 0.05201363563537598s
+TIME PyQUDA: contract TMD for U and D 0.12587738037109375s
+TIME PyQUDA: contract TMD 122/132 [5, 4, 0, 1]
+TIME PyQUDA: cshift 0.09898233413696289s
+TIME PyQUDA: contract TMD for U and D 0.13380146026611328s
+TIME PyQUDA: contract TMD 123/132 [5, 3, 0, 1]
+TIME PyQUDA: cshift 0.0744163990020752s
+TIME PyQUDA: contract TMD for U and D 0.126662015914917s
+TIME PyQUDA: contract TMD 124/132 [5, 2, 0, 1]
+TIME PyQUDA: cshift 0.0767669677734375s
+TIME PyQUDA: contract TMD for U and D 0.12936043739318848s
+TIME PyQUDA: contract TMD 125/132 [5, 1, 0, 1]
+TIME PyQUDA: cshift 0.07302021980285645s
+TIME PyQUDA: contract TMD for U and D 0.12848114967346191s
+TIME PyQUDA: contract TMD 126/132 [5, 0, 0, 1]
+TIME PyQUDA: cshift 0.0734555721282959s
+TIME PyQUDA: contract TMD for U and D 0.12848496437072754s
+TIME PyQUDA: contract TMD 127/132 [5, -1, 0, 1]
+TIME PyQUDA: cshift 0.07311820983886719s
+TIME PyQUDA: contract TMD for U and D 0.12743401527404785s
+TIME PyQUDA: contract TMD 128/132 [5, -2, 0, 1]
+TIME PyQUDA: cshift 0.0740969181060791s
+TIME PyQUDA: contract TMD for U and D 0.1290597915649414s
+TIME PyQUDA: contract TMD 129/132 [5, -3, 0, 1]
+TIME PyQUDA: cshift 0.07427835464477539s
+TIME PyQUDA: contract TMD for U and D 0.12717151641845703s
+TIME PyQUDA: contract TMD 130/132 [5, -4, 0, 1]
+TIME PyQUDA: cshift 0.07379984855651855s
+TIME PyQUDA: contract TMD for U and D 0.12666893005371094s
+TIME PyQUDA: contract TMD 131/132 [5, -5, 0, 1]
+TIME PyQUDA: cshift 0.07377028465270996s
+TIME PyQUDA: contract TMD for U and D 0.12764716148376465s
+TIME PyQUDA: contract TMD 132/132 [5, 5, 0, 1]
+TIME PyQUDA: cshift 0.10941815376281738s
+TIME PyQUDA: contract TMD for U and D 0.1269986629486084s
+contract_TMD over: proton_TMDs.shape (132, 1, 75, 16, 48) 29.18103528022766s
+no roll
+corr.shape, (132, 75, 1, 12)
+plist.shape, (75, 4)
+TIME: save TMDs for PpUnpol 2.479743480682373s
+contract_TMD DONE: CG no links
+MEM: released temporary memory (after CG TMD)
+contract_PDF loop: GI with links
+contract_GI_PDF over: proton_PDFs.shape (11, 1, 75, 16, 48) 0.3774144649505615s
+no roll
+corr.shape, (11, 75, 1, 12)
+plist.shape, (75, 4)
+TIME: save PDFs for PpUnpol 0.21570420265197754s
+contract_PDF DONE: GI with links
+MEM: released temporary memory (end of source)
+DONE: 300_x19y23z25t47_1HYP_GSRC_W90_k3_T5_PX0PY0PZ9dt10
+WARNING: Environment variable QUDA_PROFILE_OUTPUT_BASE not set; writing to profile.tsv and profile_async.tsv
+Saving 266 sets of cached parameters to .cache/profile_0.tsv
+Saving 0 sets of cached profiles to .cache/profile_async_0.tsv
+WARNING: The following internal memory allocations were not freed.
+
+Type    Pointer          Size             Location
+----------------------------------------------------------
+Device   0x7ffc62800000          4718592  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc63000000          2555904  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc74000000          2555904  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc74600000          2555904  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc74c00000          2555904  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc75200000          2555904  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc75800000          2555904  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc75e00000          2555904  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc88800000         56623104  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc8c000000        113639424  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc9b000000          2555904  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc9be00000          2555904  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc9c400000          4718592  RNG(), random.cu:39
+Device   0x7ffc9cc00000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc9d400000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc9dc00000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc9e400000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc9ec00000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc9f400000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffc9fc00000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcc0200000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffccba00000          3538944  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffccc000000          3538944  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffccc600000         56623104  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcd0000000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcd0800000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcd1000000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcd1800000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcd2000000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcd2800000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcd3000000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffce3600000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcef200000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf4000000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf4024000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf4048000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf406c000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf4090000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf40c6000            73728  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf40d8000            73728  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf40ea000            73728  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf40fc000            73728  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf410e000            73728  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf4600000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf4e00000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf5600000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf5e00000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf6600000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffcf6e00000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd29600000          5111808  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd2d600000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd2d624000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd2d648000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd2d66c000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd2d690000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd2d6b4000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd2d6d8000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd2d6fc000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd2d720000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd2d744000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd2d768000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd2d78c000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd2d7b0000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd2d7d4000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd2d7f8000            18432  RNG(), random.cu:39
+Device   0x7ffd50634000           393216  Transfer(), /lustre/orion/nph158/world-shared/software/build/quda/lib/transfer.cpp:103
+Device   0x7ffd50694000           393216  Transfer(), /lustre/orion/nph158/world-shared/software/build/quda/lib/transfer.cpp:104
+Device   0x7ffd506f4000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd50718000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd5073c000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd50760000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd50784000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd507a8000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Device   0x7ffd507cc000           147456  quda_ptr(), /lustre/orion/nph158/world-shared/software/build/quda/lib/quda_ptr.cpp:17
+Host          0x16ead30              852  create(), color_spinor_field.cpp:207
+Host          0x288cd30                8  Transfer(), transfer.cpp:110
+Host          0x2bd8b70              852  create(), color_spinor_field.cpp:207
+Host          0x3da49c0               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0x3df32e0               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0x40c2e40                8  Transfer(), transfer.cpp:110
+Host          0x47d2170               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0x4a4ab20               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x4d35900               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x4f343c0             3096  operator new(), object.h:22
+Host          0x4f38300             3096  operator new(), object.h:22
+Host          0x4f3bbf0              852  create(), color_spinor_field.cpp:207
+Host          0x50c5380              852  create(), color_spinor_field.cpp:207
+Host          0x50c5a00              852  create(), color_spinor_field.cpp:207
+Host          0x5151670               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0x534e730             3360  operator new(), object.h:22
+Host          0x5360990              852  create(), color_spinor_field.cpp:207
+Host          0x5361920              852  create(), color_spinor_field.cpp:207
+Host          0x5376d30             3096  operator new(), object.h:22
+Host          0x5377950             3096  operator new(), object.h:22
+Host          0x5378570             3096  operator new(), object.h:22
+Host          0x5379190             3096  operator new(), object.h:22
+Host          0x5379db0              852  create(), color_spinor_field.cpp:207
+Host          0x537a1e0              852  create(), color_spinor_field.cpp:207
+Host          0x537a8a0             3096  operator new(), object.h:22
+Host          0x537b570              852  create(), color_spinor_field.cpp:207
+Host          0x537b9a0             3096  operator new(), object.h:22
+Host          0x537c650              852  create(), color_spinor_field.cpp:207
+Host          0x537ca80              852  create(), color_spinor_field.cpp:207
+Host          0x537d250             3096  operator new(), object.h:22
+Host          0x537df20              852  create(), color_spinor_field.cpp:207
+Host          0x537e380             3096  operator new(), object.h:22
+Host          0x537f030              852  create(), color_spinor_field.cpp:207
+Host          0x537f490              852  create(), color_spinor_field.cpp:207
+Host          0x537ff90             3096  operator new(), object.h:22
+Host          0x5380c60              852  create(), color_spinor_field.cpp:207
+Host          0x53810c0             3096  operator new(), object.h:22
+Host          0x5381d70              852  create(), color_spinor_field.cpp:207
+Host          0x53821d0              852  create(), color_spinor_field.cpp:207
+Host          0x5382cd0             3096  operator new(), object.h:22
+Host          0x53839a0              852  create(), color_spinor_field.cpp:207
+Host          0x5383e00             3096  operator new(), object.h:22
+Host          0x5384ab0              852  create(), color_spinor_field.cpp:207
+Host          0x5384f10              852  create(), color_spinor_field.cpp:207
+Host          0x5385a70             3096  operator new(), object.h:22
+Host          0x5386740              852  create(), color_spinor_field.cpp:207
+Host          0x5386ba0             3096  operator new(), object.h:22
+Host          0x5387850              852  create(), color_spinor_field.cpp:207
+Host          0x5387cb0              852  create(), color_spinor_field.cpp:207
+Host          0x5388810             3096  operator new(), object.h:22
+Host          0x53894e0              852  create(), color_spinor_field.cpp:207
+Host          0x5389940             3096  operator new(), object.h:22
+Host          0x538a5f0              852  create(), color_spinor_field.cpp:207
+Host          0x538aa50              852  create(), color_spinor_field.cpp:207
+Host          0x538b5b0             3096  operator new(), object.h:22
+Host          0x538c280              852  create(), color_spinor_field.cpp:207
+Host          0x538c6e0             3096  operator new(), object.h:22
+Host          0x538d390              852  create(), color_spinor_field.cpp:207
+Host          0x538d7f0              852  create(), color_spinor_field.cpp:207
+Host          0x5490350             3096  operator new(), object.h:22
+Host          0x5491020              852  create(), color_spinor_field.cpp:207
+Host          0x5491480             3096  operator new(), object.h:22
+Host          0x5492130              852  create(), color_spinor_field.cpp:207
+Host          0x5492590              852  create(), color_spinor_field.cpp:207
+Host          0x54930f0             3096  operator new(), object.h:22
+Host          0x5493dc0              852  create(), color_spinor_field.cpp:207
+Host          0x5494220             3096  operator new(), object.h:22
+Host          0x5494ed0              852  create(), color_spinor_field.cpp:207
+Host          0x5495330              852  create(), color_spinor_field.cpp:207
+Host          0x5495e90             3096  operator new(), object.h:22
+Host          0x5496b60              852  create(), color_spinor_field.cpp:207
+Host          0x5496fc0             3096  operator new(), object.h:22
+Host          0x5497c70              852  create(), color_spinor_field.cpp:207
+Host          0x54980d0              852  create(), color_spinor_field.cpp:207
+Host          0x5498c30             3096  operator new(), object.h:22
+Host          0x5499900              852  create(), color_spinor_field.cpp:207
+Host          0x5499d60             3096  operator new(), object.h:22
+Host          0x549aa10              852  create(), color_spinor_field.cpp:207
+Host          0x549ae70              852  create(), color_spinor_field.cpp:207
+Host          0x549b9d0             3096  operator new(), object.h:22
+Host          0x549c6a0              852  create(), color_spinor_field.cpp:207
+Host          0x549cb00             3096  operator new(), object.h:22
+Host          0x549d7b0              852  create(), color_spinor_field.cpp:207
+Host          0x549dc10              852  create(), color_spinor_field.cpp:207
+Host          0x549e770             3096  operator new(), object.h:22
+Host          0x549f440              852  create(), color_spinor_field.cpp:207
+Host          0x549f8a0             3096  operator new(), object.h:22
+Host          0x54a0550              852  create(), color_spinor_field.cpp:207
+Host          0x54a09b0              852  create(), color_spinor_field.cpp:207
+Host          0x54a1510             3096  operator new(), object.h:22
+Host          0x54a21e0              852  create(), color_spinor_field.cpp:207
+Host          0x54a2640             3096  operator new(), object.h:22
+Host          0x54a32f0              852  create(), color_spinor_field.cpp:207
+Host          0x54a3750              852  create(), color_spinor_field.cpp:207
+Host          0x54a42b0             3096  operator new(), object.h:22
+Host          0x54a4f80              852  create(), color_spinor_field.cpp:207
+Host          0x54a53e0             3096  operator new(), object.h:22
+Host          0x54a6090              852  create(), color_spinor_field.cpp:207
+Host          0x54a64f0              852  create(), color_spinor_field.cpp:207
+Host          0x54a7050             3096  operator new(), object.h:22
+Host          0x54a7d20              852  create(), color_spinor_field.cpp:207
+Host          0x54a8180             3096  operator new(), object.h:22
+Host          0x54a8e30              852  create(), color_spinor_field.cpp:207
+Host          0x54a9290              852  create(), color_spinor_field.cpp:207
+Host          0x54a9df0             3096  operator new(), object.h:22
+Host          0x54aaac0              852  create(), color_spinor_field.cpp:207
+Host          0x54aaf20             3096  operator new(), object.h:22
+Host          0x54abbd0              852  create(), color_spinor_field.cpp:207
+Host          0x54ac030              852  create(), color_spinor_field.cpp:207
+Host          0x54acb90             3096  operator new(), object.h:22
+Host          0x54ad860              852  create(), color_spinor_field.cpp:207
+Host          0x54adcc0             3096  operator new(), object.h:22
+Host          0x54ae970              852  create(), color_spinor_field.cpp:207
+Host          0x54aedd0              852  create(), color_spinor_field.cpp:207
+Host          0x54af930             3096  operator new(), object.h:22
+Host          0x54b0600              852  create(), color_spinor_field.cpp:207
+Host          0x54b0a60             3096  operator new(), object.h:22
+Host          0x54b1710              852  create(), color_spinor_field.cpp:207
+Host          0x54b1b70              852  create(), color_spinor_field.cpp:207
+Host          0x54b26d0             3096  operator new(), object.h:22
+Host          0x54b33a0              852  create(), color_spinor_field.cpp:207
+Host          0x54b3800             3096  operator new(), object.h:22
+Host          0x54b44b0              852  create(), color_spinor_field.cpp:207
+Host          0x54b4910              852  create(), color_spinor_field.cpp:207
+Host          0x54b5470             3096  operator new(), object.h:22
+Host          0x54b6140              852  create(), color_spinor_field.cpp:207
+Host          0x54b65a0             3096  operator new(), object.h:22
+Host          0x54b7250              852  create(), color_spinor_field.cpp:207
+Host          0x54b76b0              852  create(), color_spinor_field.cpp:207
+Host          0x54b8210             3096  operator new(), object.h:22
+Host          0x54b8ee0              852  create(), color_spinor_field.cpp:207
+Host          0x54b9340             3096  operator new(), object.h:22
+Host          0x54b9ff0              852  create(), color_spinor_field.cpp:207
+Host          0x54ba450              852  create(), color_spinor_field.cpp:207
+Host          0x54c1e60              852  create(), color_spinor_field.cpp:207
+Host          0x630c800                8  Transfer(), transfer.cpp:110
+Host          0x730fd60               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x731ba40              852  create(), color_spinor_field.cpp:207
+Host          0x77e73b0              852  create(), color_spinor_field.cpp:207
+Host          0x77e8400              852  create(), color_spinor_field.cpp:207
+Host          0x7a53850              852  create(), color_spinor_field.cpp:207
+Host          0x7bdb560               32  Transfer(), transfer.cpp:109
+Host          0x7be0010                8  Transfer(), transfer.cpp:110
+Host          0x7be1b50              852  create(), color_spinor_field.cpp:207
+Host          0x8077140             3096  operator new(), object.h:22
+Host          0x8077d60             3096  operator new(), object.h:22
+Host          0x80795a0             3096  operator new(), object.h:22
+Host          0x807a1c0             3096  operator new(), object.h:22
+Host          0x808d380             3096  operator new(), object.h:22
+Host          0x808dfa0              852  create(), color_spinor_field.cpp:207
+Host          0x808e3d0             3096  operator new(), object.h:22
+Host          0x808eff0              852  create(), color_spinor_field.cpp:207
+Host          0x808f420              852  create(), color_spinor_field.cpp:207
+Host          0x8090020             3096  operator new(), object.h:22
+Host          0x8090c40              852  create(), color_spinor_field.cpp:207
+Host          0x8091070             3096  operator new(), object.h:22
+Host          0x8091c90              852  create(), color_spinor_field.cpp:207
+Host          0x80920f0              852  create(), color_spinor_field.cpp:207
+Host          0x8092d50             3096  operator new(), object.h:22
+Host          0x8093a00              852  create(), color_spinor_field.cpp:207
+Host          0x8093e30             3096  operator new(), object.h:22
+Host          0x8094ae0              852  create(), color_spinor_field.cpp:207
+Host          0x8094f40              852  create(), color_spinor_field.cpp:207
+Host          0x8095ba0             3096  operator new(), object.h:22
+Host          0x8096850              852  create(), color_spinor_field.cpp:207
+Host          0x8096c80             3096  operator new(), object.h:22
+Host          0x8097930              852  create(), color_spinor_field.cpp:207
+Host          0x8097d90              852  create(), color_spinor_field.cpp:207
+Host          0x80989f0             3096  operator new(), object.h:22
+Host          0x80996a0              852  create(), color_spinor_field.cpp:207
+Host          0x8099ad0             3096  operator new(), object.h:22
+Host          0x809a780              852  create(), color_spinor_field.cpp:207
+Host          0x809abe0              852  create(), color_spinor_field.cpp:207
+Host          0x809b8c0             3096  operator new(), object.h:22
+Host          0x809c570              852  create(), color_spinor_field.cpp:207
+Host          0x809c9a0             3096  operator new(), object.h:22
+Host          0x809d650              852  create(), color_spinor_field.cpp:207
+Host          0x809dab0              852  create(), color_spinor_field.cpp:207
+Host          0x809e710             3096  operator new(), object.h:22
+Host          0x809f3c0              852  create(), color_spinor_field.cpp:207
+Host          0x809f7f0             3096  operator new(), object.h:22
+Host          0x80a04a0              852  create(), color_spinor_field.cpp:207
+Host          0x80a0900              852  create(), color_spinor_field.cpp:207
+Host          0x80a1560             3096  operator new(), object.h:22
+Host          0x80a2210              852  create(), color_spinor_field.cpp:207
+Host          0x80a2640             3096  operator new(), object.h:22
+Host          0x80a32f0              852  create(), color_spinor_field.cpp:207
+Host          0x80a3750              852  create(), color_spinor_field.cpp:207
+Host          0x80a43b0             3096  operator new(), object.h:22
+Host          0x80a5060              852  create(), color_spinor_field.cpp:207
+Host          0x80a5490             3096  operator new(), object.h:22
+Host          0x80a6140              852  create(), color_spinor_field.cpp:207
+Host          0x80a65a0              852  create(), color_spinor_field.cpp:207
+Host          0x80a7200             3096  operator new(), object.h:22
+Host          0x80a7eb0              852  create(), color_spinor_field.cpp:207
+Host          0x80a82e0             3096  operator new(), object.h:22
+Host          0x80a8f90              852  create(), color_spinor_field.cpp:207
+Host          0x80a93f0              852  create(), color_spinor_field.cpp:207
+Host          0x80aa050             3096  operator new(), object.h:22
+Host          0x80aad00              852  create(), color_spinor_field.cpp:207
+Host          0x80ab130             3096  operator new(), object.h:22
+Host          0x80abde0              852  create(), color_spinor_field.cpp:207
+Host          0x80ac240              852  create(), color_spinor_field.cpp:207
+Host          0x80acea0             3096  operator new(), object.h:22
+Host          0x80adb50              852  create(), color_spinor_field.cpp:207
+Host          0x80adf80             3096  operator new(), object.h:22
+Host          0x80aec30              852  create(), color_spinor_field.cpp:207
+Host          0x80af090              852  create(), color_spinor_field.cpp:207
+Host          0x80afcf0             3096  operator new(), object.h:22
+Host          0x80b09c0              852  create(), color_spinor_field.cpp:207
+Host          0x80b0df0             3096  operator new(), object.h:22
+Host          0x80b1aa0              852  create(), color_spinor_field.cpp:207
+Host          0x80b1f00              852  create(), color_spinor_field.cpp:207
+Host          0x80b2b60             3096  operator new(), object.h:22
+Host          0x80b3830              852  create(), color_spinor_field.cpp:207
+Host          0x80b3c60             3096  operator new(), object.h:22
+Host          0x80b4910              852  create(), color_spinor_field.cpp:207
+Host          0x80b4d70              852  create(), color_spinor_field.cpp:207
+Host          0x80b59d0             3096  operator new(), object.h:22
+Host          0x80b66a0              852  create(), color_spinor_field.cpp:207
+Host          0x80b6ad0             3096  operator new(), object.h:22
+Host          0x80b7780              852  create(), color_spinor_field.cpp:207
+Host          0x80b7be0              852  create(), color_spinor_field.cpp:207
+Host          0x80b8840             3096  operator new(), object.h:22
+Host          0x80b9510              852  create(), color_spinor_field.cpp:207
+Host          0x80b9940             3096  operator new(), object.h:22
+Host          0x80ba5f0              852  create(), color_spinor_field.cpp:207
+Host          0x80baa50              852  create(), color_spinor_field.cpp:207
+Host          0x80bb6b0             3096  operator new(), object.h:22
+Host          0x80bc380              852  create(), color_spinor_field.cpp:207
+Host          0x80bc7b0             3096  operator new(), object.h:22
+Host          0x80bd460              852  create(), color_spinor_field.cpp:207
+Host          0x80bd8c0              852  create(), color_spinor_field.cpp:207
+Host          0x80be520             3096  operator new(), object.h:22
+Host          0x80bf1f0              852  create(), color_spinor_field.cpp:207
+Host          0x80bf620             3096  operator new(), object.h:22
+Host          0x80c02d0              852  create(), color_spinor_field.cpp:207
+Host          0x80c0730              852  create(), color_spinor_field.cpp:207
+Host          0x80c1390             3096  operator new(), object.h:22
+Host          0x80c2060              852  create(), color_spinor_field.cpp:207
+Host          0x80c2490             3096  operator new(), object.h:22
+Host          0x80c3140              852  create(), color_spinor_field.cpp:207
+Host          0x80c35a0              852  create(), color_spinor_field.cpp:207
+Host          0x80c42a0             3096  operator new(), object.h:22
+Host          0x80c4f70              852  create(), color_spinor_field.cpp:207
+Host          0x80c53a0             3096  operator new(), object.h:22
+Host          0x80c6050              852  create(), color_spinor_field.cpp:207
+Host          0x80c64b0              852  create(), color_spinor_field.cpp:207
+Host          0x80c7110             3096  operator new(), object.h:22
+Host          0x80c7de0              852  create(), color_spinor_field.cpp:207
+Host          0x80c8210             3096  operator new(), object.h:22
+Host          0x80c8ec0              852  create(), color_spinor_field.cpp:207
+Host          0x80c9320              852  create(), color_spinor_field.cpp:207
+Host          0x80c9f80             3096  operator new(), object.h:22
+Host          0x80cac50              852  create(), color_spinor_field.cpp:207
+Host          0x80cb080             3096  operator new(), object.h:22
+Host          0x80cbd30              852  create(), color_spinor_field.cpp:207
+Host          0x80cc190              852  create(), color_spinor_field.cpp:207
+Host          0x80ccdf0             3096  operator new(), object.h:22
+Host          0x80cdac0              852  create(), color_spinor_field.cpp:207
+Host          0x80cdef0             3096  operator new(), object.h:22
+Host          0x80ceba0              852  create(), color_spinor_field.cpp:207
+Host          0x80cf000              852  create(), color_spinor_field.cpp:207
+Host          0x80cfc60             3096  operator new(), object.h:22
+Host          0x80d0930              852  create(), color_spinor_field.cpp:207
+Host          0x80d0d60             3096  operator new(), object.h:22
+Host          0x80d1a10              852  create(), color_spinor_field.cpp:207
+Host          0x80d1e70              852  create(), color_spinor_field.cpp:207
+Host          0x80d2690             3600  operator new(), object.h:22
+Host          0x87c0fb0               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x8af56f0               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0x8afaf00               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x8afb580               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0x8afb630               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x8afb740               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0x8afb850               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x8afb960               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0x8afba70               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x8afbb80               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0x8afbc90               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x8afbda0               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0x8afbeb0               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x8afbfc0               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0x8afbfe0               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x8afe100               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x8afe210               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0x8afe320               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x8afe430               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0x8afe540               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x8afe650               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0x8afe760               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x8afe870               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0x8afe980               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0x9af9ed0              852  create(), color_spinor_field.cpp:207
+Host          0x9b3a330               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xa3eb000              852  create(), color_spinor_field.cpp:207
+Host          0xa9d6e80               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xaaf7120              852  create(), color_spinor_field.cpp:207
+Host          0xabba430               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xac14b90               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xac681a0              852  create(), color_spinor_field.cpp:207
+Host          0xac70200             3360  operator new(), object.h:22
+Host          0xacdd5d0              852  create(), color_spinor_field.cpp:207
+Host          0xace25b0              852  create(), color_spinor_field.cpp:207
+Host          0xad4c0a0             3360  operator new(), object.h:22
+Host          0xad6e150              852  create(), color_spinor_field.cpp:207
+Host          0xad98eb0               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xad9b640               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xae68230              852  create(), color_spinor_field.cpp:207
+Host          0xaee1080              852  create(), color_spinor_field.cpp:207
+Host          0xaf16b70             3600  operator new(), object.h:22
+Host          0xb043840               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xb071fc0              852  create(), color_spinor_field.cpp:207
+Host          0xb19e250               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xb1cd0b0              852  create(), color_spinor_field.cpp:207
+Host          0xb243540              852  create(), color_spinor_field.cpp:207
+Host          0xb2a6510               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xb2bf080             3600  operator new(), object.h:22
+Host          0xb2d69f0               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xb2e2230              852  create(), color_spinor_field.cpp:207
+Host          0xb302a60              852  create(), color_spinor_field.cpp:207
+Host          0xb307c10               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xb313320               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xb338e30               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xb370020               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xb3a61b0               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xb3dced0              852  create(), color_spinor_field.cpp:207
+Host          0xb401810               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xb4d2440               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xb4de1e0              852  create(), color_spinor_field.cpp:207
+Host          0xb50ada0               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xb547df0               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xb554420               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xb555180               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xb559c30               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xb5afcf0               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xb6417a0              852  create(), color_spinor_field.cpp:207
+Host          0xb668770               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xb67ff00              852  create(), color_spinor_field.cpp:207
+Host          0xb683e10              852  create(), color_spinor_field.cpp:207
+Host          0xb6e6ea0              852  create(), color_spinor_field.cpp:207
+Host          0xb83b8b0               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xb874fd0               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xb8f8220              852  create(), color_spinor_field.cpp:207
+Host          0xb95d820               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xb98da70              852  create(), color_spinor_field.cpp:207
+Host          0xba003e0              852  create(), color_spinor_field.cpp:207
+Host          0xba1bc30               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xba2fd70               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xba60110              852  create(), color_spinor_field.cpp:207
+Host          0xbb96400               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xbbb93f0               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xbc1c530              852  create(), color_spinor_field.cpp:207
+Host          0xbc43140               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xbc4ab00               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xbc515b0               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xbc8c320              852  create(), color_spinor_field.cpp:207
+Host          0xbc978a0              852  create(), color_spinor_field.cpp:207
+Host          0xbcba110               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xbcba4b0               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xbcc6fe0               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xbcd96c0               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xbcd9960               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xbcf38b0               12  comm_declare_send_displaced(), communicator_mpi.cpp:173
+Host          0xbd02f30               12  comm_declare_receive_displaced(), communicator_mpi.cpp:195
+Host          0xbd21fc0              852  create(), color_spinor_field.cpp:207
+Pinned        0x8616000           393216  Transfer(), /lustre/orion/nph158/world-shared/software/build/quda/lib/transfer.cpp:100
+Pinned        0x8678000           393216  Transfer(), /lustre/orion/nph158/world-shared/software/build/quda/lib/transfer.cpp:101
+
+
+               initQuda Total time =     1.231 secs
+                     init     =     1.231 secs ( 99.990%),	 with        2 calls at 6.154e+05 us per call
+        total accounted       =     1.231 secs ( 99.990%)
+        total missing         =     0.000 secs (  0.010%)
+
+          loadGaugeQuda Total time =     0.884 secs
+                 download     =     0.319 secs ( 36.013%),	 with        4 calls at 7.963e+04 us per call
+                     init     =     0.001 secs (  0.122%),	 with       31 calls at 3.468e+01 us per call
+                  compute     =     0.051 secs (  5.783%),	 with       12 calls at 4.262e+03 us per call
+                    comms     =     0.452 secs ( 51.085%),	 with        3 calls at 1.506e+05 us per call
+                     free     =     0.001 secs (  0.125%),	 with       12 calls at 9.217e+01 us per call
+        total accounted       =     0.824 secs ( 93.128%)
+        total missing         =     0.061 secs (  6.872%)
+
+         loadCloverQuda Total time =     1.619 secs
+                     init     =     0.001 secs (  0.043%),	 with       16 calls at 4.369e+01 us per call
+                  compute     =     1.036 secs ( 64.016%),	 with        6 calls at 1.727e+05 us per call
+                    comms     =     0.424 secs ( 26.169%),	 with        2 calls at 2.118e+05 us per call
+                     free     =     0.000 secs (  0.024%),	 with        9 calls at 4.378e+01 us per call
+        total accounted       =     1.461 secs ( 90.252%)
+        total missing         =     0.158 secs (  9.748%)
+
+             invertQuda Total time =    84.911 secs
+                     init     =     0.186 secs (  0.219%),	 with     1153 calls at 1.610e+02 us per call
+                 preamble     =     0.388 secs (  0.457%),	 with      504 calls at 7.704e+02 us per call
+                  compute     =    46.787 secs ( 55.101%),	 with      124 calls at 3.773e+05 us per call
+                 epilogue     =     0.119 secs (  0.140%),	 with       48 calls at 2.471e+03 us per call
+                     free     =     0.020 secs (  0.023%),	 with      379 calls at 5.247e+01 us per call
+        total accounted       =    47.499 secs ( 55.940%)
+        total missing         =    37.412 secs ( 44.060%)
+
+     invertMultiSrcQuda Total time =    78.044 secs
+                     init     =     0.154 secs (  0.197%),	 with    30659 calls at 5.015e+00 us per call
+                 preamble     =     7.035 secs (  9.015%),	 with    11671 calls at 6.028e+02 us per call
+                  compute     =    70.396 secs ( 90.201%),	 with   164312 calls at 4.284e+02 us per call
+                 epilogue     =     0.226 secs (  0.289%),	 with      144 calls at 1.568e+03 us per call
+                     free     =     0.091 secs (  0.116%),	 with     2909 calls at 3.119e+01 us per call
+                    eigen     =     0.075 secs (  0.096%),	 with    28205 calls at 2.657e+00 us per call
+        total accounted       =    77.977 secs ( 99.914%)
+        total missing         =     0.067 secs (  0.086%)
+
+                endQuda Total time =     0.022 secs
+                     free     =     0.001 secs (  2.481%),	 with       17 calls at 3.159e+01 us per call
+        total accounted       =     0.001 secs (  2.481%)
+        total missing         =     0.021 secs ( 97.519%)
+
+       initQuda-endQuda Total time =   286.131 secs
+
+                   QUDA Total time =   166.711 secs
+                 download     =     0.319 secs (  0.191%),	 with        4 calls at 7.963e+04 us per call
+                     init     =     1.573 secs (  0.943%),	 with    31861 calls at 4.936e+01 us per call
+                 preamble     =     7.425 secs (  4.454%),	 with    12175 calls at 6.099e+02 us per call
+                  compute     =   118.277 secs ( 70.947%),	 with   164454 calls at 7.192e+02 us per call
+                    comms     =     0.875 secs (  0.525%),	 with        5 calls at 1.751e+05 us per call
+                 epilogue     =     0.344 secs (  0.207%),	 with      192 calls at 1.794e+03 us per call
+                     free     =     0.113 secs (  0.068%),	 with     3326 calls at 3.389e+01 us per call
+                    eigen     =     0.075 secs (  0.045%),	 with    28205 calls at 2.663e+00 us per call
+        total accounted       =   129.001 secs ( 77.380%)
+        total missing         =    37.711 secs ( 22.620%)
+
+Device memory used = 1182.7 MiB
+Pinned device memory used = 0.0 MiB
+Managed memory used = 0.0 MiB
+Page-locked host memory used = 248.5 MiB
+Total host memory used >= 357.2 MiB
+
+ 
+Total time: 0 hours 4 minutes 56 seconds

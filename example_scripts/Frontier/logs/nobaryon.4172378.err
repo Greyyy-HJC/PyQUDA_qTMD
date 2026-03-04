@@ -1,0 +1,53 @@
+Lmod Warning:
+================================================================================
+
+    Mixed compiler modules are being deprecated in a future release.
+    For more information run: module help amd-mixed
+
+================================================================================
+
+
+While processing the following module(s):
+    Module fullname  Module Filename
+    ---------------  ---------------
+    amd-mixed/6.2.4  /opt/cray/pe/lmod/modulefiles/mix_compilers/amd-mixed/6.2.4.lua
+
+
+Currently Loaded Modules:
+  1) gcc-native/14.2           9) amd-mixed/6.2.4
+  2) craype/2.7.33            10) rocm/6.2.4
+  3) cray-dsmml/0.3.0         11) cray-mpich/8.1.31
+  4) libfabric/1.22.0         12) craype-x86-trento
+  5) craype-network-ofi       13) cray-fftw/3.3.10.9
+  6) cray-libsci/24.11.0      14) cray-hdf5-parallel/1.14.3.3
+  7) PrgEnv-gnu/8.6.0         15) cray-python/3.11.7
+  8) craype-accel-amd-gfx90a
+
+ 
+
+/lustre/orion/nph158/proj-shared/jinchen/software/pyq/lib64/python3.11/site-packages/pyquda_io/io_utils.py:58: RuntimeWarning: overflow encountered in scalar add
+  sum32 = getMPIComm().allreduce(numpy.sum(work, dtype="<u4"), MPI.SUM)
+/lustre/orion/nph158/proj-shared/jinchen/software/pyq/lib64/python3.11/site-packages/pyquda_io/io_utils.py:58: RuntimeWarning: overflow encountered in scalar add
+  sum32 = getMPIComm().allreduce(numpy.sum(work, dtype="<u4"), MPI.SUM)
+/lustre/orion/nph158/proj-shared/jinchen/software/pyq/lib64/python3.11/site-packages/pyquda_io/io_utils.py:58: RuntimeWarning: overflow encountered in scalar add
+  sum32 = getMPIComm().allreduce(numpy.sum(work, dtype="<u4"), MPI.SUM)
+/lustre/orion/nph158/proj-shared/jinchen/software/pyq/lib64/python3.11/site-packages/pyquda_io/io_utils.py:58: RuntimeWarning: overflow encountered in scalar add
+  sum32 = getMPIComm().allreduce(numpy.sum(work, dtype="<u4"), MPI.SUM)
+/lustre/orion/nph158/proj-shared/jinchen/software/pyq/lib64/python3.11/site-packages/pyquda_io/io_utils.py:58: RuntimeWarning: overflow encountered in scalar add
+  sum32 = getMPIComm().allreduce(numpy.sum(work, dtype="<u4"), MPI.SUM)
+/lustre/orion/nph158/proj-shared/jinchen/software/pyq/lib64/python3.11/site-packages/pyquda_io/io_utils.py:58: RuntimeWarning: overflow encountered in scalar add
+  sum32 = getMPIComm().allreduce(numpy.sum(work, dtype="<u4"), MPI.SUM)
+/lustre/orion/nph158/proj-shared/jinchen/software/pyq/lib64/python3.11/site-packages/pyquda_io/io_utils.py:58: RuntimeWarning: overflow encountered in scalar add
+  sum32 = getMPIComm().allreduce(numpy.sum(work, dtype="<u4"), MPI.SUM)
+/lustre/orion/nph158/proj-shared/jinchen/software/pyq/lib64/python3.11/site-packages/pyquda_io/io_utils.py:58: RuntimeWarning: overflow encountered in scalar add
+  sum32 = getMPIComm().allreduce(numpy.sum(work, dtype="<u4"), MPI.SUM)
+/lustre/orion/nph158/proj-shared/jinchen/software/pyq/lib64/python3.11/site-packages/pyquda_io/io_utils.py:58: RuntimeWarning: overflow encountered in scalar add
+  sum32 = getMPIComm().allreduce(numpy.sum(work, dtype="<u4"), MPI.SUM)
+/lustre/orion/nph158/proj-shared/jinchen/software/pyq/lib64/python3.11/site-packages/pyquda_io/io_utils.py:58: RuntimeWarning: overflow encountered in scalar add
+  sum32 = getMPIComm().allreduce(numpy.sum(work, dtype="<u4"), MPI.SUM)
+/lustre/orion/nph158/proj-shared/jinchen/software/pyq/lib64/python3.11/site-packages/pyquda_io/io_utils.py:58: RuntimeWarning: overflow encountered in scalar add
+  sum32 = getMPIComm().allreduce(numpy.sum(work, dtype="<u4"), MPI.SUM)
+/lustre/orion/nph158/proj-shared/jinchen/software/pyq/lib64/python3.11/site-packages/pyquda_io/io_utils.py:58: RuntimeWarning: overflow encountered in scalar add
+  sum32 = getMPIComm().allreduce(numpy.sum(work, dtype="<u4"), MPI.SUM)
+/lustre/orion/nph158/proj-shared/jinchen/software/pyq/lib64/python3.11/site-packages/pyquda_io/io_utils.py:58: RuntimeWarning: overflow encountered in scalar add
+  sum32 = getMPIComm().allreduce(numpy.sum(work, dtype="<u4"), MPI.SUM)

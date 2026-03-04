@@ -5,6 +5,9 @@ __pycache__/
 **/*.h5
 **/*.npy
 **/*.tsv
+**/*.nersc
+**/sub*.sh
+.cache/tunecache_error.tsv
 
 
 # Byte-compiled / optimized / DLL files

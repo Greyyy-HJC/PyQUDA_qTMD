@@ -30,6 +30,7 @@ from pyquda_utils import core, gamma, phase, io, source
 from pyquda_utils.phase import MomentumPhase
 
 from utils.boosted_smearing_pyquda import boosted_smearing
+from utils.bw_seq_pyquda import create_bw_seq_pyquda
 from utils.proton_qTMD_pyquda import proton_TMD, pyquda_gammas_order
 from utils.io_corr import (
     get_sample_log_tag,
@@ -37,7 +38,6 @@ from utils.io_corr import (
     get_qTMD_file_tag,
     save_qTMD_proton_hdf5_noRoll,
 )
-from utils.bw_seq_pycontract import create_bw_seq_pycontract
 from utils.tools import srcLoc_distri_eq, mpi_print
 
 
@@ -81,7 +81,7 @@ interpolation = "T5"  # NOTE, new interpolation operator
 sm_tag = "1HYP_GSRC_W90_k3_" + interpolation  # NOTE
 GEN_SIMD_WIDTH = 64
 conf = 300
-lat_tag = "S32T48_pycontract_frontier"
+lat_tag = "S32T48_nobaryon_frontier"
 
 # --------------------------
 # Setup parameters
@@ -239,7 +239,7 @@ for ipos, pos in enumerate(src_production):
     #! PyQUDA: get backward propagator through sequential source for U and D
 
     t0 = time.time()
-    sequential_bw_prop_down_pyq = create_bw_seq_pycontract(
+    sequential_bw_prop_down_pyq = create_bw_seq_pyquda(
         dirac,
         propag,
         pos,
@@ -251,7 +251,7 @@ for ipos, pos in enumerate(src_production):
         2,
         interpolation,
     )
-    sequential_bw_prop_up_pyq = create_bw_seq_pycontract(
+    sequential_bw_prop_up_pyq = create_bw_seq_pyquda(
         dirac,
         propag,
         pos,
