@@ -1,4 +1,4 @@
-profile	1.1.0	1.1.0-e23cd7e4f-sm_86	cpu_arch=x86_64,gpu_arch=sm_86,cuda_version=12.2.140	# Last updated Thu Mar  5 01:42:14 2026
+profile	1.1.0	1.1.0-e23cd7e4f-sm_86	cpu_arch=x86_64,gpu_arch=sm_86,cuda_version=12.2.140	# Last updated Thu Mar  5 01:48:51 2026
 
   total time	     percent	cum. percent	       calls	 time / call	          volume	name	aux	comment
    0.0261812	      16.438	      16.438	        1559	 1.67936e-05	         2x4x4x8	N4quda4blas31caxpbypzYmbwcDotProductUYNormY_IddEE	GPU-offline,vol=256,parity=1,precision=2,order=8,Ns=4,Nc=3,vol=256,parity=1,precision=8,order=2,Ns=4,Nc=3,n_rhs=1	# 6.59 Gflop/s, 9.82 GB/s, tuning took 0.015502 seconds at Thu Mar  5 01:33:35 2026
